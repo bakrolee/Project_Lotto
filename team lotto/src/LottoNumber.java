@@ -16,7 +16,7 @@ public class LottoNumber {
 	}
 	
 	
-	public Character getAlphabet() {
+	public Character getAlphabet() { //코딩판 떠난다
 		return alphabet;
 	}
 

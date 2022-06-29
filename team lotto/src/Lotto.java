@@ -48,7 +48,7 @@ public class Lotto {
 			} else if (selectNumber == 4) {
 				showNumber();
 			} else if (selectNumber == 5) {
-				winningNumber();
+				winningNumber(); //이바닥 드릅다
 			}
 
        
