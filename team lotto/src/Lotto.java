@@ -141,6 +141,7 @@ public class Lotto {
 					}
 				}
 
+
 			switch(cnt) { 
 				case 6:
 					if(!numbers[i].getNumbers().contains(String.valueOf(bonusNum))) {
@@ -162,6 +163,8 @@ public class Lotto {
 				default:
 					System.out.println(numbers[i].getAlphabet() + " | " + "  낙  첨  |" + numbers[i].getNumbers() );
 					break;
+
+				
 			}
 			cnt = 0 ;
 			}
