@@ -20,16 +20,16 @@ import javax.swing.JPanel;
 class SelectNumber extends JDialog {
 	private JCheckBox[] cbNumbers = new JCheckBox[45];
 	private int count = 0;
-	private List<Integer> list = new LinkedList();
-	private JLabel[] lblSelNums = new JLabel[6];
+	private List<Integer> list = new ArrayList();
+	private List<JLabel> lblSelNums = new ArrayList();
 	
 	public SelectNumber(JFrame owner) {
 		super(owner, "번호 선택창", true);
 		JPanel pnl = new JPanel();
 		
-		for (int i = 0; i < 6; i++) {
-			lblSelNums[i] = new JLabel();
-		}
+//		for (int i = 0; i < 6; i++) {
+//			lblSelNums.add(new JLabel());
+//		}
 		
 		ItemListener item = new ItemListener() {
 			@Override
@@ -37,25 +37,29 @@ class SelectNumber extends JDialog {
 				JCheckBox cb = (JCheckBox) e.getSource();
 				int index = 0;
 				
-					if (e.getStateChange() == ItemEvent.SELECTED) {
-						selectNum(cb);
-						index = list.indexOf(Integer.valueOf(cb.getText()));
-						lblSelNums[index].setText(cb.getText());
-						count++;
-						System.out.println("증가" + count);
-					} else {
-						index = list.indexOf(Integer.valueOf(cb.getText()));
-						cancelNum(cb);
-						lblSelNums[index].setText("");
-						count--;
-						System.out.println("감소" + count);
-					}
-				 if (count == 6) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					selectNum(cb);
+					index = list.indexOf(Integer.valueOf(cb.getText()));
+					System.out.println(index);
+					System.out.println(count);
+					lblSelNums.add(new JLabel(cb.getText()));
+//					lblSelNums.get(index).setText(cb.getText());
+					pnl.add(lblSelNums.get(index));
+					count++;
+				} else {
+					index = list.indexOf(Integer.valueOf(cb.getText()));
+					cancelNum(cb);
+//					System.out.println(index);
+					lblSelNums.get(index).setText("");
+					lblSelNums.remove(index);
+					count--;
+				}
+				
+				if (count == 6) {
 					disableCB();
 				} else if (count < 6) {
 					enableCB();
 				}
-				System.out.println("전체" + count);
 			}
 		};
 		
@@ -68,8 +72,31 @@ class SelectNumber extends JDialog {
 		}
 		
 		for (int i = 0; i < 6; i++) {
-			pnl.add(lblSelNums[i]);
+			pnl.add(lblSelNums.get(i));
 		}
+		
+		JButton btn1 = new JButton("선택 완료");
+//		JButton btn2 = new JButton("수정");
+		JButton btn3 = new JButton("돌아가기");
+		
+		pnl.add(btn1);
+//		pnl.add(btn2);
+		pnl.add(btn3);
+		
+//		ActionListener select = new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				for (int i = 0; i < 6; i++) {
+//					pnl.add(lblSelNums.get(i));
+//				}
+//			}
+//		};
+//		btn1.addActionListener(select);
+//		btn2.addActionListener(select);
+		
+		
+		
+		
 	
 		add(pnl);
 		setSize(400, 400);
@@ -101,6 +128,8 @@ class SelectNumber extends JDialog {
 		list.remove(Integer.valueOf(cb.getText()));
 		System.out.println(list.toString());
 	}
+	
+	
 }
 
 public class BuyLotto extends JFrame {
