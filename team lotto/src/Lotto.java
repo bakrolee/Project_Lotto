@@ -130,6 +130,7 @@ public class Lotto {
 					System.out.print(winningList.get(i) + " | ");
 				}
 			}
+			System.out.println();
 
 		for(int i = 0 ; i < 10 ; i++) {
 			int cnt = 0;
@@ -140,17 +141,35 @@ public class Lotto {
 					}
 				}
 
-				System.out.println(numbers[i].getCategory() + " | " +numbers[i].getNumbers() + "   맞은갯수:" + cnt);
+
+			switch(cnt) { 
+				case 6:
+					if(!numbers[i].getNumbers().contains(String.valueOf(bonusNum))) {
+						System.out.println(numbers[i].getAlphabet() + " | " + " 1등 당첨  |" +numbers[i].getNumbers());
+					}
+					else if(numbers[i].getNumbers().contains(String.valueOf(bonusNum))){
+						System.out.println(numbers[i].getAlphabet() + " | " + " 2등 당첨  |" +numbers[i].getNumbers() );
+					}
+					break;
+				case 5:
+					System.out.println(numbers[i].getAlphabet() + " | " + " 3등 당첨  |" +numbers[i].getNumbers());
+					break;
+				case 4: 
+					System.out.println(numbers[i].getAlphabet() + " | " + " 4등 당첨  |" +numbers[i].getNumbers() );
+					break;
+				case 3: 
+					System.out.println(numbers[i].getAlphabet() + " | " + " 5등 당첨  |" +numbers[i].getNumbers() );
+					break;
+				default:
+					System.out.println(numbers[i].getAlphabet() + " | " + "  낙  첨  |" + numbers[i].getNumbers() );
+					break;
+
+				
 			}
-		}
-
+			cnt = 0 ;
+			}
+		}			
 	}
-
-
-
-
-
-
 
     public static List<Integer> lottoNumbers() throws IOException {
     	
