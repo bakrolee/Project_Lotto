@@ -15,7 +15,7 @@ public class Lotto {
 	public static Set<Integer>set = new HashSet<Integer>();
 	public static StringTokenizer st;
 	public static char alphabet = 65;
-	
+	public static StringBuilder sb = new StringBuilder();
 	public Lotto() throws NumberFormatException, IOException {
 			run();
 	}
@@ -136,8 +136,9 @@ public class Lotto {
 			int cnt = 0;
 			if(numbers[i] != null) {
 				for(int j = 0 ; j < 6 ; j++) {
-					if(winningList.contains(numbers[i].numbers[j])) {
+					if(winningList.contains(numbers[i].numbers.get(j))) {
 						cnt++;
+						sb.append(numbers[i].numbers.get(j)).append(" ");
 					}
 				}
 
@@ -146,27 +147,40 @@ public class Lotto {
 				case 6:
 					if(!numbers[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						System.out.println(numbers[i].getAlphabet() + " | " + " 1등 당첨  |" +numbers[i].getNumbers());
+						System.out.println("맞은 번호 " + sb);
 					}
 					else if(numbers[i].getNumbers().contains(String.valueOf(bonusNum))){
 						System.out.println(numbers[i].getAlphabet() + " | " + " 2등 당첨  |" +numbers[i].getNumbers() );
+						System.out.println("맞은 번호 " + sb);
 					}
 					break;
 				case 5:
-					System.out.println(numbers[i].getAlphabet() + " | " + " 3등 당첨  |" +numbers[i].getNumbers());
+					if(!numbers[i].getNumbers().contains(String.valueOf(bonusNum))) {
+						System.out.println(numbers[i].getAlphabet() + " | " + " 3등 당첨  |" +numbers[i].getNumbers());
+						System.out.println("맞은 번호 " + sb);
+					}
 					break;
 				case 4: 
-					System.out.println(numbers[i].getAlphabet() + " | " + " 4등 당첨  |" +numbers[i].getNumbers() );
+					if(!numbers[i].getNumbers().contains(String.valueOf(bonusNum))) {
+						System.out.println(numbers[i].getAlphabet() + " | " + " 4등 당첨  |" +numbers[i].getNumbers());
+						System.out.println("맞은 번호 " + sb);
+					}
 					break;
 				case 3: 
-					System.out.println(numbers[i].getAlphabet() + " | " + " 5등 당첨  |" +numbers[i].getNumbers() );
+					if(!numbers[i].getNumbers().contains(String.valueOf(bonusNum))) {
+						System.out.println(numbers[i].getAlphabet() + " | " + " 5등 당첨  |" +numbers[i].getNumbers());
+						System.out.println("맞은 번호 " + sb);
+					}
 					break;
 				default:
 					System.out.println(numbers[i].getAlphabet() + " | " + "  낙  첨  |" + numbers[i].getNumbers() );
+					System.out.println("맞은 번호 " + sb);
 					break;
 
 				
 			}
-			cnt = 0 ;
+			sb.setLength(0);
+			
 			}
 		}			
 	}
