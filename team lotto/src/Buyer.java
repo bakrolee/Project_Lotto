@@ -47,6 +47,11 @@ public class Buyer {
 	}
 	
 	
+	@Override
+	public String toString() {
+		return "Buyer [name=" + name + ", id=" + id + ", lottoNum=" + lottoNum + "]";
+	}
+
 	// 로또 번호 수정 메소드
 	public void editLottoNum() {
 		List<LottoNumber> list = new ArrayList<LottoNumber>(lottoNum);
