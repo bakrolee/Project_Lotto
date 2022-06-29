@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 class SelectNumber extends JDialog {
 	private JCheckBox[] cbNumbers = new JCheckBox[45];
 	private int count = 0;
-	private List<Integer> list = new LinkedList();
+	private List<Integer> list = new ArrayList();
 	private JLabel[] lblSelNums = new JLabel[6];
 	
 	public SelectNumber(JFrame owner) {

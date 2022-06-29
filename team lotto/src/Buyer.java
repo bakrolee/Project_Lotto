@@ -1,17 +1,27 @@
+import java.io.IOException;
 import java.util.*;
 
 public class Buyer {
 	static Scanner s = new Scanner(System.in);
+	public static int selectNumber = 0;
+	public static int buyCnt = 0; 
+	
 	private String name;
 	private String id;
-	private Set<Integer> lottoNum = new HashSet<Integer>();
+	private Set<LottoNumber> lottoNum = new HashSet<LottoNumber>(6);
+	
+	
+	//ㅇ라ㅓ
 
-	public String getLottonum() {
-		List<Integer> list = new ArrayList<Integer>(lottoNum);
-		return list.toString();
+	public Set<LottoNumber> getLottoNum() {
+		return lottoNum;
 	}
 
-	public void setLottonum(Set<Integer> lottonum) {
+	public void setLottoNum(Set<LottoNumber> lottoNum) {
+		this.lottoNum = lottoNum;
+	}
+
+	public void setLottonum(Set<LottoNumber> lottonum) {
 		this.lottoNum = lottonum;
 	}
 
@@ -35,21 +45,11 @@ public class Buyer {
 	public void setId(String id) {
 		this.id = id;
 	}
-
-	public void printInfromation() {
-		System.out.println("이름 = " + getName() + "\n" + "ID = " + getId());
-		System.out.println("로또 번호 : ");
-		Random random = new Random();
-
-		for (int i = 0; i < 6; i++) {
-			int a = random.nextInt(45) + 1;
-			lottoNum.add(a);
-		}
-		System.out.println(getLottonum());
-	}
-
-	public void editlLottoNum() {
-		List<Integer> list = new ArrayList<Integer>(lottoNum);
+	
+	
+	// 로또 번호 수정 메소드
+	public void editLottoNum() {
+		List<LottoNumber> list = new ArrayList<LottoNumber>(lottoNum);
 		Iterator it = list.iterator();
 		System.out.println("삭제 할 번호를 입력 해 주세요");
 		int a = s.nextInt();
@@ -57,7 +57,7 @@ public class Buyer {
 			int n = (Integer) it.next();
 			if (n == a) {
 				it.remove();
-			}
+			} 
 		}
 		System.out.println("해당 번호가 삭제되었습니다.");
 		while (true) {
@@ -66,22 +66,25 @@ public class Buyer {
 			if (newa <= 45 && !list.contains(newa)) {
 				System.out.println("해당 번호를 몇번째 자리에 입력하시겠습니까?");
 				int index = s.nextInt();
-				list.add(index - 1, newa);
+//				list.add(index - 1, newa);
 				System.out.println(list);
 				break;
 			} else {
-				System.out.println("값을 잘못 입력했습니다. 다시 입력 해 주세요");
+				System.out.println("번호를 잘못 입력했습니다. 다시 입력 해 주세요");
 			}
 
 		}
 	}
+	
+
 
 	public static void main(String[] args) {
 		System.out.println("이름과 ID를 입력하세요");
 		Buyer b = new Buyer(s.nextLine(), s.nextLine());
-		b.printInfromation();
-		b.editlLottoNum();
-
+		System.out.println(b.name +"\n"+ b.id);
+		
+		
+		
 	}
 
 }
