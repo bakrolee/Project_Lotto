@@ -1,10 +1,14 @@
 import java.awt.event.ActionEvent;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -16,18 +20,33 @@ import javax.swing.JPanel;
 class SelectNumber extends JDialog {
 	private JCheckBox[] cbNumbers = new JCheckBox[45];
 	private int count = 0;
+	private List<Integer> list = new LinkedList();
+	private JLabel[] lblSelNums = new JLabel[6];
 	
 	public SelectNumber(JFrame owner) {
 		super(owner, "번호 선택창", true);
 		JPanel pnl = new JPanel();
 		
+		for (int i = 0; i < 6; i++) {
+			lblSelNums[i] = new JLabel();
+		}
+		
 		ItemListener item = new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
+				JCheckBox cb = (JCheckBox) e.getSource();
+				int index = 0;
+				
 					if (e.getStateChange() == ItemEvent.SELECTED) {
+						selectNum(cb);
+						index = list.indexOf(Integer.valueOf(cb.getText()));
+						lblSelNums[index].setText(cb.getText());
 						count++;
 						System.out.println("증가" + count);
 					} else {
+						index = list.indexOf(Integer.valueOf(cb.getText()));
+						cancelNum(cb);
+						lblSelNums[index].setText("");
 						count--;
 						System.out.println("감소" + count);
 					}
@@ -48,6 +67,10 @@ class SelectNumber extends JDialog {
 			pnl.add(cbNumbers[i]);
 		}
 		
+		for (int i = 0; i < 6; i++) {
+			pnl.add(lblSelNums[i]);
+		}
+	
 		add(pnl);
 		setSize(400, 400);
 	}
@@ -66,6 +89,17 @@ class SelectNumber extends JDialog {
 		for (int i = 0; i < cbNumbers.length; i++) {
 			cbNumbers[i].setEnabled(true);
 		}
+	}
+	
+	// 체크박스 선택번호 불러오기
+	public void selectNum(JCheckBox cb) {
+		list.add(Integer.valueOf(cb.getText()));
+		System.out.println(list.toString());
+	}
+	
+	public void cancelNum(JCheckBox cb) {
+		list.remove(Integer.valueOf(cb.getText()));
+		System.out.println(list.toString());
 	}
 }
 
@@ -91,7 +125,7 @@ public class BuyLotto extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				SelectNumber dialog = new SelectNumber(BuyLotto.this);
-//				dialog.disableCB();
+//				dialog.addNumbers();
 				dialog.setVisible(true);
 				
 			}
