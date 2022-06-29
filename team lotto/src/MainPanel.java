@@ -16,21 +16,21 @@ import javax.swing.JLayeredPane;
 import javax.swing.SpringLayout;
 
 public class MainPanel extends JFrame  {
-	private String[] number = {"           ±¸¸Å¼±ÅÃ" , "1È¸" , "2È¸" , "3È¸" , "4È¸" , "5È¸\t(ÃÖ´ë)"};
+	private String[] number = {"           êµ¬ë§¤ì„ íƒ" , "1íšŒ" , "2íšŒ" , "3íšŒ" , "4íšŒ" , "5íšŒ\t(ìµœëŒ€)"};
 	public void size(Graphics g) {	
 	}
 	public MainPanel() {		
 		setTitle("Lotto"); 
 		JPanel pnl = new JPanel();
-		JButton btn3 = new JButton("°á°úÈ®ÀÎ");
-		JLabel jb = new JLabel("                 Á¦ ?? È¸"  );
-		jb.setOpaque(true); // ¶óº§ ¹è°æ»öÀ» ¼³Á¤ÇÏ±âÀ§ÇÑÁ¶°Ç
+		JButton btn3 = new JButton("ê²°ê³¼í™•ì¸");
+		JLabel jb = new JLabel("                 ì œ ?? íšŒ"  );
+		jb.setOpaque(true); // ë¼ë²¨ ë°°ê²½ìƒ‰ì„ ì„¤ì •í•˜ê¸°ìœ„í•œì¡°ê±´
 		jb.setBackground(Color.LIGHT_GRAY);
-		JComboBox jc = new JComboBox(number); // ¹è¿­ ¸®½ºÆ®Ç×¸ñ»ı¼º
+		JComboBox jc = new JComboBox(number); // ë°°ì—´ ë¦¬ìŠ¤íŠ¸í•­ëª©ìƒì„±
 		
-		Toolkit kit = Toolkit.getDefaultToolkit(); // ÀÌ¹ÌÁö ÆÄÀÏÀ» °¡Á®¿À´Â
+		Toolkit kit = Toolkit.getDefaultToolkit(); // ì´ë¯¸ì§€ íŒŒì¼ì„ ê°€ì ¸ì˜¤ëŠ”
 		
-		URL url = MainPanel.class.getClassLoader().getResource("image/·Î¶Ç·Î°í.png"); // ÀÌ¹ÌÁö¸¦ Ã£¾ÆÁÖ´ÂÅ¬·¡½º
+		URL url = MainPanel.class.getClassLoader().getResource("image/ë¡œë˜ë¡œê³ .png"); // ì´ë¯¸ì§€ë¥¼ ì°¾ì•„ì£¼ëŠ”í´ë˜ìŠ¤
 		Image image = kit.getImage(url);
 		
 		image = image.getScaledInstance(300, 300, Image.SCALE_DEFAULT);
@@ -56,14 +56,14 @@ public class MainPanel extends JFrame  {
 		pnl.setBackground(Color.white);
 		pnl.add(btn3);
 		
-		JButton btn1 = new JButton("±¸¸ÅÇÏ±â");
+		JButton btn1 = new JButton("êµ¬ë§¤í•˜ê¸°");
 		sl_pnl.putConstraint(SpringLayout.WEST, btn1, 223, SpringLayout.WEST, pnl);
 		sl_pnl.putConstraint(SpringLayout.EAST, btn1, -41, SpringLayout.EAST, pnl);
 		sl_pnl.putConstraint(SpringLayout.NORTH, btn3, 21, SpringLayout.SOUTH, btn1);
 		sl_pnl.putConstraint(SpringLayout.WEST, btn3, 0, SpringLayout.WEST, btn1);
 		//btn1.setBounds(50, 170, 122, 50);
 		pnl.add(btn1);
-		JButton btn2 = new JButton("È¸¿ø°¡ÀÔ");
+		JButton btn2 = new JButton("íšŒì›ê°€ì…");
 		sl_pnl.putConstraint(SpringLayout.SOUTH, jb, -27, SpringLayout.NORTH, btn2);
 		sl_pnl.putConstraint(SpringLayout.EAST, jc, -41, SpringLayout.WEST, btn2);
 		sl_pnl.putConstraint(SpringLayout.NORTH, btn2, 0, SpringLayout.NORTH, jc);

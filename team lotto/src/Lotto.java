@@ -11,7 +11,7 @@ public class Lotto {
 	public static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
 	public static LottoNumber[ ]  numbers = new LottoNumber[10];
 	public static int selectNumber = 0;
-	public static int buyCnt = 0; // ±¸¸ÅÇÒÁÙ°¹¼ö
+	public static int buyCnt = 0; // êµ¬ë§¤í• ì¤„ê°¯ìˆ˜
 	public static Set<Integer>set = new HashSet<Integer>();
 	public static StringTokenizer st;
 	public static char alphabet = 65;
@@ -24,26 +24,26 @@ public class Lotto {
 
 		while(true) {
 			System.out.println("                                                  ");
-			System.out.println("=====================¸ñ·Ï=========================");
-			System.out.println("1. ÀÚµ¿");
-			System.out.println("2. ¹İÀÚµ¿");
-			System.out.println("3. ¼öµ¿");
-			System.out.println("4. ÇöÀç±îÁö ¹ß±ÇµÈ ·Î¶Ç¹øÈ£ º¸±â.");
-			System.out.println("5. ´çÃ·¹øÈ£ È®ÀÎ ¹× ¸ÂÀº°¹¼ö·Î Á¤·Ä.");
+			System.out.println("=====================ëª©ë¡=========================");
+			System.out.println("1. ìë™");
+			System.out.println("2. ë°˜ìë™");
+			System.out.println("3. ìˆ˜ë™");
+			System.out.println("4. í˜„ì¬ê¹Œì§€ ë°œê¶Œëœ ë¡œë˜ë²ˆí˜¸ ë³´ê¸°.");
+			System.out.println("5. ë‹¹ì²¨ë²ˆí˜¸ í™•ì¸ ë° ë§ì€ê°¯ìˆ˜ë¡œ ì •ë ¬.");
 			System.out.println("=================================================");
 			System.out.println("                                                  ");
 			
-			selectNumber = Integer.parseInt(getData("¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä."));
+			selectNumber = Integer.parseInt(getData("ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”."));
 			System.out.println();
 
 			if (selectNumber == 1) {
-				buyCnt = Integer.parseInt(getData("·Î¶Ç ¸îÁÙÀ» »ç½Ã°Ú½À´Ï±î?")); 
+				buyCnt = Integer.parseInt(getData("ë¡œë˜ ëª‡ì¤„ì„ ì‚¬ì‹œê² ìŠµë‹ˆê¹Œ?")); 
 				autoNum();
 			} else if (selectNumber == 2) {
-				buyCnt = Integer.parseInt(getData("·Î¶Ç ¸îÁÙÀ» »ç½Ã°Ú½À´Ï±î?")); 
+				buyCnt = Integer.parseInt(getData("ë¡œë˜ ëª‡ì¤„ì„ ì‚¬ì‹œê² ìŠµë‹ˆê¹Œ?")); 
 				semiAuto();
 			} else if (selectNumber == 3) {
-				buyCnt = Integer.parseInt(getData("·Î¶Ç¸îÁÙÀ» »ç½Ã°Ú½À´Ï±î?"));
+				buyCnt = Integer.parseInt(getData("ë¡œë˜ëª‡ì¤„ì„ ì‚¬ì‹œê² ìŠµë‹ˆê¹Œ?"));
 				manual();
 			} else if (selectNumber == 4) {
 				showNumber();
@@ -59,7 +59,7 @@ public class Lotto {
 		while(buyCnt-- >0) {
 			for(int i = 0 ; i < 10 ; i++) {
 				if(numbers[i] == null) {
-					numbers[i] = new LottoNumber(alphabet, "ÀÚµ¿ " ,lottoNumbers());
+					numbers[i] = new LottoNumber(alphabet, "ìë™ " ,lottoNumbers());
 					break;
 				}
 			}
@@ -73,7 +73,7 @@ public class Lotto {
 
 			for(int i = 0 ; i < 10 ; i++) {
 				if(numbers[i] == null) {
-					numbers[i] = new LottoNumber(alphabet, "¹İÀÚµ¿" ,lottoNumbers());
+					numbers[i] = new LottoNumber(alphabet, "ë°˜ìë™" ,lottoNumbers());
 							break;
 				}
 			}
@@ -83,9 +83,9 @@ public class Lotto {
 
 	public static void manual() throws NumberFormatException, IOException {
 		
-		// ¸¸¾à Ã¼Å©¹Ú½º¿¡ Ã¼Å©°¡µÇ¸é set¿¡Ãß°¡ÇÏ°í, Ã¼Å©¸¦Ç®¸é set¿¡¼­ ¾ø¾îÁö°Ô±¸ÇöÇØ¾ßÇÔ.
+		// ë§Œì•½ ì²´í¬ë°•ìŠ¤ì— ì²´í¬ê°€ë˜ë©´ setì—ì¶”ê°€í•˜ê³ , ì²´í¬ë¥¼í’€ë©´ setì—ì„œ ì—†ì–´ì§€ê²Œêµ¬í˜„í•´ì•¼í•¨.
 		while(buyCnt-- >0) {
-			System.out.println("6°³ÀÇ ¼ıÀÚ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+			System.out.println("6ê°œì˜ ìˆ«ìë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			 st = new StringTokenizer(bf.readLine(), " ");
 			while(st.hasMoreTokens()) 
 			{
@@ -98,7 +98,7 @@ public class Lotto {
 
 					for(int i = 0 ; i < 10 ; i++) {
 						if(numbers[i] == null) {
-							numbers[i] = new LottoNumber(alphabet, "¼öµ¿ " , list);
+							numbers[i] = new LottoNumber(alphabet, "ìˆ˜ë™ " , list);
 									break;
 						}
 					}
@@ -121,7 +121,7 @@ public class Lotto {
 		winningList.addAll(lottoNumbers());
 		int bonusNum = 0 ;
 		
-		System.out.println("< ´çÃ·¹øÈ£>");
+		System.out.println("< ë‹¹ì²¨ë²ˆí˜¸>");
 			for(int i = 0 ; i < 7  ; i++) {
 				if(i == 6) {
 					bonusNum =  winningList.get(i);
@@ -140,7 +140,7 @@ public class Lotto {
 					}
 				}
 
-				System.out.println(numbers[i].getCategory() + " | " +numbers[i].getNumbers() + "   ¸ÂÀº°¹¼ö:" + cnt);
+				System.out.println(numbers[i].getCategory() + " | " +numbers[i].getNumbers() + "   ë§ì€ê°¯ìˆ˜:" + cnt);
 			}
 		}
 
@@ -161,7 +161,7 @@ public class Lotto {
     	if(beforeStack.getMethodName().equals("winningNumber")) {
     		setSize = 7;
     	}else if(beforeStack.getMethodName().equals("semiAuto")) {
-    		System.out.println("¼öµ¿À¸·Î »ÌÀ» N°³ÀÇ ¼ö¸¦ °ø¹éÀ» ±âÁØÀ¸·Î ÇÑ ÁÙ ÀÔ·ÂÇÏ½Ê½Ã¿À. (NÀº 5ÀÌÇÏ)");
+    		System.out.println("ìˆ˜ë™ìœ¼ë¡œ ë½‘ì„ Nê°œì˜ ìˆ˜ë¥¼ ê³µë°±ì„ ê¸°ì¤€ìœ¼ë¡œ í•œ ì¤„ ì…ë ¥í•˜ì‹­ì‹œì˜¤. (Nì€ 5ì´í•˜)");
     		st = new StringTokenizer(bf.readLine(), " ");
     		while(st.hasMoreTokens()) {
     			set.add(Integer.parseInt(st.nextToken()));

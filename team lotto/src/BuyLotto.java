@@ -24,21 +24,19 @@ class SelectNumber extends JDialog {
 		ItemListener item = new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if (count == 6) {
-					for (int i = 0; i < cbNumbers.length; i++) {
-						if (!cbNumbers[i].isSelected()) {
-							cbNumbers[i].setSelected(false);
-							cbNumbers[i].setEnabled(false);
-						}
-					} 
-				} else {
 					if (e.getStateChange() == ItemEvent.SELECTED) {
 						count++;
-						System.out.println(count);
+						System.out.println("증가" + count);
 					} else {
 						count--;
+						System.out.println("감소" + count);
 					}
+				 if (count == 6) {
+					disableCB();
+				} else if (count < 6) {
+					enableCB();
 				}
+				System.out.println("전체" + count);
 			}
 		};
 		
@@ -50,48 +48,25 @@ class SelectNumber extends JDialog {
 			pnl.add(cbNumbers[i]);
 		}
 		
-		if (count == 6) {
-			for (int i = 0; i < cbNumbers.length; i++) {
-				if (!cbNumbers[i].isSelected()) {
-					cbNumbers[i].setSelected(false);
-				}
-			}
-		}
-		
-//		cbNum.enable(false);
-		
 		add(pnl);
 		setSize(400, 400);
 	}
 	
-//	// 체크박스 몇개 선택됐는지 카운트
-//	public int countCb(JCheckBox[] cb) {
-//		int count = 0;
-//		for (int i = 0; i < cb.length; i++) {
-//			if (cb[i].isSelected()) {
-//				count++;
-//			} 
-//		}
-//		return count;
-//	}
-//	
-//	// 체크박스 카운트 제한 (3개이면 true)
-//	public boolean isChecked() {
-//		return countCb(cbNumbers) == 6;
-//	}
-	
-	// 수정 -> action이벤트? 로 넣어야함.
+	// 체크 비활성화 메소드
 	public void disableCB() {
-		if (count == 6) {
-			for (int i = 0; i < cbNumbers.length; i++) {
-				if (!cbNumbers[i].isSelected()) {
-					cbNumbers[i].setEnabled(false);
-				}
+		for (int i = 0; i < cbNumbers.length; i++) {
+			if (!cbNumbers[i].isSelected()) {
+				cbNumbers[i].setSelected(false);
+				cbNumbers[i].setEnabled(false);
 			}
 		}
 	}
-	
-	//
+	// 체크 활성화 메소드
+	public void enableCB() {
+		for (int i = 0; i < cbNumbers.length; i++) {
+			cbNumbers[i].setEnabled(true);
+		}
+	}
 }
 
 public class BuyLotto extends JFrame {
