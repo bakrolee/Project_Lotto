@@ -10,7 +10,7 @@ public class Test1 {
 		Lotto lottoProgram = new Lotto();
 		
 		
-		LottoNumber price = lottoProgram.winningNumber();
+//		LottoNumber price = lottoProgram.winningNumber();
 		LottoNumber lotto1 = lottoProgram.autoNum1();
 		LottoNumber lotto2 = lottoProgram.semiAuto1();
 		LottoNumber lotto3 = lottoProgram.manual1();
