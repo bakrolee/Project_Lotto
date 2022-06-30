@@ -3,15 +3,25 @@ import java.util.*;
 
 public class Buyer {
 	static Scanner s = new Scanner(System.in);
-	public static int selectNumber = 0;
-	public static int buyCnt = 0; 
-	
+
 	private String name;
 	private String id;
 	private Set<LottoNumber> lottoNum = new HashSet<LottoNumber>(6);
+	private Set<LottoNumber> price ;
 	
+	public Buyer(String name, String id) {
+		this.name = name;
+		this.id = id;
+	}
 	
-	//ㅇ라ㅓ
+
+	public Set<LottoNumber> getPrice() {
+		return price;
+	}
+
+	public void setPrice(Set<LottoNumber> price) {
+		this.price = price;
+	}
 
 	public Set<LottoNumber> getLottoNum() {
 		return lottoNum;
@@ -25,10 +35,6 @@ public class Buyer {
 		this.lottoNum = lottonum;
 	}
 
-	public Buyer(String name, String id) {
-		this.name = name;
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -45,8 +51,7 @@ public class Buyer {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return "Buyer [name=" + name + ", id=" + id + ", lottoNum=" + lottoNum + "]";
@@ -62,7 +67,7 @@ public class Buyer {
 			int n = (Integer) it.next();
 			if (n == a) {
 				it.remove();
-			} 
+			}
 		}
 		System.out.println("해당 번호가 삭제되었습니다.");
 		while (true) {
@@ -80,16 +85,12 @@ public class Buyer {
 
 		}
 	}
-	
-
 
 	public static void main(String[] args) {
 		System.out.println("이름과 ID를 입력하세요");
 		Buyer b = new Buyer(s.nextLine(), s.nextLine());
-		System.out.println(b.name +"\n"+ b.id);
-		
-		
-		
+		System.out.println(b.name + "\n" + b.id);
+
 	}
 
 }

@@ -20,16 +20,8 @@ import javax.swing.JPanel;
 class SelectNumber extends JDialog {
 	private JCheckBox[] cbNumbers = new JCheckBox[45];
 	private int count = 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
-	private List<Integer> list = new ArrayList();
-	private JLabel[] lblSelNums = new JLabel[6];
-=======
->>>>>>> branch 'master' of https://github.com/bakrolee/Project_Lotto.git
-=======
 	private List<Integer> list = new ArrayList();
 	private List<JLabel> lblSelNums = new ArrayList();
->>>>>>> branch 'master' of https://github.com/bakrolee/Project_Lotto.git
 	
 	public SelectNumber(JFrame owner) {
 		super(owner, "번호 선택창", true);

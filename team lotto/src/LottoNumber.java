@@ -24,6 +24,12 @@ public class LottoNumber {
 
 
 
+	@Override
+	public String toString() {
+		return "LottoNumber [numbers=" + numbers + ", category=" + category + ", alphabet=" + alphabet + "]";
+	}
+
+
 	public void setAlphabet(Character alphabet) {
 		this.alphabet = alphabet;
 	}
