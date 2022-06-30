@@ -1,9 +1,8 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class LottoNumber {
 
-	public List<Integer> numbers = new ArrayList<>(6);
+	public int numbers[] = new int[6];
 	private String category;
 	private Character alphabet;
 	
@@ -11,23 +10,17 @@ public class LottoNumber {
 		this.alphabet = alphabet;
 		this.category = category;
 		for(int i = 0; i <=5 ; i++) {
-			this.numbers.add(numbers.get(i));
+			this.numbers[i] = numbers.get(i);
 		}
 	}
 	
 	
-	public Character getAlphabet() { //코딩판 떠난다
+	public Character getAlphabet() {
 		return alphabet;
 	}
 
 
 
-
-
-	@Override
-	public String toString() {
-		return "LottoNumber [numbers=" + numbers + ", category=" + category + ", alphabet=" + alphabet + "]";
-	}
 
 
 	public void setAlphabet(Character alphabet) {
@@ -66,7 +59,7 @@ public class LottoNumber {
 
 
 
-	public void setNumbers( List<Integer> numbers) {
+	public void setNumbers(int[] numbers) {
 		this.numbers = numbers;
 	}
 

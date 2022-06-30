@@ -9,20 +9,20 @@ import java.util.StringTokenizer;
 
 public class Lotto {
 	public static BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-	public static List<LottoNumber> numbers = new ArrayList<>(10);
+	public static LottoNumber[ ]  numbers = new LottoNumber[10];
 	public static int selectNumber = 0;
 	public static int buyCnt = 0; // 구매할줄갯수
-	public static Set<Integer> set = new HashSet<Integer>();
+	public static Set<Integer>set = new HashSet<Integer>();
 	public static StringTokenizer st;
 	public static char alphabet = 65;
-	public static StringBuilder sb = new StringBuilder();
-	static final int FIRST = 2000000000; //20억
-	static final int SECOND = 1000000000; //10억
-	static final int THIRD = 100000000; //1억
+	
+	public Lotto() throws NumberFormatException, IOException {
+			run();
+	}
 
-	public List<LottoNumber> run() throws NumberFormatException, IOException {
+	public void run() throws NumberFormatException, IOException {
 
-		while (true) {
+		while(true) {
 			System.out.println("                                                  ");
 			System.out.println("=====================목록=========================");
 			System.out.println("1. 자동");
@@ -32,15 +32,15 @@ public class Lotto {
 			System.out.println("5. 당첨번호 확인 및 맞은갯수로 정렬.");
 			System.out.println("=================================================");
 			System.out.println("                                                  ");
-
+			
 			selectNumber = Integer.parseInt(getData("번호를 입력하세요."));
 			System.out.println();
 
 			if (selectNumber == 1) {
-				buyCnt = Integer.parseInt(getData("로또 몇줄을 사시겠습니까?"));
-				return autoNum();
+				buyCnt = Integer.parseInt(getData("로또 몇줄을 사시겠습니까?")); 
+				autoNum();
 			} else if (selectNumber == 2) {
-				buyCnt = Integer.parseInt(getData("로또 몇줄을 사시겠습니까?"));
+				buyCnt = Integer.parseInt(getData("로또 몇줄을 사시겠습니까?")); 
 				semiAuto();
 			} else if (selectNumber == 3) {
 				buyCnt = Integer.parseInt(getData("로또몇줄을 사시겠습니까?"));
@@ -48,86 +48,69 @@ public class Lotto {
 			} else if (selectNumber == 4) {
 				showNumber();
 			} else if (selectNumber == 5) {
-				winningNumber(); // 이바닥 드릅다
+				winningNumber();
 			}
 
+       
 		}
 	}
 
-	public static List<LottoNumber> autoNum() throws IOException {
-		while (buyCnt-- > 0) {
-
-			numbers.add(new LottoNumber(alphabet, "자동 ", lottoNumbers()));
-			return numbers;
+	public static void autoNum() throws IOException {
+		while(buyCnt-- >0) {
+			for(int i = 0 ; i < 10 ; i++) {
+				if(numbers[i] == null) {
+					numbers[i] = new LottoNumber(alphabet, "자동 " ,lottoNumbers());
+					break;
+				}
+			}
+			alphabet = (char)(alphabet + 1);
 		}
-
-		alphabet = (char) (alphabet + 1);
-		return numbers;
-
-	}
-
-	public static LottoNumber autoNum1() throws IOException {
-		LottoNumber number1 = new LottoNumber(alphabet, "자동 ", lottoNumbers());
-		alphabet = (char) (alphabet + 1);
-		return number1;
 	}
 
 	public static void semiAuto() throws IOException {
-		while (buyCnt-- > 0) {
+		while(buyCnt-- > 0) {
+			
 
-			numbers.add(new LottoNumber(alphabet, "반자동", lottoNumbers()));
-
+			for(int i = 0 ; i < 10 ; i++) {
+				if(numbers[i] == null) {
+					numbers[i] = new LottoNumber(alphabet, "반자동" ,lottoNumbers());
+							break;
+				}
+			}
+			alphabet = (char)(alphabet + 1);
 		}
-
-		alphabet = (char) (alphabet + 1);
-
-	}
-
-	public static LottoNumber semiAuto1() throws IOException {
-		LottoNumber number1 = new LottoNumber(alphabet, "반자동", lottoNumbers());
-		alphabet = (char) (alphabet + 1);
-		return number1;
 	}
 
 	public static void manual() throws NumberFormatException, IOException {
-
+		
 		// 만약 체크박스에 체크가되면 set에추가하고, 체크를풀면 set에서 없어지게구현해야함.
-		while (buyCnt-- > 0) {
+		while(buyCnt-- >0) {
 			System.out.println("6개의 숫자를 입력하세요.");
-			st = new StringTokenizer(bf.readLine(), " ");
-			while (st.hasMoreTokens()) {
+			 st = new StringTokenizer(bf.readLine(), " ");
+			while(st.hasMoreTokens()) 
+			{
 				set.add(Integer.parseInt(st.nextToken()));
 			}
-
+			
 			List<Integer> list = new ArrayList<Integer>(set);
 			set.clear();
 
-			numbers.add(new LottoNumber(alphabet, "수동 ", list));
 
+					for(int i = 0 ; i < 10 ; i++) {
+						if(numbers[i] == null) {
+							numbers[i] = new LottoNumber(alphabet, "수동 " , list);
+									break;
+						}
+					}
+					alphabet = (char)(alphabet + 1);
 		}
-		alphabet = (char) (alphabet + 1);
 	}
 
-	public static LottoNumber manual1() throws IOException {
-		System.out.println("6개의 숫자를 입력하세요.");
-		st = new StringTokenizer(bf.readLine(), " ");
-		while (st.hasMoreTokens()) {
-			set.add(Integer.parseInt(st.nextToken()));
-		}
-
-		List<Integer> list = new ArrayList<Integer>(set);
-		set.clear();
-
-		LottoNumber number1 = new LottoNumber(alphabet, "수동 ", list);
-		alphabet = (char) (alphabet + 1);
-		return number1;
-	}
 
 	public static void showNumber() {
-		for (int i = 0; i < 10; i++) {
-			if (numbers.get(i) != null) {
-				System.out.println(numbers.get(i).getAlphabet() + " | " + numbers.get(i).getCategory() + " | "
-						+ numbers.get(i).getNumbers());
+		for(int i = 0 ; i < 10 ; i++) {
+			if(numbers[i] != null) {
+				System.out.println(numbers[i].getAlphabet()+ " | " + numbers[i].getCategory() + " | " +numbers[i].getNumbers());
 			}
 		}
 
@@ -136,112 +119,93 @@ public class Lotto {
 	public static void winningNumber() throws IOException {
 		List<Integer> winningList = new ArrayList<>();
 		winningList.addAll(lottoNumbers());
-		int bonusNum = 0;
-
+		int bonusNum = 0 ;
+		
 		System.out.println("< 당첨번호>");
-		for (int i = 0; i < 7; i++) {
-			if (i == 6) {
-				bonusNum = winningList.get(i);
-				System.out.println(" + " + bonusNum);
-			} else {
-				System.out.print(winningList.get(i) + " | ");
+			for(int i = 0 ; i < 7  ; i++) {
+				if(i == 6) {
+					bonusNum =  winningList.get(i);
+					System.out.println(" + " + bonusNum);
+				}else {
+					System.out.print(winningList.get(i) + " | ");
+				}
 			}
-		}
-		System.out.println();
+			System.out.println();
 
-		for (int i = 0; i < 10; i++) {
+		for(int i = 0 ; i < 10 ; i++) {
 			int cnt = 0;
-			if (numbers.get(i) != null) {
-				for (int j = 0; j < 6; j++) {
-					if (winningList.contains(numbers.get(i).numbers.get(j))) {
+			if(numbers[i] != null) {
+				for(int j = 0 ; j < 6 ; j++) {
+					if(winningList.contains(numbers[i].numbers[j])) {
 						cnt++;
-						sb.append(numbers.get(i).numbers.get(j)).append(" ");
 					}
 				}
 
-				switch (cnt) {
+			switch(cnt) { 
 				case 6:
-					if (!numbers.get(i).getNumbers().contains(String.valueOf(bonusNum))) {
-						System.out.println(
-								numbers.get(i).getAlphabet() + " | " + " 1등 당첨  |" + numbers.get(i).getNumbers());
-						System.out.println("맞은 번호 " + sb);
-					} else if (numbers.get(i).getNumbers().contains(String.valueOf(bonusNum))) {
-						System.out.println(
-								numbers.get(i).getAlphabet() + " | " + " 2등 당첨  |" + numbers.get(i).getNumbers());
-						System.out.println("맞은 번호 " + sb);
-					};
-					
+					if(!numbers[i].getNumbers().contains(String.valueOf(bonusNum))) {
+						System.out.println(numbers[i].getAlphabet() + " | " + " 1등 당첨  |" +numbers[i].getNumbers());
+					}
+					else if(numbers[i].getNumbers().contains(String.valueOf(bonusNum))){
+						System.out.println(numbers[i].getAlphabet() + " | " + " 2등 당첨  |" +numbers[i].getNumbers() );
+					}
 					break;
 				case 5:
-					if (!numbers.get(i).getNumbers().contains(String.valueOf(bonusNum))) {
-						System.out.println(
-								numbers.get(i).getAlphabet() + " | " + " 3등 당첨  |" + numbers.get(i).getNumbers());
-						System.out.println("맞은 번호 " + sb);
-					}
+					System.out.println(numbers[i].getAlphabet() + " | " + " 3등 당첨  |" +numbers[i].getNumbers());
 					break;
-				case 4:
-					if (!numbers.get(i).getNumbers().contains(String.valueOf(bonusNum))) {
-						System.out.println(
-								numbers.get(i).getAlphabet() + " | " + " 4등 당첨  |" + numbers.get(i).getNumbers());
-						System.out.println("맞은 번호 " + sb);
-					}
-					
+				case 4: 
+					System.out.println(numbers[i].getAlphabet() + " | " + " 4등 당첨  |" +numbers[i].getNumbers() );
 					break;
-				case 3:
-					if (!numbers.get(i).getNumbers().contains(String.valueOf(bonusNum))) {
-						System.out.println(
-								numbers.get(i).getAlphabet() + " | " + " 5등 당첨  |" + numbers.get(i).getNumbers());
-						System.out.println("맞은 번호 " + sb);
-					}
-					
+				case 3: 
+					System.out.println(numbers[i].getAlphabet() + " | " + " 5등 당첨  |" +numbers[i].getNumbers() );
 					break;
 				default:
-					System.out
-							.println(numbers.get(i).getAlphabet() + " | " + "  낙  첨  |" + numbers.get(i).getNumbers());
-					System.out.println("맞은 번호 " + sb);
+					System.out.println(numbers[i].getAlphabet() + " | " + "  낙  첨  |" + numbers[i].getNumbers() );
 					break;
-					
-				}
-				sb.setLength(0);
-
 			}
-		}
-	}
-
-	public static List<Integer> lottoNumbers() throws IOException {
-
-		int setSize = 0;
-
-		StackTraceElement[] stacks = new Throwable().getStackTrace();
-		StackTraceElement beforeStack = stacks[1];
-		if (beforeStack.getMethodName().equals("winningNumber")) {
-			setSize = 7;
-		} else if (beforeStack.getMethodName().equals("semiAuto1")) {
-			System.out.println("수동으로 뽑을 N개의 수를 공백을 기준으로 한 줄 입력하십시오. (N은 5이하)");
-			st = new StringTokenizer(bf.readLine(), " ");
-			while (st.hasMoreTokens()) {
-				set.add(Integer.parseInt(st.nextToken()));
+			cnt = 0 ;
 			}
-			setSize = 6;
-		} else
-			setSize = 6;
-
-		while (set.size() != setSize) {
-			set.add((int) (Math.random() * 45 + 1));
-		}
-
-		List<Integer> list = new ArrayList<Integer>(set);
-		set.clear();
-
-		return list;
+		}			
 	}
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
+    public static List<Integer> lottoNumbers() throws IOException {
+    	
+    	int setSize = 0;
+    	
+    	StackTraceElement[] stacks = new Throwable().getStackTrace();
+    	StackTraceElement beforeStack = stacks[1];
+    	if(beforeStack.getMethodName().equals("winningNumber")) {
+    		setSize = 7;
+    	}else if(beforeStack.getMethodName().equals("semiAuto")) {
+    		System.out.println("수동으로 뽑을 N개의 수를 공백을 기준으로 한 줄 입력하십시오. (N은 5이하)");
+    		st = new StringTokenizer(bf.readLine(), " ");
+    		while(st.hasMoreTokens()) {
+    			set.add(Integer.parseInt(st.nextToken()));
+    		}
+    		setSize = 6;
+    	}else setSize = 6;
+    		
+    		
+    		
+        while(set.size() != setSize){
+            set.add((int)(Math.random() * 45 + 1));
+        }
+        
+        List<Integer> list = new ArrayList<Integer>(set);
+      set.clear();
+      
+       return list;
+    }
 
-	}
+    
+    public static void main(String[] args) throws NumberFormatException, IOException {
+    
+        new Lotto();
+ 
+     }
 
-	public static String getData(String message) throws IOException {
-		System.out.println(message);
-		return bf.readLine();
-	}
+    public static String getData(String message) throws IOException {
+    	System.out.println(message);
+    	return bf.readLine();
+    }
 }
