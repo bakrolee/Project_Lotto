@@ -52,7 +52,7 @@ public class MainMenu extends JFrame {
 		btnSign.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SignUp signUp = new SignUp(MainMenu.this);
+				SignUp signUp = new SignUp();
 				signUp.setVisible(true);
 			}
 		});
@@ -61,8 +61,11 @@ public class MainMenu extends JFrame {
 		btnBuy.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				buyFrame = new BuyLotto();
-				buyFrame.setVisible(true);
+				Login login = new Login();
+				login.compleLogin(buyFrame);
+				login.setVisible(true);
+//				buyFrame = new BuyLotto();
+//				buyFrame.setVisible(true);
 			}
 		});
 		

@@ -1,8 +1,10 @@
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,70 +12,107 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-public class Login extends JFrame implements MouseListener{
-	private JTextField jt;
+public class Login extends JDialog {
+	private Map<String, String> members = new HashMap<>();
+	private JButton btnLogin;
+	private JTextField inputID;
+	
 	public Login() {
-		
-		super("Login");
+		setTitle("로그인");
 		JPanel pnl = new JPanel();
-		jt = new JTextField("ID를 입력하세요");
-		jt.addMouseListener(this);
+		inputID = new JTextField("ID를 입력하세요");
+		inputID.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.getButton() == MouseEvent.BUTTON1) {
+					inputID.setText("");
+				}
+			}
+		});
 		JLabel jb = new JLabel("ID :");
-		JButton btn = new JButton("로그인");
-		JButton btn1 = new JButton("회원가입"); // 누르면 회원가입창 뜨게 ㄱㄱ
-		btn1.addActionListener(new ActionListener() {
+		
+		btnLogin = new JButton("로그인");
+		JButton btnSignUp = new JButton("회원가입"); // 누르면 회원가입창 뜨게 ㄱㄱ
+		
+//		btnLogin.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				String key = inputID.getText();
+//				members.containsKey(key);
+//				if (!members.containsKey(key)) {
+//					JOptionPane.showMessageDialog(null, "로그인 성공");
+//					inputID.setText("");
+//					BuyLotto buylotto = new BuyLotto();
+//					buylotto.setVisible(true);
+//				} else {
+//					JOptionPane.showMessageDialog(null, "등록되지 않은 ID입니다.");
+//					inputID.setText("");
+//				}
+//			}
+//		});
+		
+		btnSignUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SignUp dialog = new SignUp(Login.this);
-				dialog.show();
+				SignUp dialog = new SignUp();
+				dialog.setVisible(true);
 			}
 		});
 		SpringLayout sl_pnl = new SpringLayout();
-		sl_pnl.putConstraint(SpringLayout.EAST, btn1, 0, SpringLayout.EAST, jt);
-		sl_pnl.putConstraint(SpringLayout.NORTH, btn, 17, SpringLayout.SOUTH, jt);
-		sl_pnl.putConstraint(SpringLayout.SOUTH, btn, -34, SpringLayout.SOUTH, pnl);
-		sl_pnl.putConstraint(SpringLayout.WEST, btn1, 11, SpringLayout.EAST, btn);
-		sl_pnl.putConstraint(SpringLayout.WEST, btn, 0, SpringLayout.WEST, jb);
-		sl_pnl.putConstraint(SpringLayout.EAST, btn, -177, SpringLayout.EAST, pnl);
-		sl_pnl.putConstraint(SpringLayout.NORTH, btn1, 17, SpringLayout.SOUTH, jt);
-		sl_pnl.putConstraint(SpringLayout.SOUTH, btn1, -34, SpringLayout.SOUTH, pnl);
-		sl_pnl.putConstraint(SpringLayout.SOUTH, jt, -80, SpringLayout.SOUTH, pnl);
+		sl_pnl.putConstraint(SpringLayout.EAST, btnSignUp, 0, SpringLayout.EAST, inputID);
+		sl_pnl.putConstraint(SpringLayout.NORTH, btnLogin, 17, SpringLayout.SOUTH, inputID);
+		sl_pnl.putConstraint(SpringLayout.SOUTH, btnLogin, -34, SpringLayout.SOUTH, pnl);
+		sl_pnl.putConstraint(SpringLayout.WEST, btnSignUp, 11, SpringLayout.EAST, btnLogin);
+		sl_pnl.putConstraint(SpringLayout.WEST, btnLogin, 0, SpringLayout.WEST, jb);
+		sl_pnl.putConstraint(SpringLayout.EAST, btnLogin, -177, SpringLayout.EAST, pnl);
+		sl_pnl.putConstraint(SpringLayout.NORTH, btnSignUp, 17, SpringLayout.SOUTH, inputID);
+		sl_pnl.putConstraint(SpringLayout.SOUTH, btnSignUp, -34, SpringLayout.SOUTH, pnl);
+		sl_pnl.putConstraint(SpringLayout.SOUTH, inputID, -80, SpringLayout.SOUTH, pnl);
 		sl_pnl.putConstraint(SpringLayout.WEST, jb, 42, SpringLayout.WEST, pnl);
-		sl_pnl.putConstraint(SpringLayout.NORTH, jt, 32, SpringLayout.NORTH, pnl);
-		sl_pnl.putConstraint(SpringLayout.NORTH, jb, 7, SpringLayout.NORTH, jt);
-		sl_pnl.putConstraint(SpringLayout.WEST, jt, 67, SpringLayout.WEST, pnl);
-		sl_pnl.putConstraint(SpringLayout.EAST, jt, -51, SpringLayout.EAST, pnl);
+		sl_pnl.putConstraint(SpringLayout.NORTH, inputID, 32, SpringLayout.NORTH, pnl);
+		sl_pnl.putConstraint(SpringLayout.NORTH, jb, 7, SpringLayout.NORTH, inputID);
+		sl_pnl.putConstraint(SpringLayout.WEST, inputID, 67, SpringLayout.WEST, pnl);
+		sl_pnl.putConstraint(SpringLayout.EAST, inputID, -51, SpringLayout.EAST, pnl);
 		pnl.setLayout(sl_pnl);
 		
-		pnl.add(jt);
-		pnl.add(btn);
-		pnl.add(btn1);
+		pnl.add(inputID);
+		pnl.add(btnLogin);
+		pnl.add(btnSignUp);
 		pnl.add(jb);
 		getContentPane().add(pnl);
 		
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setSize(350, 180);
 	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
-			jt.setText("");
-		}
+	
+	public BuyLotto makeBuyLotto(BuyLotto buylotto) {
+//		BuyLotto temp = new BuyLotto();
+//		buylotto = temp;
+		buylotto = new BuyLotto();
+		buylotto.setVisible(true);
+		return buylotto;
 	}
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-	@Override
-	public void mouseExited(MouseEvent e) {}
-	@Override
-	public void mousePressed(MouseEvent e) {}
-	@Override
-	public void mouseReleased(MouseEvent e) {}
-
-	public static void main(String[] args) {
-		new Login().setVisible(true);
+	
+	public void compleLogin(BuyLotto buylotto) {
+		btnLogin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String key = inputID.getText();
+				members.containsKey(key);
+				if (!members.containsKey(key) ) {
+					JOptionPane.showMessageDialog(null, "로그인 성공");
+					inputID.setText("");
+					makeBuyLotto(buylotto);
+				} else {
+					JOptionPane.showMessageDialog(null, "등록되지 않은 ID입니다.");
+					inputID.setText("");
+				}
+			}
+		});
 	}
 }

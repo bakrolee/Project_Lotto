@@ -15,9 +15,9 @@ public class SignUp extends JDialog implements MouseListener{
 	private JTextField jf;
 	private JTextField jf2;
 
-	public SignUp(JFrame owner) {
-		super(owner, true);
-		setTitle("Signup");
+	public SignUp() {
+		setModal(true);
+		setTitle("회원가입");
 		JPanel pnl = new JPanel();
 		JLabel jl = new JLabel("ID: ");
 		JLabel jl2 = new JLabel("Name: ");		
