@@ -20,11 +20,11 @@ public class Login extends JFrame implements MouseListener{
 		
 		super("Login");
 		JPanel pnl = new JPanel();
-		jt = new JTextField("ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		jt = new JTextField("IDë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 		jt.addMouseListener(this);
 		JLabel jb = new JLabel("ID :");
-		JButton btn = new JButton("·Î±×ÀÎ");
-		JButton btn1 = new JButton("È¸¿ø°¡ÀÔ"); // ´©¸£¸é È¸¿ø°¡ÀÔÃ¢ ¶ß°Ô ¤¡¤¡
+		JButton btn = new JButton("ë¡œê·¸ì¸");
+		JButton btn1 = new JButton("íšŒì›ê°€ì…"); // ëˆ„ë¥´ë©´ íšŒì›ê°€ì…ì°½ ëœ¨ê²Œ ã„±ã„±
 		btn1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

@@ -21,7 +21,7 @@ public class LottoEdit extends JDialog implements ActionListener {
 	private List<Integer> listEdit = new ArrayList();
 	private JButton btnOK;
 
-	public LottoEdit(JFrame owner) {
+	public LottoEdit(JDialog owner) {
 		super(owner, "Edit", true);
 		JPanel pnl = new JPanel();
 

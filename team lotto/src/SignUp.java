@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 
-class SignUp extends JDialog implements MouseListener{
+public class SignUp extends JDialog implements MouseListener{
 	private JButton jb1;
 	private JTextField jf;
 	private JTextField jf2;
@@ -21,13 +21,13 @@ class SignUp extends JDialog implements MouseListener{
 		JPanel pnl = new JPanel();
 		JLabel jl = new JLabel("ID: ");
 		JLabel jl2 = new JLabel("Name: ");		
-		jf = new JTextField("ID¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+		jf = new JTextField("IDë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 		jf.addMouseListener(this);
-		jf2 = new JTextField("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä");
+		jf2 = new JTextField("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”");
 		jf2.addMouseListener(this);
 		
-		JButton jb = new JButton("°¡ÀÔ¿Ï·á");
-		jb1 = new JButton("µ¹¾Æ°¡±â");
+		JButton jb = new JButton("ê°€ì…ì™„ë£Œ");
+		jb1 = new JButton("ëŒì•„ê°€ê¸°");
 		jb1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();

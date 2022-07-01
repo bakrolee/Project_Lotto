@@ -2,26 +2,31 @@ import java.io.IOException;
 import java.util.*;
 
 public class Buyer {
+	
+
 	static Scanner s = new Scanner(System.in);
 
 	private String name;
 	private String id;
 	private Set<LottoNumber> lottoNum = new HashSet<LottoNumber>(6);
-	private Set<LottoNumber> price ;
+//	private List<Integer> price = new ArrayList<>();
+
 	
+
 	public Buyer(String name, String id) {
 		this.name = name;
 		this.id = id;
 	}
 	
 
-	public Set<LottoNumber> getPrice() {
-		return price;
-	}
+	
 
-	public void setPrice(Set<LottoNumber> price) {
-		this.price = price;
-	}
+//	public List<Integer> getPrice() {
+//		return price;
+//	}
+//
+
+
 
 	public Set<LottoNumber> getLottoNum() {
 		return lottoNum;

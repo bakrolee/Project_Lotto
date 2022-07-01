@@ -7,12 +7,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.security.acl.Owner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
@@ -34,7 +27,7 @@ class SelectNumber extends JDialog implements ActionListener {
 	private List<JLabel> lblSelNums = new ArrayList();
 	private JButton btnOK;
 
-	public SelectNumber(JFrame owner) {
+	public SelectNumber(JDialog owner) {
 		super(owner, "번호 선택창", true);
 		JPanel pnl = new JPanel();
 		JPanel pnlNumbers = new JPanel();
@@ -150,7 +143,7 @@ class SelectNumber extends JDialog implements ActionListener {
 }
 
 
-public class BuyLotto extends JFrame {
+public class BuyLotto extends JDialog {
 	List<Integer> oneLotto;
 	private JLabel[] labels = new JLabel[6];
 	
@@ -227,11 +220,8 @@ public class BuyLotto extends JFrame {
 		
 		add(pnl);
 		
+		setModal(true);
 		setSize(500, 500);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
-	}
-	
-	public static void main(String[] args) {
-		new BuyLotto().setVisible(true);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 }
