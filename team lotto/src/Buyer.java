@@ -2,8 +2,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class Buyer {
-	
-
 	static Scanner s = new Scanner(System.in);
 
 	private String name;
@@ -11,22 +9,15 @@ public class Buyer {
 	private Set<LottoNumber> lottoNum = new HashSet<LottoNumber>(6);
 //	private List<Integer> price = new ArrayList<>();
 
-	
-
 	public Buyer(String name, String id) {
 		this.name = name;
 		this.id = id;
 	}
-	
-
-	
 
 //	public List<Integer> getPrice() {
 //		return price;
 //	}
 //
-
-
 
 	public Set<LottoNumber> getLottoNum() {
 		return lottoNum;

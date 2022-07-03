@@ -10,29 +10,45 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 
-public class SignUp extends JDialog implements MouseListener{
+public class SignUp extends JDialog {
 	private JButton jb1;
 	private JTextField jf;
 	private JTextField jf2;
 
-	public SignUp() {
-		setModal(true);
-		setTitle("회원가입");
+	public SignUp(JFrame owner) {
+		super(owner, true);
+
+		setTitle("Signup");
 		JPanel pnl = new JPanel();
 		JLabel jl = new JLabel("ID: ");
-		JLabel jl2 = new JLabel("Name: ");		
-		jf = new JTextField("ID를 입력하세요");
-		jf.addMouseListener(this);
-		jf2 = new JTextField("이름을 입력하세요");
-		jf2.addMouseListener(this);
+		JLabel jl2 = new JLabel("Name: ");
+
+		JTextField jf = new JTextField();
+		JTextField jf2 = new JTextField();
+		JButton btnSign = new JButton("가입완료");
+		JButton jb1 = new JButton("돌아가기");
 		
-		JButton jb = new JButton("가입완료");
-		jb1 = new JButton("돌아가기");
 		jb1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
+		
+		btnSign.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (getOwner() instanceof JFrame) {
+					if (e.getSource() == btnSign) {
+					MainMenu menu = (MainMenu) getOwner();
+					menu.getMembers().addMember(jf2.getText(), jf.getText());
+					}
+				
+				dispose();
+				}
+			}
+		});
+		
 		SpringLayout sl_pnl = new SpringLayout();
 		sl_pnl.putConstraint(SpringLayout.EAST, jl, -245, SpringLayout.EAST, pnl);
 		sl_pnl.putConstraint(SpringLayout.EAST, jf2, -56, SpringLayout.EAST, pnl);
@@ -45,44 +61,25 @@ public class SignUp extends JDialog implements MouseListener{
 		sl_pnl.putConstraint(SpringLayout.SOUTH, jf2, -187, SpringLayout.SOUTH, pnl);
 		sl_pnl.putConstraint(SpringLayout.NORTH, jf, 26, SpringLayout.SOUTH, jf2);
 		sl_pnl.putConstraint(SpringLayout.WEST, jf2, 98, SpringLayout.WEST, pnl);
-		sl_pnl.putConstraint(SpringLayout.NORTH, jb, 161, SpringLayout.NORTH, pnl);
+		sl_pnl.putConstraint(SpringLayout.NORTH, btnSign, 161, SpringLayout.NORTH, pnl);
 		sl_pnl.putConstraint(SpringLayout.WEST, jb1, 170, SpringLayout.WEST, pnl);
 		sl_pnl.putConstraint(SpringLayout.EAST, jb1, -56, SpringLayout.EAST, pnl);
-		sl_pnl.putConstraint(SpringLayout.SOUTH, jb, -69, SpringLayout.SOUTH, pnl);
-		sl_pnl.putConstraint(SpringLayout.WEST, jb, 50, SpringLayout.WEST, pnl);
-		sl_pnl.putConstraint(SpringLayout.EAST, jb, -12, SpringLayout.WEST, jb1);
-		sl_pnl.putConstraint(SpringLayout.NORTH, jb1, 0, SpringLayout.NORTH, jb);
+		sl_pnl.putConstraint(SpringLayout.SOUTH, btnSign, -69, SpringLayout.SOUTH, pnl);
+		sl_pnl.putConstraint(SpringLayout.WEST, btnSign, 50, SpringLayout.WEST, pnl);
+		sl_pnl.putConstraint(SpringLayout.EAST, btnSign, -12, SpringLayout.WEST, jb1);
+		sl_pnl.putConstraint(SpringLayout.NORTH, jb1, 0, SpringLayout.NORTH, btnSign);
 		sl_pnl.putConstraint(SpringLayout.SOUTH, jb1, -69, SpringLayout.SOUTH, pnl);
 		pnl.setLayout(sl_pnl);
-		
 		pnl.add(jl);
 		pnl.add(jl2);
 		pnl.add(jf);
 		pnl.add(jf2);
-		pnl.add(jb);
+		pnl.add(btnSign);
 		pnl.add(jb1);
+
 		getContentPane().add(pnl);
-		
-		setSize(350,300);
+
+		setSize(350, 300);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
-	}
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		if (e.getButton() == MouseEvent.BUTTON1) {
-				jf2.setText(""); 
 		}
-	}
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-	@Override
-	public void mouseReleased(MouseEvent e) {
-	}
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
 }

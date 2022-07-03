@@ -59,8 +59,7 @@ public class Login extends JDialog {
 		btnSignUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SignUp dialog = new SignUp();
-				dialog.setVisible(true);
+				dispose();
 			}
 		});
 		SpringLayout sl_pnl = new SpringLayout();
