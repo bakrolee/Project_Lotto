@@ -37,6 +37,11 @@ public class Members {
 		return index;
 	}
 	
+	@Override
+	public String toString() {
+		return "Members [member=" + member + "]";
+	}
+
 	public void addMember(String id, String Name) {
 		member.add(new Buyer(id, Name));
 	}

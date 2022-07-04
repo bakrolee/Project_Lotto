@@ -154,6 +154,7 @@ public class MainMenu extends JFrame {
 					else {
 						buyLotto = new BuyLotto(MainMenu.this);
 						buyLotto.setVisible(true);
+						System.out.println(members.toString());
 					}
 //_______________________________________________________추가 buyCnt 변수_______________________________________________________________					
 

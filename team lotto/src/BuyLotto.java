@@ -8,6 +8,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ import javax.swing.JRadioButton;
 
 public class BuyLotto extends JDialog {
 	private List<Integer> oneLotto;
-	private List<List<Integer>> totalLotto = new ArrayList<>();
+	private List<List<Integer>> totalLotto = new ArrayList<>(5);
 	private int buyCnt;
 	// 수정필요
 //	private JLabel[] lblNums = new JLabel[6];
@@ -34,8 +35,12 @@ public class BuyLotto extends JDialog {
 	private JButton[][] toolBtns;
 
 	
-	public BuyLotto(JFrame owner) {
+	public BuyLotto(JFrame owner)  {
 		super(owner, true);
+		for (int i = 0; i < 5; i++) {
+			totalLotto.add(null);
+		}
+		System.out.println("사이즈" + totalLotto.size());
 		
 		MainMenu menu = (MainMenu) getOwner();
 		buyCnt = menu.getBuyCnt();
@@ -55,9 +60,6 @@ public class BuyLotto extends JDialog {
 		URL url2 = BuyLotto.class.getClassLoader().getResource("images/잿빛달.png");
 		Image img2 = kit.getImage(url2);
 		Image moonGray = img2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-
-		// 나중에 메소드로 owner의 count값 전달받을 예정.
-		buyCnt = 3;
 
 		// 그림 생성 -> 나중에 text값만 바꿔주면 됨.
 		moons = ImgLines(buyCnt, moonLight, moonGray);
@@ -137,7 +139,16 @@ public class BuyLotto extends JDialog {
 	}
 
 	public void setTotalLotto(List<Integer> list, JLabel[] lbls, int index) {
-		totalLotto.set(index, list);
+//		totalLotto.set(index, list);
+		//______________________________박로수정_____________________________________________________
+//		if (totalLotto.get(index) != null) {
+//			totalLotto.remove(index);
+//			totalLotto.add(index, list);
+//		} else {
+//			totalLotto.add(index, list);
+//		}
+		totalLotto.remove(index);
+		totalLotto.add(index, list);
 		
 		List<Integer> oneList = totalLotto.get(index);
 		for (int i = 0; i < oneList.size(); i++) {
@@ -180,13 +191,19 @@ public class BuyLotto extends JDialog {
 	}
 
 	// auto버튼
-	public ActionListener auto(int index) {
+	public ActionListener auto(int index)  {
 		ActionListener temp = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				SelectNumber dialog = new SelectNumber(BuyLotto.this);
-				dialog.setIndex(index);  // 엄청 고민했던 문제 해결해준 idea
-				dialog.setVisible(true);
+				Lotto temp = new Lotto();
+				List<Integer> list = new ArrayList<>();
+				try {
+					list = temp.autoNum1();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				setTotalLotto(list, getMoons().get(index), index); 
 			}
 		};
 		return temp;
@@ -198,7 +215,7 @@ public class BuyLotto extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				SelectNumber dialog = new SelectNumber(BuyLotto.this);
-				dialog.setIndex(index);
+				dialog.setIndex(index); // 엄청 고민했던 문제 해결해준 idea
 				dialog.setVisible(true);
 			}
 		};

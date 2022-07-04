@@ -35,9 +35,8 @@ public class Lotto {
 	public static int secondPrice = ((int) ((reward - (totalFifth + totalFourth)) * 0.125)); // 2등 총 당첨금액
 	public static int thirdPrice = ((int) ((reward - (totalFifth + totalFourth)) * 0.125)); // 3등 총 당첨금액
 	public static int idx;
-	public Lotto() throws NumberFormatException, IOException {
-		run();
-	}
+	
+	
 
 	public void run() throws NumberFormatException, IOException {
 
