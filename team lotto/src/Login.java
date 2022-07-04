@@ -21,11 +21,14 @@ public class Login extends JDialog {
 	private Map<String, String> members = new HashMap<>();
 	private JButton btnLogin;
 	private JTextField inputID;
+	private boolean loginPass;
+	
 	
 	public Login() {
+		setModal(true);
 		setTitle("로그인");
 		JPanel pnl = new JPanel();
-		inputID = new JTextField("ID를 입력하세요");
+		inputID = new JTextField("");
 		inputID.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -39,29 +42,31 @@ public class Login extends JDialog {
 		btnLogin = new JButton("로그인");
 		JButton btnSignUp = new JButton("회원가입"); // 누르면 회원가입창 뜨게 ㄱㄱ
 		
-//		btnLogin.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				String key = inputID.getText();
-//				members.containsKey(key);
-//				if (!members.containsKey(key)) {
-//					JOptionPane.showMessageDialog(null, "로그인 성공");
-//					inputID.setText("");
-//					BuyLotto buylotto = new BuyLotto();
-//					buylotto.setVisible(true);
-//				} else {
-//					JOptionPane.showMessageDialog(null, "등록되지 않은 ID입니다.");
-//					inputID.setText("");
-//				}
-//			}
-//		});
-		
 		btnSignUp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
+		
+		btnLogin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String key = inputID.getText();
+				
+				if (SignUp.getIdForLogin().contains(key) ) {
+					JOptionPane.showMessageDialog(null, "로그인 성공");
+					inputID.setText("");
+					loginPass = true;
+				
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "등록되지 않은 ID입니다.");
+					inputID.setText("");
+				}
+			}
+		});
+		
 		SpringLayout sl_pnl = new SpringLayout();
 		sl_pnl.putConstraint(SpringLayout.EAST, btnSignUp, 0, SpringLayout.EAST, inputID);
 		sl_pnl.putConstraint(SpringLayout.NORTH, btnLogin, 17, SpringLayout.SOUTH, inputID);
@@ -85,33 +90,19 @@ public class Login extends JDialog {
 		pnl.add(jb);
 		getContentPane().add(pnl);
 		
-//		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
 		setSize(350, 180);
 	}
+
+
+	public boolean  isLoginPass() {
+		
 	
-	public BuyLotto makeBuyLotto(BuyLotto buylotto) {
-//		BuyLotto temp = new BuyLotto();
-//		buylotto = temp;
-		buylotto = new BuyLotto();
-		buylotto.setVisible(true);
-		return buylotto;
+		return loginPass;
 	}
-	
-	public void compleLogin(BuyLotto buylotto) {
-		btnLogin.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String key = inputID.getText();
-				members.containsKey(key);
-				if (!members.containsKey(key) ) {
-					JOptionPane.showMessageDialog(null, "로그인 성공");
-					inputID.setText("");
-					makeBuyLotto(buylotto);
-				} else {
-					JOptionPane.showMessageDialog(null, "등록되지 않은 ID입니다.");
-					inputID.setText("");
-				}
-			}
-		});
+
+
+	public void setLoginPass(boolean loginPass) {
+		this.loginPass = loginPass;
 	}
 }

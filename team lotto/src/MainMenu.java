@@ -21,7 +21,7 @@ import javax.swing.SwingConstants;
 public class MainMenu extends JFrame {
 	private int roundNum = 1000;
 	private String[] lottoCnt = { "1", "2", "3", "4", "5(최대)" };
-	private BuyLotto buyFrame;
+	private BuyLotto buyLotto;
 	private LottoResult lottoResult;
 	private Members members = new Members();
 
@@ -113,11 +113,15 @@ public class MainMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Login login = new Login();
-				login.compleLogin(buyFrame);
 				login.setVisible(true);
+				if (login.isLoginPass()) {
+					buyLotto = new BuyLotto(MainMenu.this);
+					buyLotto.setVisible(true);
+				}
 				
 			}
 		});
+		
 		JButton btnEnd = new JButton("결과확인");
 		sl_total.putConstraint(SpringLayout.NORTH, btnEnd, 20, SpringLayout.SOUTH, buttons);
 		sl_total.putConstraint(SpringLayout.SOUTH, btnEnd, 0, SpringLayout.SOUTH, total);

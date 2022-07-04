@@ -1,38 +1,45 @@
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
-public class LottoEdit extends JDialog implements ActionListener {
+public class SelectNumber extends JDialog implements ActionListener {
 	private JCheckBox[] cbNumbers = new JCheckBox[45];
 	private int count = 0;
-	private int editnumber = 0;
-	// 반복해서 값 들어감 -> item리스너에서 추가로 값이 들어가서 생긴 문제인듯
-	private List<Integer> listEdit = new ArrayList();
+	private List<Integer> list = new ArrayList();
+	private List<JLabel> lblSelNums = new ArrayList();
 	private JButton btnOK;
 	private int index;
-
-	public int getIndex() {
-		return index;
-	}
 
 	public void setIndex(int index) {
 		this.index = index;
 	}
 
-	public LottoEdit(JDialog owner) {
-		super(owner, "Edit", true);
+	public SelectNumber(JDialog owner) {
+		super(owner, "번호 선택창", true);
 		JPanel pnl = new JPanel();
+		JPanel pnlNumbers = new JPanel();
 
 		ItemListener item = new ItemListener() {
 			@Override
@@ -40,10 +47,19 @@ public class LottoEdit extends JDialog implements ActionListener {
 				JCheckBox cb = (JCheckBox) e.getSource();
 
 				if (e.getStateChange() == ItemEvent.SELECTED) {
-					editnumber = selectNum(cb);
+					int num = Integer.valueOf(selectNum(cb));
+					lblSelNums.get(count).setText(String.format("%02d", num));
 					count++;
 				} else {
+					int index = list.indexOf(Integer.valueOf(cb.getText()));
 					cancelNum(cb);
+					pnlNumbers.remove(lblSelNums.get(index));
+					lblSelNums.remove(index);
+					pnlNumbers.revalidate();
+					pnlNumbers.repaint();
+					lblSelNums.add(new JLabel());
+					int lastIndex = lblSelNums.size() - 1;
+					pnlNumbers.add(lblSelNums.get(lastIndex));
 					count--;
 				}
 
@@ -57,55 +73,34 @@ public class LottoEdit extends JDialog implements ActionListener {
 
 		JPanel checks = new JPanel(new GridLayout(5, 9));
 
-		// 선택된 로또 번호 불러오기
-		if (getOwner() instanceof BuyLotto) {
-			BuyLotto lotto = (BuyLotto) getOwner();
-			listEdit = lotto.getList();
-			System.out.println("에디트");
-			System.out.println(listEdit);
-		}
-
 		for (int i = 0; i < cbNumbers.length; i++) {
 			int num = 1 + i;
 			cbNumbers[i] = new JCheckBox(String.valueOf(num));
-//			cbNumbers[i].addItemListener(item); // 얘를 밑의 순서 다 끝내고 달아주기.
+			cbNumbers[i].addItemListener(item);
+
 			checks.add(cbNumbers[i]);
 		}
+		pnl.add(checks);
 
-		for (int j = 0; j < listEdit.size(); j++) {
-			for (int i = 0; i < cbNumbers.length; i++) {
-				int num = 1 + i;
-				if (num == listEdit.get(j)) {
-					count++;
-					cbNumbers[i].setSelected(true);
-					cbNumbers[i].setEnabled(true);
-				}
-			}
+		// 레이블을 패널에 추가하기
+		for (int i = 0; i < 6; i++) {
+			lblSelNums.add(new JLabel());
+			pnlNumbers.add(lblSelNums.get(i));
 		}
 
-		for (int i = 0; i < cbNumbers.length; i++) {
-			int num = 1 + i;
-			cbNumbers[i].addItemListener(item); // 얘를 밑의 순서 다 끝내고 달아주기.
-		}
+		pnl.add(pnlNumbers);
 
-		disableCB();
+		btnOK = new JButton("선택 완료");
+		JButton btnBack = new JButton("돌아가기");
 
-//		if (getOwner() instanceof BuyLotto) {
-//			BuyLotto lotto = (BuyLotto) getOwner();
-//			list = lotto.getList();
-//			for (int i = 0; i < list.size(); i++) {
-//				list.get(i);
-//			}
-//		}
-
-		btnOK = new JButton("수정 하기");
 		btnOK.addActionListener(this);
 
-		pnl.add(checks);
 		pnl.add(btnOK);
+		pnl.add(btnBack);
 
 		add(pnl);
 		setSize(400, 400);
+
 	}
 
 	// 체크 비활성화 메소드
@@ -126,16 +121,21 @@ public class LottoEdit extends JDialog implements ActionListener {
 	}
 
 	// 로또 번호 선택(추가)
-	public Integer selectNum(JCheckBox cb) {
-		listEdit.add(Integer.valueOf(cb.getText()));
-		System.out.println(listEdit.toString());
-		return Integer.valueOf(cb.getText());
+	public String selectNum(JCheckBox cb) {
+		list.add(Integer.valueOf(cb.getText()));
+		System.out.println(list.toString());
+		return cb.getText();
 	}
 
 	// 로또 번호 취소
 	public void cancelNum(JCheckBox cb) {
-		listEdit.remove(Integer.valueOf(cb.getText()));
-		System.out.println(listEdit.toString());
+		list.remove(Integer.valueOf(cb.getText()));
+		System.out.println(list.toString());
+	}
+
+	// (선택완료 버튼 눌렀을 때) 값 반환하는 메소드
+	public List<Integer> compleList() {
+		return list;
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public class LottoEdit extends JDialog implements ActionListener {
 		if (getOwner() instanceof BuyLotto) {
 			if (e.getSource() == btnOK) {
 				BuyLotto lotto = (BuyLotto) getOwner();
-				lotto.setList(listEdit, lotto.getMoons().get(index));
+				lotto.setList(list, lotto.getMoons().get(index));
 			}
 		}
 		dispose();

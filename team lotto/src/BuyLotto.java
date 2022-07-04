@@ -18,136 +18,188 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-class SelectNumber extends JDialog implements ActionListener {
-	private JCheckBox[] cbNumbers = new JCheckBox[45];
-	private int count = 0;
-	private List<Integer> list = new ArrayList();
-	private List<JLabel> lblSelNums = new ArrayList();
-	private JButton btnOK;
-
-	public SelectNumber(JDialog owner) {
-		super(owner, "번호 선택창", true);
-		JPanel pnl = new JPanel();
-		JPanel pnlNumbers = new JPanel();
-
-		ItemListener item = new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				JCheckBox cb = (JCheckBox) e.getSource();
-
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					int num = Integer.valueOf(selectNum(cb));
-					lblSelNums.get(count).setText(String.format("%02d", num));
-					count++;
-				} else {
-					int index = list.indexOf(Integer.valueOf(cb.getText()));
-					cancelNum(cb);
-					pnlNumbers.remove(lblSelNums.get(index));
-					lblSelNums.remove(index);
-					pnlNumbers.revalidate();
-					pnlNumbers.repaint();
-					lblSelNums.add(new JLabel());
-					int lastIndex = lblSelNums.size() - 1;
-					pnlNumbers.add(lblSelNums.get(lastIndex));
-					count--;
-				}
-
-				if (count == 6) {
-					disableCB();
-				} else if (count < 6) {
-					enableCB();
-				}
-			}
-		};
-
-		JPanel checks = new JPanel(new GridLayout(5, 9));
-
-		for (int i = 0; i < cbNumbers.length; i++) {
-			int num = 1 + i;
-			cbNumbers[i] = new JCheckBox(String.valueOf(num));
-			cbNumbers[i].addItemListener(item);
-
-			checks.add(cbNumbers[i]);
-		}
-		pnl.add(checks);
-
-		// 레이블을 패널에 추가하기
-		for (int i = 0; i < 6; i++) {
-			lblSelNums.add(new JLabel());
-			pnlNumbers.add(lblSelNums.get(i));
-		}
-
-		pnl.add(pnlNumbers);
-
-		btnOK = new JButton("선택 완료");
-		JButton btnBack = new JButton("돌아가기");
-
-		btnOK.addActionListener(this);
-
-		pnl.add(btnOK);
-		pnl.add(btnBack);
-
-		add(pnl);
-		setSize(400, 400);
-
-	}
-
-	// 체크 비활성화 메소드
-	public void disableCB() {
-		for (int i = 0; i < cbNumbers.length; i++) {
-			if (!cbNumbers[i].isSelected()) {
-				cbNumbers[i].setSelected(false);
-				cbNumbers[i].setEnabled(false);
-			}
-		}
-	}
-
-	// 체크 활성화 메소드
-	public void enableCB() {
-		for (int i = 0; i < cbNumbers.length; i++) {
-			cbNumbers[i].setEnabled(true);
-		}
-	}
-
-	// 로또 번호 선택(추가)
-	public String selectNum(JCheckBox cb) {
-		list.add(Integer.valueOf(cb.getText()));
-		System.out.println(list.toString());
-		return cb.getText();
-	}
-
-	// 로또 번호 취소
-	public void cancelNum(JCheckBox cb) {
-		list.remove(Integer.valueOf(cb.getText()));
-		System.out.println(list.toString());
-	}
-
-	// (선택완료 버튼 눌렀을 때) 값 반환하는 메소드
-	public List<Integer> compleList() {
-		return list;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (getOwner() instanceof BuyLotto) {
-			if (e.getSource() == btnOK) {
-				BuyLotto lotto = (BuyLotto) getOwner();
-				lotto.setList(list);
-			}
-		}
-		dispose();
-	}
-}
 
 public class BuyLotto extends JDialog {
 	private List<Integer> oneLotto;
 	private List<List<Integer>> fiveLotto;
+	private int buyCnt;
 	// 수정필요
-	private JLabel[] labels = new JLabel[6];
+	private JLabel[] lblNums = new JLabel[6];
+	private List<JLabel[]> moons;
+	private JButton[][] toolBtns;
+
+	public int getBuyCnt() {
+		return buyCnt;
+	}
+
+	public void setBuyCnt(int buyCnt) {
+		this.buyCnt = buyCnt;
+	}
+
+	public List<JLabel[]> getMoons() {
+		return moons;
+	}
+
+	public void setMoons(List<JLabel[]> moons) {
+		this.moons = moons;
+	}
+
+	public BuyLotto(JFrame owner) {
+		super(owner, true);
+
+		JPanel pnlTotal = new JPanel();
+		JPanel pnl = new JPanel();
+		JButton btnBuy = new JButton("구매완료");
+
+		// 숫자 6개 (그림, 숫자) 들어갈 panel -> 이거 6개 만들어야 되서 메소드로 나중에 만들기
+//		JPanel pnlSelected = new JPanel();
+
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		URL url = BuyLotto.class.getClassLoader().getResource("images/보름달.png");
+		Image img1 = kit.getImage(url);
+		Image moonLight = img1.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+
+		URL url2 = BuyLotto.class.getClassLoader().getResource("images/잿빛달.png");
+		Image img2 = kit.getImage(url2);
+		Image moonGray = img2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+
+		// 나중에 메소드로 owner의 count값 전달받을 예정.
+		buyCnt = 3;
+
+		// 그림 생성 -> 나중에 text값만 바꿔주면 됨.
+		moons = ImgLines(buyCnt, moonLight, moonGray);
+		JPanel[] pnlFive = fivePanel();
+		JPanel packFive = new JPanel();
+		packFive.setLayout(new BoxLayout(packFive, BoxLayout.Y_AXIS));
+
+		for (int i = 0; i < pnlFive.length; i++) {
+			for (int j = 0; j < moons.get(i).length; j++) {
+				pnlFive[i].add(moons.get(i)[j]);
+				packFive.add(pnlFive[i]);
+			}
+		}
+
+		// 오토 버튼클릭시 이벤트 발생
+		ActionListener auto = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("오토입니다~");
+			}
+		};
+
+		// 수동버튼 클릭시 번호선택창 띄우기
+		ActionListener manual = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SelectNumber dialog = new SelectNumber(BuyLotto.this);
+				dialog.setIndex(0);
+				dialog.setVisible(true);
+			}
+		};
+
+		// 번호 수정 버튼 (넘 힘들었다...)
+		ActionListener edit = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (oneLotto.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "번호를 선택해주세요.");
+				} else {
+					LottoEdit dialog = new LottoEdit(BuyLotto.this);
+					dialog.setVisible(true);
+				}
+			}
+		};
+
+		// 버튼 구매 개수에 따라 생성하기
+		JPanel packFive2 = new JPanel();
+		JPanel[] pnlCnt = makePanel(buyCnt);
+		packFive2.setLayout(new BoxLayout(packFive2, BoxLayout.Y_AXIS));
+
+		// 방법선택(auto, 수동&반자동, edit, reset) 들어갈 panel -> 이거 6개 만들어야 되서 메소드로 나중에 만들기
+		toolBtns = new JButton[buyCnt][3];
+		for (int i = 0; i < buyCnt; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (j == 0) {
+					toolBtns[i][j] = new JButton("Auto");
+					toolBtns[i][j].addActionListener(auto);
+				} else if (j == 1) {
+					toolBtns[i][j] = new JButton("수동 & 반자동");
+					toolBtns[i][j].addActionListener(manual(i));
+				} else {
+					toolBtns[i][j] = new JButton("Edit");
+					toolBtns[i][j].addActionListener(edit);
+				}
+			}
+		}
+
+		for (int i = 0; i < pnlCnt.length; i++) {
+			for (int j = 0; j < toolBtns[i].length; j++) {
+				pnlCnt[i].add(toolBtns[i][j]);
+				packFive2.add(pnlCnt[i]);
+			}
+		}
+
+		pnl.add(btnBuy);
+		pnl.add(packFive);
+		pnl.add(packFive2);
+		pnlTotal.add(pnl);
+
+		add(pnlTotal);
+
+		setModal(true);
+		setSize(500, 500);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	}
+
+	// auto버튼
+	public ActionListener auto(int index) {
+		ActionListener temp = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SelectNumber dialog = new SelectNumber(BuyLotto.this);
+				dialog.setIndex(index);
+				dialog.setVisible(true);
+			}
+		};
+		return temp;
+	}
+
+	// 수동버튼
+	public ActionListener manual(int index) {
+		ActionListener temp = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SelectNumber dialog = new SelectNumber(BuyLotto.this);
+				dialog.setIndex(index);
+				dialog.setVisible(true);
+			}
+		};
+		return temp;
+	}
+	
+	// edit버튼
+	public ActionListener edit(int index) {
+		ActionListener temp = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (fiveLotto.get(index).isEmpty()) {
+					JOptionPane.showMessageDialog(null, "번호를 선택해주세요.");
+				} else {
+					LottoEdit dialog = new LottoEdit(BuyLotto.this);
+					dialog.setIndex(index);
+					dialog.setVisible(true);
+				}
+			}
+		};
+		return temp;
+	}
 
 	public List<List<Integer>> getFiveLotto() {
 		return fiveLotto;
@@ -162,21 +214,18 @@ public class BuyLotto extends JDialog {
 	}
 
 	// 선택완료 버튼과 소통 (with dialog) -> 수정필요 : edit로 했을때 값은 들어가는데, 레이블에 안 들어가는문제!
-	public void setList(List<Integer> list) {
+	public void setList(List<Integer> list, JLabel[] lbls) {
 		this.oneLotto = list;
 		// 수정 필요
 		for (int i = 0; i < oneLotto.size(); i++) {
-			labels[i].setText(String.valueOf(oneLotto.get(i)));
+			lbls[i].setText(String.valueOf(oneLotto.get(i)));
 		}
 	}
 
-	// 지금 할 것
-	// 1. 패널 5줄을 만들기
-	// 2. 패널에 들어갈 로또이미지 5줄 (밝은 달)
-	// 3. 패널에 들어갈 쟃빛달 5줄
-	// 4. 조건문 걸어서 구매수량(-> 매개변수로 받음)에 따라서 밝은 달 이미지 넣고 or 보이게 하기
-	// 나머지(=5 - 구매수량)만큼은 쟃빛달 이미지 넣기 or 보이게 하기
-	// 5. 그다음에 로또 생성 버튼 누르면 값을 레이블에 넣으면 됨.
+	// 5줄에 값 넣기
+	public void addList(List<Integer> list) {
+		fiveLotto.add(oneLotto);
+	}
 
 	public JPanel[] fivePanel() {
 		JPanel[] pnls = new JPanel[5];
@@ -201,7 +250,7 @@ public class BuyLotto extends JDialog {
 		for (int i = 0; i < lbls.length; i++) {
 			lbls[i] = new JLabel("", new ImageIcon(img), JLabel.CENTER);
 			lbls[i].setHorizontalTextPosition(JLabel.CENTER);
-//			pnlSelected.add(labels[i]);
+//				pnlSelected.add(labels[i]);
 		}
 		return lbls;
 	}
@@ -252,96 +301,5 @@ public class BuyLotto extends JDialog {
 			return list;
 		}
 		return list;
-	}
-
-	//
-
-	public BuyLotto() {
-		JPanel pnlTotal = new JPanel();
-		JPanel pnl = new JPanel();
-		JButton btnBuy = new JButton("구매완료");
-
-		// 숫자 6개 (그림, 숫자) 들어갈 panel -> 이거 6개 만들어야 되서 메소드로 나중에 만들기
-//		JPanel pnlSelected = new JPanel();
-
-		Toolkit kit = Toolkit.getDefaultToolkit();
-		URL url = BuyLotto.class.getClassLoader().getResource("images/보름달.png");
-		Image img1 = kit.getImage(url);
-		Image moonLight = img1.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-
-		URL url2 = BuyLotto.class.getClassLoader().getResource("images/잿빛달.png");
-		Image img2 = kit.getImage(url2);
-		Image moonGray = img2.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-
-		int buyCnt = 3;
-		List<JLabel[]> moons = ImgLines(buyCnt, moonLight, moonGray);
-		JPanel[] pnlFive = fivePanel();
-		JPanel packFive = new JPanel();
-		packFive.setLayout(new BoxLayout(packFive, BoxLayout.Y_AXIS));
-
-		for (int i = 0; i < pnlFive.length; i++) {
-			for (int j = 0; j < moons.get(i).length; j++) {
-				pnlFive[i].add(moons.get(i)[j]);
-				packFive.add(pnlFive[i]);
-			}
-		}
-
-		// 버튼 구매 개수에 따라 생성하기
-		JPanel packFive2 = new JPanel();
-		packFive2.setLayout(new BoxLayout(packFive2, BoxLayout.Y_AXIS));
-
-		// 오토 버튼클릭시 이벤트 발생
-		ActionListener auto = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		};
-
-		// 수동버튼 클릭시 번호선택창 띄우기
-		ActionListener manual = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				SelectNumber dialog = new SelectNumber(BuyLotto.this);
-				dialog.setVisible(true);
-			}
-		};
-
-		// 번호 수정 버튼 (넘 힘들었다...)
-		ActionListener edit = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				LottoEdit dialog = new LottoEdit(BuyLotto.this);
-				dialog.setVisible(true);
-			}
-		};
-
-		// 방법선택(auto, 수동&반자동, edit, reset) 들어갈 panel -> 이거 6개 만들어야 되서 메소드로 나중에 만들기
-		JPanel pnlWay = new JPanel();
-		JRadioButton btnAuto = new JRadioButton("Auto");
-		JRadioButton btnManual = new JRadioButton("수동 & 반자동");
-		JRadioButton btnEdit = new JRadioButton("수정");
-		ButtonGroup group = new ButtonGroup();
-		group.add(btnAuto);
-		group.add(btnManual);
-		group.add(btnEdit);
-
-		pnlWay.add(btnAuto);
-		pnlWay.add(btnManual);
-		pnlWay.add(btnEdit);
-
-		//
-		pnl.add(btnBuy);
-		pnl.add(packFive);
-		pnl.add(packFive2);
-//		pnl.add(pnlSelected);
-		pnl.add(pnlWay);
-		pnlTotal.add(pnl);
-
-		add(pnlTotal);
-
-		setModal(true);
-		setSize(500, 500);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 }
