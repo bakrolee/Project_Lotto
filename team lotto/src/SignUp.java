@@ -65,13 +65,22 @@ public class SignUp extends JDialog {
             if (getOwner() instanceof JFrame) {
                if (e.getSource() == btnSign) {
                   MainMenu menu = (MainMenu) getOwner();
-                  if (!getCheckID().containsKey(jfId.getText())) {
-                     menu.getMembers().addMember(jfId.getText(), jfName.getText());
-                     idForLogin.add(jfId.getText());
-                     dispose();
-                  } else {
-                     JOptionPane.showMessageDialog(null, "이미 가입된 아이디입니다.");
-
+                  //_____________________________________________최진혁 이름 혹은 ID가 null이어도 회원가입 되는 것을 고침______________________________________________________________________________________
+                  if(jfId.getText().equals("") ) {
+                 	  JOptionPane.showMessageDialog(null, "ID를 입력해주세요.");
+                  }
+                  else if(jfName.getText().equals("")){
+                 	 JOptionPane.showMessageDialog(null, "이름을 입력해주세요. ");
+                  }
+                
+                  //_____________________________________________if 조건문 변경함______________________________________________________________________________________
+                  else if (!idForLogin.contains(jfId.getText())) {
+                	  //___________________________________________________________________________________________________________________________________
+                      menu.getMembers().addMember(jfId.getText(), jfName.getText());
+                      idForLogin.add(jfId.getText());
+                      dispose();
+                   } else {
+                      JOptionPane.showMessageDialog(null, "이미 가입된 아이디입니다.");
                   }
                }
             }
@@ -115,7 +124,6 @@ public class SignUp extends JDialog {
 
    public static Map<String, Members> getCheckID() {
       return checkID;
-      
    }
 
    public void setCheckID(Map<String, Members> checkID) {

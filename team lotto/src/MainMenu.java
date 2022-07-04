@@ -14,16 +14,33 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 
 public class MainMenu extends JFrame {
 	private int roundNum = 1000;
-	private String[] lottoCnt = { "1", "2", "3", "4", "5(최대)" };
+	//_______________________________________________________수정  "5(최대)" ---> "5"_______________________________________________________
+	private String[] lottoCnt = { "0", "1", "2", "3", "4", "5" };
 	private BuyLotto buyLotto;
 	private LottoResult lottoResult;
 	private Members members = new Members();
+	private int loginOn;
+	//_______________________________________________________추가 buyCnt 변수_______________________________________________________________
+	private int buyCnt = 0;
+	
+	public int getBuyCnt() {
+		return buyCnt;
+	}
+	
+	public int getLoginOn() {
+		return loginOn;
+	}
+
+	public void setLoginOn(int loginOn) {
+		this.loginOn = loginOn;
+	}
 
 	public Members getMembers() {
 		return members;
@@ -41,6 +58,8 @@ public class MainMenu extends JFrame {
 		JPanel bottom = new JPanel();
 		JPanel buttons = new JPanel();
 		JLabel sentence = new JLabel("인생 한 방!");
+		
+		Font font = new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 19);
 		sentence.setHorizontalAlignment(SwingConstants.CENTER);
 		sentence.setFont(new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 19));
 		JLabel sentence2 = new JLabel("오늘 살 복권을 내일로 미루지 말자.");
@@ -80,6 +99,18 @@ public class MainMenu extends JFrame {
 		JLabel lblCnt = new JLabel("구매 장수 선택");
 		bottom.add(lblCnt);
 		JComboBox combo = new JComboBox(lottoCnt);
+
+		//_____________________________________________________________________________________________________________________수정한 부분	
+		combo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			
+				buyCnt = Integer.parseInt(combo.getSelectedItem().toString());
+				System.out.println("buyCnt : " + buyCnt);
+		//______________________________________________________________________________________________________________________
+			}
+		});
+		
 		bottom.add(combo);
 		sl_total.putConstraint(SpringLayout.SOUTH, combo, -262, SpringLayout.SOUTH, total);
 		sl_total.putConstraint(SpringLayout.EAST, combo, -367, SpringLayout.EAST, total);
@@ -112,13 +143,21 @@ public class MainMenu extends JFrame {
 		btnBuy.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Login login = new Login();
+				Login login = new Login(MainMenu.this);
+				login.setLocationRelativeTo(null);
 				login.setVisible(true);
 				if (login.isLoginPass()) {
-					buyLotto = new BuyLotto(MainMenu.this);
-					buyLotto.setVisible(true);
+					//_______________________________________________________추가 buyCnt if문_______________________________________________________________			
+					if(buyCnt == 0) {
+						JOptionPane.showMessageDialog(null, "로또 구매 장 수를 선택하세요.");
+					}
+					else {
+						buyLotto = new BuyLotto(MainMenu.this);
+						buyLotto.setVisible(true);
+					}
+//_______________________________________________________추가 buyCnt 변수_______________________________________________________________					
+
 				}
-				
 			}
 		});
 		

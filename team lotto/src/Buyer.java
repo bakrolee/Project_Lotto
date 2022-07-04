@@ -6,31 +6,27 @@ public class Buyer {
 
 	private String name;
 	private String id;
-	private Set<LottoNumber> lottoNum = new HashSet<LottoNumber>(6);
-//	private List<Integer> price = new ArrayList<>();
+	private List<List<Integer>> lottoLines = new ArrayList<>();
 
 	public Buyer(String name, String id) {
 		this.name = name;
 		this.id = id;
 	}
 
-//	public List<Integer> getPrice() {
-//		return price;
-//	}
-//
-
-	public Set<LottoNumber> getLottoNum() {
-		return lottoNum;
+	public List<List<Integer>> getLottoLines() {
+		return lottoLines;
 	}
 
-	public void setLottoNum(Set<LottoNumber> lottoNum) {
-		this.lottoNum = lottoNum;
+	public void setLottoLines(List<List<Integer>> lottoNum) {
+		this.lottoLines = lottoNum;
 	}
-
-	public void setLottonum(Set<LottoNumber> lottonum) {
-		this.lottoNum = lottonum;
+	
+	// 로또 번호 추가 메소드 (중요)
+	public void addLottoLines(List<List<Integer>> lottoNum) {
+		for (int i = 0; i < lottoNum.size(); i++) {
+			lottoLines.add(lottoNum.get(i)) ;
+		}
 	}
-
 
 	public String getName() {
 		return name;
@@ -50,43 +46,6 @@ public class Buyer {
 
 	@Override
 	public String toString() {
-		return "Buyer [name=" + name + ", id=" + id + ", lottoNum=" + lottoNum + "]";
+		return "Buyer [name=" + name + ", id=" + id + ", lottoNum=" + lottoLines + "]";
 	}
-
-	// 로또 번호 수정 메소드
-	public void editLottoNum() {
-		List<LottoNumber> list = new ArrayList<LottoNumber>(lottoNum);
-		Iterator it = list.iterator();
-		System.out.println("삭제 할 번호를 입력 해 주세요");
-		int a = s.nextInt();
-		while (it.hasNext()) {
-			int n = (Integer) it.next();
-			if (n == a) {
-				it.remove();
-			}
-		}
-		System.out.println("해당 번호가 삭제되었습니다.");
-		while (true) {
-			System.out.println(" 새 번호를 추가 해 주세요" + list);
-			int newa = s.nextInt();
-			if (newa <= 45 && !list.contains(newa)) {
-				System.out.println("해당 번호를 몇번째 자리에 입력하시겠습니까?");
-				int index = s.nextInt();
-//				list.add(index - 1, newa);
-				System.out.println(list);
-				break;
-			} else {
-				System.out.println("번호를 잘못 입력했습니다. 다시 입력 해 주세요");
-			}
-
-		}
-	}
-
-	public static void main(String[] args) {
-		System.out.println("이름과 ID를 입력하세요");
-		Buyer b = new Buyer(s.nextLine(), s.nextLine());
-		System.out.println(b.name + "\n" + b.id);
-
-	}
-
 }

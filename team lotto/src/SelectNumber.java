@@ -143,7 +143,8 @@ public class SelectNumber extends JDialog implements ActionListener {
 		if (getOwner() instanceof BuyLotto) {
 			if (e.getSource() == btnOK) {
 				BuyLotto lotto = (BuyLotto) getOwner();
-				lotto.setList(list, lotto.getMoons().get(index));
+//				lotto.setOneLotto(list, lotto.getMoons().get(index));
+				lotto.setTotalLotto(list, lotto.getMoons().get(index), index);
 			}
 		}
 		dispose();

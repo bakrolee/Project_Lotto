@@ -60,7 +60,7 @@ public class LottoEdit extends JDialog implements ActionListener {
 		// 선택된 로또 번호 불러오기
 		if (getOwner() instanceof BuyLotto) {
 			BuyLotto lotto = (BuyLotto) getOwner();
-			listEdit = lotto.getList();
+			listEdit = lotto.getOneLotto();
 			System.out.println("에디트");
 			System.out.println(listEdit);
 		}
@@ -143,7 +143,8 @@ public class LottoEdit extends JDialog implements ActionListener {
 		if (getOwner() instanceof BuyLotto) {
 			if (e.getSource() == btnOK) {
 				BuyLotto lotto = (BuyLotto) getOwner();
-				lotto.setList(listEdit, lotto.getMoons().get(index));
+//				lotto.setOneLotto(listEdit, lotto.getMoons().get(index));
+				lotto.setTotalLotto(listEdit, lotto.getMoons().get(index), index);
 			}
 		}
 		dispose();

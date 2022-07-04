@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JButton;
@@ -19,12 +20,14 @@ import javax.swing.SpringLayout;
 
 public class Login extends JDialog {
 	private Map<String, String> members = new HashMap<>();
+	private List<String> memberKey;
 	private JButton btnLogin;
 	private JTextField inputID;
 	private boolean loginPass;
 	
 	
-	public Login() {
+	public Login(JFrame owner) {
+		super(owner);
 		setModal(true);
 		setTitle("로그인");
 		JPanel pnl = new JPanel();
@@ -40,7 +43,7 @@ public class Login extends JDialog {
 		JLabel jb = new JLabel("ID :");
 		
 		btnLogin = new JButton("로그인");
-		JButton btnSignUp = new JButton("회원가입"); // 누르면 회원가입창 뜨게 ㄱㄱ
+		JButton btnSignUp = new JButton("돌아가기"); // 변경
 		
 		btnSignUp.addActionListener(new ActionListener() {
 			@Override
@@ -53,12 +56,20 @@ public class Login extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String key = inputID.getText();
-				
-				if (SignUp.getIdForLogin().contains(key) ) {
+
+				if (SignUp.getIdForLogin().contains(key)) {
 					JOptionPane.showMessageDialog(null, "로그인 성공");
+					
+					// 로그인했을 때 index 정보 전달(members의 인덱스)
+					// -> key값(ID)로 몇번째 회원인지 찾아야 함. (그래서 구매화면 버튼을 눌렀을 때 모든 정보가 해당 회원에게 들어가게)
+					MainMenu menu = (MainMenu) getOwner();
+					int index = menu.getMembers().getIndex(key);
+					System.out.println(index + "번 회원");
+					menu.setLoginOn(index);	
+					
 					inputID.setText("");
 					loginPass = true;
-				
+
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "등록되지 않은 ID입니다.");
@@ -88,19 +99,15 @@ public class Login extends JDialog {
 		pnl.add(btnLogin);
 		pnl.add(btnSignUp);
 		pnl.add(jb);
-		getContentPane().add(pnl);
+		add(pnl);
 		
-		setLocationRelativeTo(null);
+		setLocationRelativeTo(owner);
 		setSize(350, 180);
 	}
 
-
 	public boolean  isLoginPass() {
-		
-	
 		return loginPass;
 	}
-
 
 	public void setLoginPass(boolean loginPass) {
 		this.loginPass = loginPass;
