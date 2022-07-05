@@ -28,7 +28,30 @@ public class MainMenu extends JFrame {
 	private Members members = new Members();
 	private int loginOn;
 	private int buyCnt = 0;
+	private JLabel round;
 	
+	//_________ 박로 수정___________ 
+	
+	
+	public int getRoundNum() {
+		return roundNum;
+	}
+
+	public JLabel getRound() {
+		return round;
+	}
+
+	public void setRound(JLabel round) {
+		this.round = round;
+	}
+
+	public void setRoundNum(int roundNum) {
+		this.roundNum = roundNum;
+	}
+	
+	
+	//____________________
+
 	public int getBuyCnt() {
 		return buyCnt;
 	}
@@ -124,6 +147,7 @@ public class MainMenu extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				SignUp signUp = new SignUp(MainMenu.this);
 				signUp.setVisible(true);
+				
 			}
 		});
 		JButton btnBuy = new JButton("구매하기");
@@ -164,16 +188,22 @@ public class MainMenu extends JFrame {
 		sl_total.putConstraint(SpringLayout.EAST, btnEnd, 0, SpringLayout.EAST, total);
 		total.add(btnEnd);
 
-		// 당첨 결과 버튼 연결
+		// 당첨 결과 버튼 연결 
 		btnEnd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					lottoResult = new LottoResult(MainMenu.this);
-				} catch (IOException e1) {
-					e1.printStackTrace();
+				//________________박로수정 __________________ 
+				if (members.checkEmpty()) {
+					JOptionPane.showMessageDialog(null, "먼저 구매하기를 해주세요.");
+				} else {
+					try {
+						lottoResult = new LottoResult(MainMenu.this);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					lottoResult.setVisible(true);
 				}
-				lottoResult.setVisible(true);
+				//__________________________________________ 
 			}
 		});
 		total.add(buttons);
@@ -185,7 +215,9 @@ public class MainMenu extends JFrame {
 		sl_total.putConstraint(SpringLayout.SOUTH, logo, -186, SpringLayout.SOUTH, total);
 		sl_total.putConstraint(SpringLayout.EAST, logo, -122, SpringLayout.EAST, total);
 		total.add(logo);
-		JLabel round = new JLabel("1000회\r\n");
+		
+		round = new JLabel(roundNum + "회\r\n");
+		//_____________ 
 		sl_total.putConstraint(SpringLayout.NORTH, round, 6, SpringLayout.SOUTH, logo);
 		sl_total.putConstraint(SpringLayout.WEST, round, 182, SpringLayout.WEST, total);
 		sl_total.putConstraint(SpringLayout.EAST, round, -178, SpringLayout.EAST, total);

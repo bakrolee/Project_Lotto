@@ -36,7 +36,7 @@ public class LottoResult extends JDialog {
 		return winningNum;
 	}
 
-	public static StringBuilder sb = new StringBuilder();
+	private StringBuilder sbWinNum = new StringBuilder();
 	public static Lotto lotto = new Lotto();
 	
 //	public List<Integer> getLottos(int num) throws IOException {
@@ -86,18 +86,19 @@ public class LottoResult extends JDialog {
 		JPanel main = new JPanel();
 		main.setBackground(Color.WHITE);
 		
-		int[] numbers = new int[7];
-		for (int i = 0; i < numbers.length; i++) {
-			numbers[i] = winningNum.get(i);
-		}
+		//_______________박로 수정 _________________________________ 
+//		int[] numbers = new int[7];
+//		for (int i = 0; i < numbers.length; i++) {
+//			numbers[i] = winningNum.get(i);
+//		}
 		
 		for(int i = 0 ; i <= 5; i++) {
-			sb.append(numbers[i]).append("  "); //앞 6개자리는 정규번호 .
+			sbWinNum.append(winningNum.get(i)).append("  "); //앞 6개자리는 정규번호 .
 		}
-		sb.append("  +  "); //보너스번호를 이어줄 +기호
-		sb.append(numbers[6]);//당첨 번호 맨 마지막 번호(보너스 번호) 추가
+		sbWinNum.append("  +  "); //보너스번호를 이어줄 +기호
+		sbWinNum.append(winningNum.get(6));//당첨 번호 맨 마지막 번호(보너스 번호) 추가
 	
-		JLabel printWinNum = new JLabel(sb.toString());
+		JLabel printWinNum = new JLabel(sbWinNum.toString());
 		printWinNum.setFont(new Font("HY울릉도M", Font.BOLD, 13));
 		main.add(printWinNum);
 		
@@ -143,7 +144,7 @@ public class LottoResult extends JDialog {
 		sl_main.putConstraint(SpringLayout.EAST, scrollPane, -29, SpringLayout.EAST, main);
 		main.add(scrollPane);
 		
-//		lotto.run();
+		lotto.run();
 		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ __//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ ___________ _______ 변경
 		JLabel reward1 = new JLabel("1등 총 상금 : " + lotto.firstPrice + "원  /  1등 당첨 명 수 : " + lotto.rank[1] +" 명 /  1인당 당첨 금액 : " + lotto.firstPerN  +"원"); //1등이 안나오면 다음 회차에 이월됨
 		sl_main.putConstraint(SpringLayout.WEST, reward1, 33, SpringLayout.WEST, main);
@@ -193,12 +194,26 @@ public class LottoResult extends JDialog {
 		sl_main.putConstraint(SpringLayout.EAST, gotoMain, 0, SpringLayout.EAST, scrollPane);
 		main.add(gotoMain);
 		
+		//______________박로 수정____________________
 		gotoMain.addActionListener(new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			//Main화면으로 이동.
-			dispose();
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 버튼 클릭시
+				// 1. 회차 올라가기 (숫자)
+				int upRound = menu.getRoundNum() + 1;
+				menu.setRoundNum(upRound);
+				menu.getRound().setText(upRound + "회"); // 성공 
+				// 2. 현재까지 정보 리셋
+				// - 1만명 돌린것
+				lotto.resetRank(); // 순위 인원 초기화
+				lotto.resetPrice();
+				// - 당첨번호
+				winningNum.clear();
+				sbWinNum.setLength(0);  // 성공 -> 상세보기에 적용되게 해야함 (새롭게 생성자로 넣어야 할듯?)
+				// - 회원정보에서 로또List만 리셋
+				menu.getMembers().resetMemOfLot(); // 성공  ->
+				
+				dispose();
 		}
 		
 	

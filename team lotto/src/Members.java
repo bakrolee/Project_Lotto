@@ -8,6 +8,28 @@ public class Members {
 		Buyer a = new Buyer("id","Name");
 	return a;
 	}
+	//_______ 박로 수정 ___________ 
+	// 결과확인 하기 전 구매체크 
+	public boolean checkEmpty() {
+		if (member.size() == 0) {
+			return true;
+		} else {
+			for (int i = 0; i < member.size(); i++) {
+				if (member.get(i).getLottoLines().isEmpty()) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+	
+	// 로또 리셋하는 메소드 
+	public void resetMemOfLot() {
+		for (int i = 0; i < member.size(); i++) {
+			member.get(i).getLottoLines().clear();
+		}
+	}
+	//________________________ 
 
 	// 모든 바이어의 로또 번호 반환 (메소드)
 	public List<List<Integer>> lottosOfMembers() {

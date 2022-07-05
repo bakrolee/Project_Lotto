@@ -41,20 +41,34 @@ public class Lotto {
 	public Lotto() {
 		
 	}
-	public void run() throws NumberFormatException, IOException {
-//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
-		  
-				buyCnt = 10000;
-				totalCnt += buyCnt;
-				autoNum();
-
-				ranking();
-				showMeTheMoney();
-				printSameNumbers();
-//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
-		}
-
 	
+	//__________________박로 수정 _____________________ 
+	public void resetPrice() {
+		totalCnt = 0;
+		fifthPrice = 0;
+		fourthPrice = 0;
+		thirdPrice = 0;
+		secondPrice = 0;
+		if (rank[1] != 0) {
+			firstPrice = 0;
+		}
+	}
+	
+	public void resetRank() {
+		for (int i = 0; i < rank.length; i++) {
+			rank[i] = 0;
+		}
+	}
+	//_______________________________________ 
+	
+	public void run() throws NumberFormatException, IOException {	  
+		buyCnt = 10000;
+		totalCnt += buyCnt;
+		autoNum();
+		ranking();
+		showMeTheMoney();
+		printSameNumbers();
+	}	
 
 	public static List<Integer> autoNum1() throws IOException { // 자동으로 한 줄만 만들어줌
 		return lottoNumbers();
@@ -190,10 +204,12 @@ public class Lotto {
 	}
 
 	public static void showMeTheMoney() {
-	
-		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
-		
-		firstPrice = (int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.75); // 1등 총 당첨금액
+		//____________ 박로 수정___________
+		if (firstPrice != 0) {
+			firstPrice += (int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.75); // 1등 총 당첨금액 이
+		} else {
+			firstPrice = (int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.75); // 1등 총 당첨금액
+		}
 		secondPrice = ((int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.125)); // 2등 총 당첨금액
 		thirdPrice = ((int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.125)); // 3등 총 당첨금액
 		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______

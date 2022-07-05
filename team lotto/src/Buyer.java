@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Buyer {
-	static Scanner s = new Scanner(System.in);
+//	static Scanner s = new Scanner(System.in);
 
 	private String name;
 	private String id;
