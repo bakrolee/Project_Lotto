@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.SpringLayout;
 
 public class BuyLotto extends JDialog {
 	private List<Integer> oneLotto;
@@ -34,24 +35,21 @@ public class BuyLotto extends JDialog {
 	private List<JLabel[]> moons;
 	private JButton[][] toolBtns;
 
-	
-	public BuyLotto(JFrame owner)  {
+	public BuyLotto(JFrame owner) {
 		super(owner, true);
 		for (int i = 0; i < 5; i++) {
 			totalLotto.add(null);
 		}
 		System.out.println("사이즈" + totalLotto.size());
-		
+
 		MainMenu menu = (MainMenu) getOwner();
 		buyCnt = menu.getBuyCnt();
 
 		JPanel pnlTotal = new JPanel();
 		JPanel pnl = new JPanel();
-		JButton btnBuy = new JButton("구매완료");
+//		JButton btnBuy = new JButton("구매완료");
 
-		// 숫자 6개 (그림, 숫자) 들어갈 panel -> 이거 6개 만들어야 되서 메소드로 나중에 만들기
-//		JPanel pnlSelected = new JPanel();
-
+		// 이미지
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		URL url = BuyLotto.class.getClassLoader().getResource("images/보름달.png");
 		Image img1 = kit.getImage(url);
@@ -76,12 +74,13 @@ public class BuyLotto extends JDialog {
 
 		// 버튼 구매 개수에 따라 생성하기
 		JPanel packFive2 = new JPanel();
-		JPanel[] pnlCnt = makePanel(buyCnt);
+		JPanel[] pnlCnt = makePanel(5);
 		packFive2.setLayout(new BoxLayout(packFive2, BoxLayout.Y_AXIS));
 
-		// 방법선택(auto, 수동&반자동, edit, reset) 들어갈 panel -> 이거 6개 만들어야 되서 메소드로 나중에 만들기
-		toolBtns = new JButton[buyCnt][3];
-		for (int i = 0; i < buyCnt; i++) {
+		// 방법선택(auto, 수동&반자동, edit, reset)
+		// ________________진혁 수정(고정 버튼으로)__________________________
+		toolBtns = new JButton[5][3];
+		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 3; j++) {
 				if (j == 0) {
 					toolBtns[i][j] = new JButton("Auto");
@@ -96,35 +95,60 @@ public class BuyLotto extends JDialog {
 			}
 		}
 
-		for (int i = 0; i < pnlCnt.length; i++) {
+		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < toolBtns[i].length; j++) {
 				pnlCnt[i].add(toolBtns[i][j]);
 				packFive2.add(pnlCnt[i]);
 			}
 		}
-		
-		// 구매 완료 (버튼 선택시 로또 번호 들어감)
-		btnBuy.addActionListener(new ActionListener() {
-	         @Override
-	         public void actionPerformed(ActionEvent e) {
-	        	 MainMenu menu = (MainMenu) getOwner();
-	        	 int index = menu.getLoginOn();
-	        	 Buyer buyer = menu.getMembers().getMember().get(index);
-	        	 
-	        	 buyer.addLottoLines(totalLotto);
-	        	 dispose();
-	         }
-	      });
 
-		pnl.add(btnBuy);
+		for (int i = buyCnt; i < 5; i++) {
+			for (int j = 0; j < 3; j++) {
+				toolBtns[i][j].setEnabled(false);
+				;
+			}
+		}
+		// ____________________________
+		SpringLayout sl_pnlTotal = new SpringLayout();
+		sl_pnlTotal.putConstraint(SpringLayout.NORTH, pnl, 11, SpringLayout.NORTH, pnlTotal);
+		sl_pnlTotal.putConstraint(SpringLayout.WEST, pnl, 29, SpringLayout.WEST, pnlTotal);
+		sl_pnlTotal.putConstraint(SpringLayout.SOUTH, pnl, 216, SpringLayout.NORTH, pnlTotal);
+		sl_pnlTotal.putConstraint(SpringLayout.EAST, pnl, 596, SpringLayout.WEST, pnlTotal);
+		pnlTotal.setLayout(sl_pnlTotal);
 		pnl.add(packFive);
 		pnl.add(packFive2);
 		pnlTotal.add(pnl);
 
-		add(pnlTotal);
+		getContentPane().add(pnlTotal);
+		JButton btnBuy = new JButton("구매완료");
+		sl_pnlTotal.putConstraint(SpringLayout.SOUTH, btnBuy, -27, SpringLayout.SOUTH, pnlTotal);
+		sl_pnlTotal.putConstraint(SpringLayout.EAST, btnBuy, -41, SpringLayout.EAST, pnlTotal);
+		pnlTotal.add(btnBuy);
+
+		// 구매 완료 (버튼 선택시 로또 번호 들어감)
+		btnBuy.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainMenu menu = (MainMenu) getOwner();
+				int index = menu.getLoginOn();
+				Buyer buyer = menu.getMembers().getMember().get(index);
+
+				buyer.addLottoLines(totalLotto);
+				dispose();
+			}
+		});
+		
+		
+//		pnl.add(btnBuy);
+//		add(pnlTotal);
+//		pnl.add(pnlTotal);
+//		pnl.add(packFive);
+//		pnl.add(packFive2);
+//		pnlTotal.add(pnl);
+
 
 		setModal(true);
-		setSize(500, 500);
+		setSize(640, 320);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
@@ -132,40 +156,19 @@ public class BuyLotto extends JDialog {
 	/*
 	 * Methods-----------------------------------------------------------------
 	 * 
-	*/
-	
+	 */
+
 	public List<List<Integer>> getTotalLotto() {
 		return totalLotto;
 	}
 
 	public void setTotalLotto(List<Integer> list, JLabel[] lbls, int index) {
-//		totalLotto.set(index, list);
-		//______________________________박로수정_____________________________________________________
-//		if (totalLotto.get(index) != null) {
-//			totalLotto.remove(index);
-//			totalLotto.add(index, list);
-//		} else {
-//			totalLotto.add(index, list);
-//		}
 		totalLotto.remove(index);
 		totalLotto.add(index, list);
-		
+
 		List<Integer> oneList = totalLotto.get(index);
 		for (int i = 0; i < oneList.size(); i++) {
 			lbls[i].setText(String.valueOf(oneList.get(i)));
-		}
-	}
-
-	public List<Integer> getOneLotto() {
-		return oneLotto;
-	}
-
-	// 선택완료 버튼과 소통 (with dialog) -> 수정필요 : edit로 했을때 값은 들어가는데, 레이블에 안 들어가는문제!
-	public void setOneLotto(List<Integer> list, JLabel[] lbls) {
-		this.oneLotto = list;
-		// 수정 필요
-		for (int i = 0; i < oneLotto.size(); i++) {
-			lbls[i].setText(String.valueOf(oneLotto.get(i)));
 		}
 	}
 
@@ -173,7 +176,7 @@ public class BuyLotto extends JDialog {
 	public void addList(List<Integer> list) {
 		totalLotto.add(oneLotto);
 	}
-	
+
 	public int getBuyCnt() {
 		return buyCnt;
 	}
@@ -191,7 +194,7 @@ public class BuyLotto extends JDialog {
 	}
 
 	// auto버튼
-	public ActionListener auto(int index)  {
+	public ActionListener auto(int index) {
 		ActionListener temp = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -203,7 +206,7 @@ public class BuyLotto extends JDialog {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				setTotalLotto(list, getMoons().get(index), index); 
+				setTotalLotto(list, getMoons().get(index), index);
 			}
 		};
 		return temp;
@@ -221,19 +224,21 @@ public class BuyLotto extends JDialog {
 		};
 		return temp;
 	}
-	
+
 	// edit버튼
 	public ActionListener edit(int index) {
 		ActionListener temp = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				if (fiveLotto.get(index).isEmpty()) {
-//					JOptionPane.showMessageDialog(null, "번호를 선택해주세요.");
-//				} else {
+				// ____________________박로 수정 (번호 선택해야 수정되게)__________
+				if (totalLotto.get(index) == null) {
+					JOptionPane.showMessageDialog(null, "번호를 선택해주세요.");
+				} else {
 					LottoEdit dialog = new LottoEdit(BuyLotto.this);
 					dialog.setIndex(index);
+					dialog.selectedLotto();
 					dialog.setVisible(true);
-//				}
+				}
 			}
 		};
 		return temp;

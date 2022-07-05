@@ -21,6 +21,7 @@ public class LottoEdit extends JDialog implements ActionListener {
 	private List<Integer> listEdit = new ArrayList();
 	private JButton btnOK;
 	private int index;
+	private ItemListener item;
 
 	public int getIndex() {
 		return index;
@@ -34,7 +35,7 @@ public class LottoEdit extends JDialog implements ActionListener {
 		super(owner, "Edit", true);
 		JPanel pnl = new JPanel();
 
-		ItemListener item = new ItemListener() {
+		item = new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
 				JCheckBox cb = (JCheckBox) e.getSource();
@@ -57,19 +58,29 @@ public class LottoEdit extends JDialog implements ActionListener {
 
 		JPanel checks = new JPanel(new GridLayout(5, 9));
 
-		// 선택된 로또 번호 불러오기
-		if (getOwner() instanceof BuyLotto) {
-			BuyLotto lotto = (BuyLotto) getOwner();
-			listEdit = lotto.getOneLotto();
-			System.out.println("에디트");
-			System.out.println(listEdit);
-		}
 
+		// 체크박스 만들기
 		for (int i = 0; i < cbNumbers.length; i++) {
 			int num = 1 + i;
 			cbNumbers[i] = new JCheckBox(String.valueOf(num));
-//			cbNumbers[i].addItemListener(item); // 얘를 밑의 순서 다 끝내고 달아주기.
 			checks.add(cbNumbers[i]);
+		}
+
+		btnOK = new JButton("수정 하기");
+		btnOK.addActionListener(this);
+
+		pnl.add(checks);
+		pnl.add(btnOK);
+
+		add(pnl);
+		setSize(400, 400);
+	}
+	
+	// 선택된 로또 번호 불러오기
+	public void selectedLotto() {
+		if (getOwner() instanceof BuyLotto) {
+			BuyLotto lotto = (BuyLotto) getOwner();
+			listEdit = lotto.getTotalLotto().get(index);
 		}
 
 		for (int j = 0; j < listEdit.size(); j++) {
@@ -84,28 +95,10 @@ public class LottoEdit extends JDialog implements ActionListener {
 		}
 
 		for (int i = 0; i < cbNumbers.length; i++) {
-			int num = 1 + i;
 			cbNumbers[i].addItemListener(item); // 얘를 밑의 순서 다 끝내고 달아주기.
 		}
 
 		disableCB();
-
-//		if (getOwner() instanceof BuyLotto) {
-//			BuyLotto lotto = (BuyLotto) getOwner();
-//			list = lotto.getList();
-//			for (int i = 0; i < list.size(); i++) {
-//				list.get(i);
-//			}
-//		}
-
-		btnOK = new JButton("수정 하기");
-		btnOK.addActionListener(this);
-
-		pnl.add(checks);
-		pnl.add(btnOK);
-
-		add(pnl);
-		setSize(400, 400);
 	}
 
 	// 체크 비활성화 메소드
@@ -143,7 +136,6 @@ public class LottoEdit extends JDialog implements ActionListener {
 		if (getOwner() instanceof BuyLotto) {
 			if (e.getSource() == btnOK) {
 				BuyLotto lotto = (BuyLotto) getOwner();
-//				lotto.setOneLotto(listEdit, lotto.getMoons().get(index));
 				lotto.setTotalLotto(listEdit, lotto.getMoons().get(index), index);
 			}
 		}

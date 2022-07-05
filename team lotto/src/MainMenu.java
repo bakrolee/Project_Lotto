@@ -100,14 +100,12 @@ public class MainMenu extends JFrame {
 		bottom.add(lblCnt);
 		JComboBox combo = new JComboBox(lottoCnt);
 
-		//_____________________________________________________________________________________________________________________수정한 부분	
+		// 수량 선택에 따라 넘아감
 		combo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-			
 				buyCnt = Integer.parseInt(combo.getSelectedItem().toString());
 				System.out.println("buyCnt : " + buyCnt);
-		//______________________________________________________________________________________________________________________
 			}
 		});
 		
