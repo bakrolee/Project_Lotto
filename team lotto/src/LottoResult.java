@@ -22,13 +22,53 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 public class LottoResult extends JDialog {
-	private List<Integer> winningNum = new ArrayList<>();
+	private List<Integer> winningNum = lotto.chosenNumber();
 	private JTable table;
-	public static StringBuilder sb = new StringBuilder();
-	//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
-	public static Lotto lotto = new Lotto();
-	//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
+	private TableCell cell = new TableCell();
+	private int index;
+	private MainMenu menu = (MainMenu) getOwner();
 	
+	public MainMenu getMenu() {
+		return menu;
+	}
+
+	public List<Integer> getWinningNum() {
+		return winningNum;
+	}
+
+	public static StringBuilder sb = new StringBuilder();
+	public static Lotto lotto = new Lotto();
+	
+//	public List<Integer> getLottos(int num) throws IOException {
+//		MainMenu menu = (MainMenu) getOwner();
+//		Buyer buyer = menu.getMembers().getMember().get(num);
+//		buyer.linesToOne();
+//		for (int i = 0; i < buyer.getOneLottoNums().size(); i++) {
+//			buyer.getOneLottoNums().get(i).compareTo(winningNum);
+//		}
+//		
+//	
+//	}
+	
+	public String getID(int num) {
+		MainMenu menu = (MainMenu) getOwner();
+		return menu.getMembers().getMember().get(num).getId();
+	}
+	
+	public String getName(int num) {
+		MainMenu menu = (MainMenu) getOwner();
+		return menu.getMembers().getMember().get(num).getName();
+	}
+	
+	public int getReward(int num) {
+		MainMenu menu = (MainMenu) getOwner();
+		return menu.getMembers().getMember().get(num).getReward();
+	}
+	
+	public int getIndex() {
+		return index;
+	}
+
 	public LottoResult(JFrame owner) throws IOException {
 		super(owner, true);
 		MainMenu menu = (MainMenu) getOwner();
@@ -39,12 +79,12 @@ public class LottoResult extends JDialog {
 		
 		// 개인 비교용
 		List<List<Integer>> perLottos = menu.getMembers().getMember().get(0).getLottoLines();
+		menu.getMembers().getMember().get(0).linesToOne();
+		
 		
 		setTitle("당첨 결과");
 		JPanel main = new JPanel();
 		main.setBackground(Color.WHITE);
-		
-		winningNum = lotto.chosenNumber();
 		
 		int[] numbers = new int[7];
 		for (int i = 0; i < numbers.length; i++) {
@@ -89,7 +129,7 @@ public class LottoResult extends JDialog {
 		for(int i = 0 ; i < SignUp.getIdForLogin().size(); i++) {
 			data[i][0] = menu.getMembers().getMember().get(i).getId();
 			data[i][1] = menu.getMembers().getMember().get(i).getName();
-			data[i][2] =  String.valueOf(i);
+			data[i][2] = menu.getMembers().getMember().get(i).getReward() + "원";
 			data[i][3] = "클릭";
 		}
 		
@@ -103,7 +143,7 @@ public class LottoResult extends JDialog {
 		sl_main.putConstraint(SpringLayout.EAST, scrollPane, -29, SpringLayout.EAST, main);
 		main.add(scrollPane);
 		
-		lotto.run();
+//		lotto.run();
 		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ __//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ ___________ _______ 변경
 		JLabel reward1 = new JLabel("1등 총 상금 : " + lotto.firstPrice + "원  /  1등 당첨 명 수 : " + lotto.rank[1] +" 명 /  1인당 당첨 금액 : " + lotto.firstPerN  +"원"); //1등이 안나오면 다음 회차에 이월됨
 		sl_main.putConstraint(SpringLayout.WEST, reward1, 33, SpringLayout.WEST, main);
@@ -134,8 +174,18 @@ public class LottoResult extends JDialog {
 		sl_main.putConstraint(SpringLayout.WEST, reward5, 32, SpringLayout.WEST, main);
 		main.add(reward5);
 		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
-		table_1.getColumnModel().getColumn(3).setCellRenderer(new TableCell());
-		table_1.getColumnModel().getColumn(3).setCellEditor(new TableCell());
+		table_1.getColumnModel().getColumn(3).setCellRenderer(cell);
+		table_1.getColumnModel().getColumn(3).setCellEditor(cell);
+		
+		cell.getJb().addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+					int num = table_1.getSelectedRow();
+					Detail d = new Detail(LottoResult.this);
+					d.setIndex(num);
+					d.setVisible(true);
+			}
+		});
 		
 		JButton gotoMain = new JButton("메인 화면으로");
 		sl_main.putConstraint(SpringLayout.NORTH, gotoMain, 408, SpringLayout.NORTH, main);
@@ -157,61 +207,58 @@ public class LottoResult extends JDialog {
 		setLocationRelativeTo(null); //화면 가운데로
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-
-	
-	
-	
-
-	
-	
 }
 
 class TableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 	JButton jb;
+	
+	public JButton getJb() {
+		return jb;
+	}
+
+	public void setJb(JButton jb) {
+		this.jb = jb;
+	}
+
 	public TableCell() {
 		jb = new JButton("버튼");
-		jb.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new WindowTwo();
-			}
-		});
 	}
 
 	@Override
 	public Object getCellEditorValue() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
-		// TODO Auto-generated method stub
 		return jb;
 	}
-
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
 			int column) {
-		// TODO Auto-generated method stub
 		return jb;
 	}
 }
 
 
-class WindowTwo extends JDialog{
-	public WindowTwo() {
-		setTitle("000회원님의 상세보기");
-		setSize(300, 300);
-		setVisible(true);
-		
-		JPanel panel = new JPanel();
-		getContentPane().add(panel);
-		JLabel sentence = new JLabel("회원님의 로또 결과");
-		panel.add(sentence);
-
-		setLocationRelativeTo(null); //화면 가운데로
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
-}
+//class Detail extends JDialog{
+//	private int index;
+//	
+//	public Detail() {
+//		setTitle("회원 상세보기");
+//		setModal(true);
+//		
+//		JPanel panel = new JPanel();
+//		getContentPane().add(panel);
+//		
+//		
+//		JLabel sentence = new JLabel("회원님의 로또 결과");
+//		panel.add(sentence);
+//		
+//		
+//
+//		setSize(300, 300);
+//		setLocationRelativeTo(null); //화면 가운데로
+//		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//	}
+//}

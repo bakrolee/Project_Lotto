@@ -7,16 +7,33 @@ public class Buyer {
 	private String name;
 	private String id;
 	private List<List<Integer>> lottoLines = new ArrayList<>();
-	//_________ 상우 수정
+	private List<LottoNumber> oneLottoNums = new ArrayList<>();
 	private int reward;
 	
+	public List<LottoNumber> getOneLottoNums() {
+		return oneLottoNums;
+	}
+
+	public void setOneLottoNums(List<LottoNumber> oneLottoNums) {
+		this.oneLottoNums = oneLottoNums;
+	}
+
+	public void linesToOne() {
+		for (int i = 0; i < lottoLines.size(); i++) {
+			oneLottoNums.add(new LottoNumber(lottoLines.get(i)));
+		}
+//		System.out.println(oneLottoNums.toString());
+	}
+	
 	public int getReward() {
+		for (int i = 0; i < oneLottoNums.size(); i++) {
+			reward += oneLottoNums.get(i).getPrice();
+		}
 		return reward;
 	}
 	public void setReward(int reward) {
 		this.reward = reward;
 	}
-	//___________________
 
 	public Buyer(String name, String id) {
 		this.name = name;

@@ -328,8 +328,7 @@ public class Lotto {
 	// 진혁 수정_______________________________
 	public static List<Integer> chosenNumber() throws IOException { // 당첨번호 7자리 생성 메소드
 		winningList.addAll(lottoNumbers()); // 당첨번호 넣기
-
-
+		bonusNum = winningList.get(winningList.size() - 1);
 		return winningList;
 	}
 
