@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
@@ -21,13 +22,11 @@ import javax.swing.SwingConstants;
 
 public class MainMenu extends JFrame {
 	private int roundNum = 1000;
-	//_______________________________________________________수정  "5(최대)" ---> "5"_______________________________________________________
 	private String[] lottoCnt = { "0", "1", "2", "3", "4", "5" };
 	private BuyLotto buyLotto;
 	private LottoResult lottoResult;
 	private Members members = new Members();
 	private int loginOn;
-	//_______________________________________________________추가 buyCnt 변수_______________________________________________________________
 	private int buyCnt = 0;
 	
 	public int getBuyCnt() {
@@ -145,7 +144,6 @@ public class MainMenu extends JFrame {
 				login.setLocationRelativeTo(null);
 				login.setVisible(true);
 				if (login.isLoginPass()) {
-					//_______________________________________________________추가 buyCnt if문_______________________________________________________________			
 					if(buyCnt == 0) {
 						JOptionPane.showMessageDialog(null, "로또 구매 장 수를 선택하세요.");
 					}
@@ -154,8 +152,6 @@ public class MainMenu extends JFrame {
 						buyLotto.setVisible(true);
 						System.out.println(members.toString());
 					}
-//_______________________________________________________추가 buyCnt 변수_______________________________________________________________					
-
 				}
 			}
 		});
@@ -172,7 +168,11 @@ public class MainMenu extends JFrame {
 		btnEnd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				lottoResult = new LottoResult();
+				try {
+					lottoResult = new LottoResult(MainMenu.this);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 				lottoResult.setVisible(true);
 			}
 		});

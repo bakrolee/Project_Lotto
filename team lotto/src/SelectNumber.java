@@ -96,8 +96,7 @@ public class SelectNumber extends JDialog implements ActionListener {
 		btnOK = new JButton("선택 완료");
 		JButton btnBack = new JButton("돌아가기");
 
-//		btnOK.addActionListener(manual(index));
-//		btnBack.addActionListener(manual(index));
+
 		btnOK.addActionListener(this);
 		btnBack.addActionListener(this);
 
@@ -145,11 +144,11 @@ public class SelectNumber extends JDialog implements ActionListener {
 		return list;
 	}
 
-	// 상우 수정________________________________(반자동 추가)
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (getOwner() instanceof BuyLotto) {
 			if (e.getSource() == btnOK) {
+				//_______ ___________ ____________ _________ __________ ___________ ________try catch 추가________ _____ ___________ ______ _________ _____________ ______ _______				
 				Lotto temp = new Lotto();
 				Set<Integer> tempSet = new HashSet<>();
 				try {
@@ -157,6 +156,7 @@ public class SelectNumber extends JDialog implements ActionListener {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
 				List<Integer> tempList = new ArrayList<Integer>(tempSet);
 				BuyLotto lotto = (BuyLotto) getOwner();
 				lotto.setTotalLotto(tempList, lotto.getMoons().get(index), index);

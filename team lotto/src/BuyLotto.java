@@ -30,8 +30,6 @@ public class BuyLotto extends JDialog {
 	private List<Integer> oneLotto;
 	private List<List<Integer>> totalLotto = new ArrayList<>(5);
 	private int buyCnt;
-	// 수정필요
-//	private JLabel[] lblNums = new JLabel[6];
 	private List<JLabel[]> moons;
 	private JButton[][] toolBtns;
 
@@ -47,7 +45,6 @@ public class BuyLotto extends JDialog {
 
 		JPanel pnlTotal = new JPanel();
 		JPanel pnl = new JPanel();
-//		JButton btnBuy = new JButton("구매완료");
 
 		// 이미지
 		Toolkit kit = Toolkit.getDefaultToolkit();
@@ -132,8 +129,11 @@ public class BuyLotto extends JDialog {
 				MainMenu menu = (MainMenu) getOwner();
 				int index = menu.getLoginOn();
 				Buyer buyer = menu.getMembers().getMember().get(index);
-
-				buyer.addLottoLines(totalLotto);
+				for (int i = 0; i < totalLotto.size(); i++) {
+					if (totalLotto.get(i) != null) {
+					buyer.addLottoLines(totalLotto.get(i));
+					}
+				}
 				dispose();
 			}
 		});

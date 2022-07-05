@@ -7,6 +7,21 @@ public class LottoNumber {
    private String category;
    private Character alphabet;
    private int price; 
+ //_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________
+   private String correctNumber;
+public String getCorrectNumber() {
+	return correctNumber;
+}
+
+
+public void setCorrectNumber(String correctNumber) {
+	this.correctNumber = correctNumber;
+}
+//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________
+
+
+
+
 //   
    private int cnt; // 번호 맞춘 개수
    

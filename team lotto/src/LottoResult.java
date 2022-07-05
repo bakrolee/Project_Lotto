@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +25,29 @@ public class LottoResult extends JDialog {
 	private List<Integer> winningNum = new ArrayList<>();
 	private JTable table;
 	public static StringBuilder sb = new StringBuilder();
-	public LottoResult() {
+	//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
+	public static Lotto lotto = new Lotto();
+	//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
+	
+	public LottoResult(JFrame owner) throws IOException {
+		super(owner, true);
+		MainMenu menu = (MainMenu) getOwner();
+		
+		// 전체 비교용
+		List<List<Integer>> allLottos = menu.getMembers().lottosOfMembers();
+		System.out.println(allLottos);
+		
+		// 개인 비교용
+		List<List<Integer>> perLottos = menu.getMembers().getMember().get(0).getLottoLines();
+		
 		setTitle("당첨 결과");
 		JPanel main = new JPanel();
 		main.setBackground(Color.WHITE);
 		
-
-		// 당첨번호를 numbers 배열에 각각 넣을
+		winningNum = lotto.chosenNumber();
+		
 		int[] numbers = new int[7];
 		for (int i = 0; i < numbers.length; i++) {
-			winningNum.add(i + 10); // 임시로 뒀음. 나중에 로또 당첨번호랑 연결할 거
 			numbers[i] = winningNum.get(i);
 		}
 		
@@ -48,17 +62,7 @@ public class LottoResult extends JDialog {
 		main.add(printWinNum);
 		
 
-		List<JLabel> memberInfo = new ArrayList<>();
-		List<JButton> btnDetail = new ArrayList<>();
-		int memberCnt = 4;  //  메인메뉴에서 회원정보(인원) 받아서 인원수만큼 리스트(or 배열) 만들거임 + 회원 정보를 연결시킬 수 있
-		for (int i = 0; i < memberCnt; i++) {
-			String s = (i + 1) + "번 회원의 당첨등수 ~~";
-			memberInfo.add(new JLabel(s));
 		
-			// 상세보기 버튼도 추가로 달 생각인데, 인덱스에 따라서 해당 회원정보 보게끔 할 예정
-			btnDetail.add(new JButton("상세보기"));
-		
-		}
 		SpringLayout sl_main = new SpringLayout();
 		sl_main.putConstraint(SpringLayout.EAST, printWinNum, 356, SpringLayout.WEST, main);
 		main.setLayout(sl_main);
@@ -79,20 +83,15 @@ public class LottoResult extends JDialog {
 		
 		
 		String[ ] headings = new String[] {"ID", "이름", "총 당첨금액", "상세보기"}; //테이블 열
-		//_____________________________________________________________________________________________________________________________________수정한 부분
+		
 		Object[][] data = new Object[SignUp.getIdForLogin().size()][4];
 		
 		for(int i = 0 ; i < SignUp.getIdForLogin().size(); i++) {
-			
-			data[i][0] = String.valueOf(i);
-			data[i][1] =  String.valueOf(i);
+			data[i][0] = menu.getMembers().getMember().get(i).getId();
+			data[i][1] = menu.getMembers().getMember().get(i).getName();
 			data[i][2] =  String.valueOf(i);
 			data[i][3] = "클릭";
-			
 		}
-		//_____________________________________________________________________________________________________________________________________
-			
-			
 		
 		JTable table_1 = new JTable(data, headings);
 		table_1.setPreferredScrollableViewportSize(new Dimension(200,200)); //테이블 크기
@@ -100,56 +99,57 @@ public class LottoResult extends JDialog {
 		
 		
 		JScrollPane scrollPane = new JScrollPane(table_1);
-		sl_main.putConstraint(SpringLayout.SOUTH, scrollPane, 382, SpringLayout.NORTH, main);
+		sl_main.putConstraint(SpringLayout.WEST, scrollPane, 33, SpringLayout.WEST, main);
 		sl_main.putConstraint(SpringLayout.EAST, scrollPane, -29, SpringLayout.EAST, main);
 		main.add(scrollPane);
 		
-		//for문으로 해보려고했지만 실패함 
-		JLabel reward1 = new JLabel("1등 총 상금 : 00원  /  1등 당첨 명 수 : 00 명 /  1인당 당첨 금액 : 00원"); //1등이 안나오면 다음 회차에 이월됨
-		sl_main.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, reward1);
-		sl_main.putConstraint(SpringLayout.NORTH, reward1, 75, SpringLayout.SOUTH, lblNewLabel);
+		lotto.run();
+		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ __//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ ___________ _______ 변경
+		JLabel reward1 = new JLabel("1등 총 상금 : " + lotto.firstPrice + "원  /  1등 당첨 명 수 : " + lotto.rank[1] +" 명 /  1인당 당첨 금액 : " + lotto.firstPerN  +"원"); //1등이 안나오면 다음 회차에 이월됨
 		sl_main.putConstraint(SpringLayout.WEST, reward1, 33, SpringLayout.WEST, main);
+		sl_main.putConstraint(SpringLayout.NORTH, reward1, 75, SpringLayout.SOUTH, lblNewLabel);
 		main.add(reward1);
-		JLabel reward2 = new JLabel("2등 총 상금 : 00원  /  2등 당첨 명 수 : 00 명 /  1인당 당첨 금액 : 00원"); //2등이 없을 시 2등 당첨금액은 1등 당첨금액에 더해짐
+		JLabel reward2 = new JLabel("2등 총 상금 : " + lotto.secondPrice + "원  /  2등 당첨 명 수 : " + lotto.rank[2] +" 명 /  1인당 당첨 금액 : " + lotto.secondPerN  +"원");
 		sl_main.putConstraint(SpringLayout.NORTH, reward2, 6, SpringLayout.SOUTH, reward1);
-		sl_main.putConstraint(SpringLayout.WEST, reward2, 32, SpringLayout.WEST, main);
-		sl_main.putConstraint(SpringLayout.EAST, reward2, -49, SpringLayout.EAST, main);
 		sl_main.putConstraint(SpringLayout.EAST, reward1, 0, SpringLayout.EAST, reward2);
+		sl_main.putConstraint(SpringLayout.WEST, reward2, 32, SpringLayout.WEST, main);
 		main.add(reward2);
-		JLabel reward3 = new JLabel("3등 총 상금 : 00원  /  3등 당첨 명 수 : 00 명 /  1인당 당첨 금액 : 00원"); //3등이 없을 시 3등 당첨금액은 1등 당첨금액에 더해짐
+		JLabel reward3 = new JLabel("3등 총 상금 : " + lotto.thirdPrice + "원  /  3등 당첨 명 수 : " + lotto.rank[3] +" 명 /  1인당 당첨 금액 : " + lotto.thirdPerN  +"원");
 		sl_main.putConstraint(SpringLayout.NORTH, reward3, 6, SpringLayout.SOUTH, reward2);
+		sl_main.putConstraint(SpringLayout.EAST, reward2, 0, SpringLayout.EAST, reward3);
 		sl_main.putConstraint(SpringLayout.WEST, reward3, 32, SpringLayout.WEST, main);
-		sl_main.putConstraint(SpringLayout.EAST, reward3, -49, SpringLayout.EAST, main);
 		main.add(reward3);
 		
-		JLabel reward4 = new JLabel("4등 총 상금 : 00원  /  4등 당첨 명 수 : 00 명 /  1인당 당첨 금액 : 50,000원");
+		JLabel reward4 = new JLabel("4등 총 상금 : " + lotto.fourthPrice + "원  /  4등 당첨 명 수 : " + lotto.rank[4] +" 명 /  1인당 당첨 금액 : " + "50,000원");
 		sl_main.putConstraint(SpringLayout.NORTH, reward4, 6, SpringLayout.SOUTH, reward3);
+		sl_main.putConstraint(SpringLayout.EAST, reward3, 0, SpringLayout.EAST, reward4);
 		sl_main.putConstraint(SpringLayout.WEST, reward4, 32, SpringLayout.WEST, main);
-		sl_main.putConstraint(SpringLayout.EAST, reward4, -49, SpringLayout.EAST, main);
+		sl_main.putConstraint(SpringLayout.EAST, reward4, -10, SpringLayout.EAST, main);
 		main.add(reward4);
 		
-		JLabel reward5 = new JLabel("5등 총 상금 : 00원  /  5등 당첨 명 수 : 00 명 /  1인당 당첨 금액 : 5,000원");
+		JLabel reward5 = new JLabel("5등 총 상금 : " + lotto.fifthPrice + "원  /  5등 당첨 명 수 : " + lotto.rank[5] +" 명 /  1인당 당첨 금액 : " + "5,000원");
 		sl_main.putConstraint(SpringLayout.NORTH, scrollPane, 23, SpringLayout.SOUTH, reward5);
 		sl_main.putConstraint(SpringLayout.NORTH, reward5, 6, SpringLayout.SOUTH, reward4);
+		sl_main.putConstraint(SpringLayout.EAST, reward5, 0, SpringLayout.EAST, reward4);
 		sl_main.putConstraint(SpringLayout.WEST, reward5, 32, SpringLayout.WEST, main);
-		sl_main.putConstraint(SpringLayout.EAST, reward5, -49, SpringLayout.EAST, main);
 		main.add(reward5);
-		
+		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
 		table_1.getColumnModel().getColumn(3).setCellRenderer(new TableCell());
 		table_1.getColumnModel().getColumn(3).setCellEditor(new TableCell());
 		
 		JButton gotoMain = new JButton("메인 화면으로");
-		sl_main.putConstraint(SpringLayout.NORTH, gotoMain, 26, SpringLayout.SOUTH, scrollPane);
+		sl_main.putConstraint(SpringLayout.NORTH, gotoMain, 408, SpringLayout.NORTH, main);
+		sl_main.putConstraint(SpringLayout.SOUTH, scrollPane, -26, SpringLayout.NORTH, gotoMain);
 		sl_main.putConstraint(SpringLayout.EAST, gotoMain, 0, SpringLayout.EAST, scrollPane);
 		main.add(gotoMain);
 		
 		gotoMain.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//Main화면으로 이동.
-				dispose();
-			}
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//Main화면으로 이동.
+			dispose();
+		}
 		
 	
 		});
@@ -161,31 +161,21 @@ public class LottoResult extends JDialog {
 	
 	
 	
-	// 임시로 만들었어... 메인메뉴가 실행이 에러떠서 (여기서 바로 실행하면 이 창 보일거야)
-	public static void main(String[] args) {
-		new LottoResult().setVisible(true);
-	}
+
 	
 	
 }
 
 class TableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
 	JButton jb;
-	
 	public TableCell() {
 		jb = new JButton("버튼");
-		
 		jb.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new WindowTwo();
-				
 			}
-		
-	
 		});
-		
 	}
 
 	@Override
@@ -209,18 +199,18 @@ class TableCell extends AbstractCellEditor implements TableCellEditor, TableCell
 	}
 }
 
-class WindowTwo extends JFrame{
+
+class WindowTwo extends JDialog{
 	public WindowTwo() {
 		setTitle("000회원님의 상세보기");
 		setSize(300, 300);
 		setVisible(true);
 		
-		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 		JLabel sentence = new JLabel("회원님의 로또 결과");
 		panel.add(sentence);
-		// 여기 이제 회원이 뽑은 로또 번호를 출력하고 밑에 맞춘 번호 출력해야함.
+
 		setLocationRelativeTo(null); //화면 가운데로
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}

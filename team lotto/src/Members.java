@@ -4,17 +4,20 @@ import java.util.List;
 public class Members {
 	private List<Buyer> member = new ArrayList<>();
 	
-//_______________________________________________id, name 인자값 변경 ___________________________________________
 	public static Buyer signUp( Buyer id, Buyer Name ) {
 		Buyer a = new Buyer("id","Name");
 	return a;
 	}
 
-//	public static Buyer signUp(Buyer name, Buyer id) {
-//		Buyer a = new Buyer("name", "id");
-//		return a;
-//	}
-
+	// 모든 바이어의 로또 번호 반환 (메소드)
+	public List<List<Integer>> lottosOfMembers() {
+		List<List<Integer>> temp = new ArrayList<>();
+		for (int i = 0; i < member.size(); i++) {
+			temp.addAll(member.get(i).getLottoLines());
+		}
+		return temp;
+	}
+	
 	public List<Buyer> getMember() {
 		return member;
 	}
