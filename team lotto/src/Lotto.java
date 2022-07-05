@@ -35,8 +35,6 @@ public class Lotto {
 	public static int secondPrice = ((int) ((reward - (totalFifth + totalFourth)) * 0.125)); // 2등 총 당첨금액
 	public static int thirdPrice = ((int) ((reward - (totalFifth + totalFourth)) * 0.125)); // 3등 총 당첨금액
 	public static int idx;
-	
-	
 
 	public void run() throws NumberFormatException, IOException {
 
@@ -59,14 +57,14 @@ public class Lotto {
 				buyCnt = Integer.parseInt(getData("로또 몇줄을 사시겠습니까?"));
 				totalCnt += buyCnt;
 				autoNum();
-			} else if(selectNumber == 2) {
+			} else if (selectNumber == 2) {
 				totalCnt += 1;
 				autoNum1();
 			} else if (selectNumber == 3) {
-			
+
 				totalCnt += 1;
 				manualAndSemiAuto1();
-		 
+
 //				else if (selectNumber == 3) {
 //				buyCnt = Integer.parseInt(getData("로또몇줄을 사시겠습니까?"));
 //				totalCnt += buyCnt;
@@ -82,7 +80,7 @@ public class Lotto {
 
 	}
 
-	public static List<Integer> autoNum1() throws IOException { //자동으로 한 줄만 만들어줌
+	public static List<Integer> autoNum1() throws IOException { // 자동으로 한 줄만 만들어줌
 		return lottoNumbers();
 //		List<Integer> num6 = new ArrayList<Integer>();
 //		for (int i = 0; i < lottoLine.length; i++) {
@@ -93,11 +91,10 @@ public class Lotto {
 //		}
 //		alphabet = (char) (alphabet + 1);
 	}
-	
 
-	public static List<Integer> manualAndSemiAuto1() throws IOException { //반자동으로 한 줄만 만들어줌
+	public static List<Integer> manualAndSemiAuto1() throws IOException { // 반자동으로 한 줄만 만들어줌
 		List<Integer> num6 = new ArrayList<Integer>();
-		for ( idx = 0; idx < lottoLine.length; idx++) {
+		for (idx = 0; idx < lottoLine.length; idx++) {
 			if (lottoLine[idx] == null) {
 				num6 = lottoNumbers();
 				break;
@@ -106,12 +103,22 @@ public class Lotto {
 		return num6;
 //		alphabet = (char) (alphabet + 1);
 	}
-	
+
+	// _____________________상우 수정
+	// 1줄 반자동용 (매개변수 있음)
+	public static Set<Integer> manualAndSemiAuto1(List<Integer> origin) throws IOException { // 반자동으로 한 줄만 만들어줌
+		Set<Integer> num6 = new HashSet<Integer>(origin);
+		while (num6.size() != 6) {
+			num6.add((int) (Math.random() * 45 + 1));
+		}
+		return num6;
+	}
+
 	public List<Integer> editNum1(List<Integer> list) {
 		return list;
-	} 
-	
-	//수정 메소드, 리스트의 사이즈가 6일 때 , 6 - 리스트사이즈 만큼 난수 자동 생성
+	}
+
+	// 수정 메소드, 리스트의 사이즈가 6일 때 , 6 - 리스트사이즈 만큼 난수 자동 생성
 
 //	public static LottoNumber manual1() throws IOException { //수동으로 한 줄만 만들어줌.
 //		System.out.println("6개의 숫자를 입력하세요.");
@@ -181,14 +188,11 @@ public class Lotto {
 			if (lottoLine[i] != null) {
 				System.out.println(lottoLine[i].getAlphabet() + " | " + lottoLine[i].getCategory() + " | "
 						+ lottoLine[i].getNumbers());
-			} 
+			}
 		}
-
 	}
 
 	public static void winningNumber() throws IOException {
-
-	
 
 	}
 
@@ -416,10 +420,11 @@ public class Lotto {
 			while (st.hasMoreTokens()) {
 				set.add(Integer.parseInt(st.nextToken()));
 			}
-			
-			if(set.size() == 6) {
+
+			if (set.size() == 6) {
 				tempSentence = "수동";
-			}else tempSentence = "반자동";
+			} else
+				tempSentence = "반자동";
 			setSize = 6;
 		} else
 			setSize = 6;
@@ -429,11 +434,10 @@ public class Lotto {
 		}
 		List<Integer> list = new ArrayList<Integer>(set);
 		set.clear();
-		
-		
+
 		if (beforeStack.getMethodName().equals("manualAndSemiAuto1")) {
 			lottoLine[idx] = new LottoNumber(alphabet, tempSentence, list);
-			
+
 		}
 
 		return list;

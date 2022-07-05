@@ -8,9 +8,12 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -93,13 +96,17 @@ public class SelectNumber extends JDialog implements ActionListener {
 		btnOK = new JButton("선택 완료");
 		JButton btnBack = new JButton("돌아가기");
 
+//		btnOK.addActionListener(manual(index));
+//		btnBack.addActionListener(manual(index));
 		btnOK.addActionListener(this);
+		btnBack.addActionListener(this);
 
 		pnl.add(btnOK);
 		pnl.add(btnBack);
 
 		add(pnl);
 		setSize(400, 400);
+		setLocationRelativeTo(null);
 
 	}
 
@@ -138,15 +145,23 @@ public class SelectNumber extends JDialog implements ActionListener {
 		return list;
 	}
 
+	// 상우 수정________________________________(반자동 추가)
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (getOwner() instanceof BuyLotto) {
 			if (e.getSource() == btnOK) {
+				Lotto temp = new Lotto();
+				Set<Integer> tempSet = new HashSet<>();
+				try {
+					tempSet = temp.manualAndSemiAuto1(list);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				List<Integer> tempList = new ArrayList<Integer>(tempSet);
 				BuyLotto lotto = (BuyLotto) getOwner();
-//				lotto.setOneLotto(list, lotto.getMoons().get(index));
-				lotto.setTotalLotto(list, lotto.getMoons().get(index), index);
+				lotto.setTotalLotto(tempList, lotto.getMoons().get(index), index);
+				dispose();
 			}
 		}
-		dispose();
 	}
 }

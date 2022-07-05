@@ -212,7 +212,7 @@ public class BuyLotto extends JDialog {
 		return temp;
 	}
 
-	// 수동버튼
+	// 수동 & 반자동 버튼
 	public ActionListener manual(int index) {
 		ActionListener temp = new ActionListener() {
 			@Override
