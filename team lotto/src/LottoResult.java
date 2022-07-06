@@ -63,16 +63,13 @@ public class LottoResult extends JDialog {
 	public LottoResult(JFrame owner) throws IOException {
 		super(owner, true);
 		MainMenu menu = (MainMenu) getOwner();
+		Buyer buyer = menu.getMembers().getMember().get(index);
+		for (int i = 0; i < buyer.getOneLottoNums().size(); i++) {
+			buyer.getOneLottoNums().get(i).compareTo(winningNum);
+		}
 		
 		
 		
-		// ______ 당첨금 관련 수정
-//		for (int i = 0; i < menu.getMembers().getMember().size(); i++) {
-//			menu.getMembers().getMember().get(i).linesToOne2();
-//		}
-		
-//		int testRw = menu.getMembers().getMember().get(0).getReward2();
-//		System.out.println("1번 회원 총 상금" + testRw);
 		
 		setTitle("당첨 결과");
 		JPanel main = new JPanel();
@@ -88,17 +85,23 @@ public class LottoResult extends JDialog {
 	
 		JLabel printWinNum = new JLabel(sbWinNum.toString());
 		printWinNum.setFont(new Font("HY울릉도M", Font.BOLD, 13));
-		main.add(printWinNum);
+		JPanel pnlWin = new JPanel();
+		pnlWin.add(printWinNum);
+		pnlWin.setBackground(Color.ORANGE);
+		main.add(pnlWin);
 		
 
 		
 		SpringLayout sl_main = new SpringLayout();
-		sl_main.putConstraint(SpringLayout.EAST, printWinNum, 356, SpringLayout.WEST, main);
+		sl_main.putConstraint(SpringLayout.WEST, pnlWin, 109, SpringLayout.WEST, main);
+		sl_main.putConstraint(SpringLayout.EAST, pnlWin, -125, SpringLayout.EAST, main);
+		sl_main.putConstraint(SpringLayout.EAST, printWinNum, -104, SpringLayout.EAST, main);
 		main.setLayout(sl_main);
 		
 		JLabel lblNewLabel = new JLabel("당첨 결과");
+		sl_main.putConstraint(SpringLayout.NORTH, pnlWin, 15, SpringLayout.SOUTH, lblNewLabel);
 		sl_main.putConstraint(SpringLayout.NORTH, printWinNum, 18, SpringLayout.SOUTH, lblNewLabel);
-		sl_main.putConstraint(SpringLayout.WEST, printWinNum, 0, SpringLayout.WEST, lblNewLabel);
+		sl_main.putConstraint(SpringLayout.WEST, printWinNum, 24, SpringLayout.WEST, lblNewLabel);
 		sl_main.putConstraint(SpringLayout.NORTH, lblNewLabel, 36, SpringLayout.NORTH, main);
 		sl_main.putConstraint(SpringLayout.WEST, lblNewLabel, 123, SpringLayout.WEST, main);
 		sl_main.putConstraint(SpringLayout.EAST, lblNewLabel, 345, SpringLayout.WEST, main);
@@ -132,9 +135,9 @@ public class LottoResult extends JDialog {
 		sl_main.putConstraint(SpringLayout.EAST, scrollPane, -29, SpringLayout.EAST, main);
 		main.add(scrollPane);
 		
-//		lotto.run();
-		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ __//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ ___________ _______ 변경
-		JLabel reward1 = new JLabel("1등 총 상금 : " + lotto.firstPrice + "원  /  1등 당첨 명 수 : " + lotto.rank[1] +" 명 /  1인당 당첨 금액 : " + lotto.firstPerN  +"원"); //1등이 안나오면 다음 회차에 이월됨
+		lotto.run();
+		JLabel reward1 = new JLabel("1등 총 상금 : " + lotto.firstPrice + "원  /  1등 당첨 명 수 : " + lotto.rank[1] +" 명 /  1인당 당첨 금액 : " + lotto.firstPerN  +"원");
+		sl_main.putConstraint(SpringLayout.SOUTH, pnlWin, -33, SpringLayout.NORTH, reward1);
 		sl_main.putConstraint(SpringLayout.WEST, reward1, 33, SpringLayout.WEST, main);
 		sl_main.putConstraint(SpringLayout.NORTH, reward1, 75, SpringLayout.SOUTH, lblNewLabel);
 		main.add(reward1);
@@ -162,19 +165,18 @@ public class LottoResult extends JDialog {
 		sl_main.putConstraint(SpringLayout.EAST, reward5, 0, SpringLayout.EAST, reward4);
 		sl_main.putConstraint(SpringLayout.WEST, reward5, 32, SpringLayout.WEST, main);
 		main.add(reward5);
-		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
 		table_1.getColumnModel().getColumn(3).setCellRenderer(new TableCell());
 		table_1.getColumnModel().getColumn(3).setCellEditor(new TableCell());
 		
 		
 		
 		JButton gotoMain = new JButton("메인 화면으로");
+		gotoMain.setBackground(Color.WHITE);
 		sl_main.putConstraint(SpringLayout.NORTH, gotoMain, 408, SpringLayout.NORTH, main);
 		sl_main.putConstraint(SpringLayout.SOUTH, scrollPane, -26, SpringLayout.NORTH, gotoMain);
 		sl_main.putConstraint(SpringLayout.EAST, gotoMain, 0, SpringLayout.EAST, scrollPane);
 		main.add(gotoMain);
 		
-		//______________박로 수정____________________
 		gotoMain.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

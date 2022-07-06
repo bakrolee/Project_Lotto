@@ -18,6 +18,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.SpringLayout;
 import java.awt.Color;
+import java.awt.Font;
 
 
 
@@ -55,6 +56,7 @@ public class Detail extends JDialog {
 				
 		
 		JLabel title = new JLabel(ID + "(" + Name + ") 님의 로또 결과");
+		title.setFont(new Font("12롯데마트드림Light", Font.PLAIN, 15));
 		
 		int reward = 0;
 
@@ -76,15 +78,18 @@ public class Detail extends JDialog {
 		}
 		
 		JLabel lblreward = new JLabel("총 당첨금 : " + reward + "원");
+		lblreward.setFont(new Font("12롯데마트드림Light", Font.PLAIN, 15));
 		
 		table = new JTable(data, headings);
 		JScrollPane scrollPane = new JScrollPane(table);
 		
 		SpringLayout sl_panel = new SpringLayout();
+		sl_panel.putConstraint(SpringLayout.NORTH, title, 10, SpringLayout.NORTH, panel);
+		sl_panel.putConstraint(SpringLayout.EAST, title, -136, SpringLayout.WEST, lblreward);
+		sl_panel.putConstraint(SpringLayout.SOUTH, lblreward, -6, SpringLayout.NORTH, scrollPane);
+		sl_panel.putConstraint(SpringLayout.EAST, lblreward, 0, SpringLayout.EAST, scrollPane);
 		sl_panel.putConstraint(SpringLayout.WEST, scrollPane, 25, SpringLayout.WEST, panel);
 		sl_panel.putConstraint(SpringLayout.EAST, scrollPane, -23, SpringLayout.EAST, panel);
-		sl_panel.putConstraint(SpringLayout.NORTH, title, 10, SpringLayout.NORTH, panel);
-		sl_panel.putConstraint(SpringLayout.WEST, title, 261, SpringLayout.WEST, panel);
 		panel.setLayout(sl_panel);
 		panel.add(title);
 		panel.add(lblreward);

@@ -4,8 +4,6 @@ import java.util.List;
 public class LottoNumber {
 
 	public List<Integer> numbers = new ArrayList<>(6);
-	private String category;
-	private Character alphabet;
 	private int price;  // 상금은 나중에 세터써서 바꾸는 걸로 (1~3등)
 	private String correctNumber;
 	private List<Integer> guessNumber = new ArrayList<Integer>();
@@ -29,34 +27,41 @@ public class LottoNumber {
 		case 6:
 			if (!numbers.contains(bonus)) {
 				rank = "1등";
-				price = 1000000000; // 10억
+				price = Lotto.firstPrice;
+				Lotto.rank[1]++;
 			} else {
 				rank = "2등";
-				price = 100000000; // 1억
+				price = Lotto.secondPrice;
+				Lotto.rank[2]++;
 			}
 			break;
 		case 5:
 			if (!numbers.contains(bonus)) {
 				rank = "3등";
-				price = 10000000; // 1000만
+				price = Lotto.thirdPrice;
+				Lotto.rank[3]++;
 			} else {
 				rank = "4등";
 				price = 50000; 
+				Lotto.rank[4]++;
 			}
 			break;
 		case 4:
 			if (!numbers.contains(bonus)) {
 				rank = "4등";
 				price = 50000; 
+				Lotto.rank[4]++;
 			} else {
 				rank = "5등 당첨";
 				price = 5000; 
+				Lotto.rank[5]++;
 			}
 			break;
 		case 3:
 			if (!numbers.contains(bonus)) {
 				rank = "5등";
 				price = 5000;
+				Lotto.rank[5]++;
 			} else {
 				rank = "낙첨";
 				price = 0;
@@ -117,21 +122,7 @@ public class LottoNumber {
 		this.price = price;
 	}
 
-	public LottoNumber(char alphabet, String category, List<Integer> numbers) {
-		this.alphabet = alphabet;
-		this.category = category;
-		for (int i = 0; i <= 5; i++) {
-			this.numbers.add(numbers.get(i));
-		}
-	}
 
-	public Character getAlphabet() { // 코딩판 떠난다
-		return alphabet;
-	}
-
-	public void setAlphabet(Character alphabet) {
-		this.alphabet = alphabet;
-	}
 
 	public String getNumbers() {
 		StringBuilder sb = new StringBuilder();
@@ -141,13 +132,7 @@ public class LottoNumber {
 		return sb.toString();
 	}
 
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
+	
 
 	public void setNumbers(List<Integer> numbers) {
 		this.numbers = numbers;

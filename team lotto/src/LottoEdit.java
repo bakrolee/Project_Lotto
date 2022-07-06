@@ -123,14 +123,12 @@ public class LottoEdit extends JDialog implements ActionListener {
 	// 로또 번호 선택(추가)
 	public Integer selectNum(JCheckBox cb) {
 		listEdit.add(Integer.valueOf(cb.getText()));
-		System.out.println(listEdit.toString());
 		return Integer.valueOf(cb.getText());
 	}
 
 	// 로또 번호 취소
 	public void cancelNum(JCheckBox cb) {
 		listEdit.remove(Integer.valueOf(cb.getText()));
-		System.out.println(listEdit.toString());
 	}
 
 	@Override

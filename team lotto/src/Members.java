@@ -8,7 +8,6 @@ public class Members {
 		Buyer a = new Buyer("id","Name");
 	return a;
 	}
-	//_______ 박로 수정 ___________ (7.6 수정 - 추가)
 	// 결과확인 하기 전 구매체크 
 	public boolean checkEmpty() {
 		if (member.size() == 0) {
@@ -31,7 +30,6 @@ public class Members {
 			member.get(i).getOneLottoNums().clear();
 		}
 	}
-	//________________________ 
 
 	// 모든 바이어의 로또 번호 반환 (메소드)
 	public List<List<Integer>> lottosOfMembers() {
@@ -64,10 +62,6 @@ public class Members {
 		return index;
 	}
 	
-	@Override
-	public String toString() {
-		return "Members [member=" + member + "]";
-	}
 
 	public void addMember(String id, String Name) {
 		member.add(new Buyer(id, Name));

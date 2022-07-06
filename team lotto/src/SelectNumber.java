@@ -130,14 +130,12 @@ public class SelectNumber extends JDialog implements ActionListener {
 	// 로또 번호 선택(추가)
 	public String selectNum(JCheckBox cb) {
 		list.add(Integer.valueOf(cb.getText()));
-		System.out.println(list.toString());
 		return cb.getText();
 	}
 
 	// 로또 번호 취소
 	public void cancelNum(JCheckBox cb) {
 		list.remove(Integer.valueOf(cb.getText()));
-		System.out.println(list.toString());
 	}
 
 	// (선택완료 버튼 눌렀을 때) 값 반환하는 메소드

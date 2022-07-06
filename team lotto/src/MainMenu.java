@@ -31,7 +31,6 @@ public class MainMenu extends JFrame {
 	private int buyCnt = 0;
 	private JLabel round;
 	
-	//_________ 박로 수정___________ 
 	
 	
 	public int getRoundNum() {
@@ -51,7 +50,6 @@ public class MainMenu extends JFrame {
 	}
 	
 	
-	//____________________
 
 	public int getBuyCnt() {
 		return buyCnt;
@@ -82,7 +80,6 @@ public class MainMenu extends JFrame {
 		JPanel buttons = new JPanel();
 		JLabel sentence = new JLabel("인생 한 방!");
 		
-		//____________________박로 수정____________ 폰트수정
 		Font font = null;
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, MainMenu.class.getClassLoader().getResourceAsStream("font/12롯데마트행복Light.ttf"));
@@ -98,9 +95,6 @@ public class MainMenu extends JFrame {
 		JLabel sentence2 = new JLabel("오늘 살 복권을 내일로 미루지 말자.");
 		sentence2.setFont(font32);
 		
-//		Font font = new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 19);
-//		sentence.setFont(new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 19));
-//		sentence2.setFont(new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 32));
 
 		total.setBackground(Color.white);
 		top.setBackground(Color.white);
@@ -142,7 +136,6 @@ public class MainMenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				buyCnt = Integer.parseInt(combo.getSelectedItem().toString());
-				System.out.println("buyCnt : " + buyCnt);
 			}
 		});
 		
@@ -189,7 +182,6 @@ public class MainMenu extends JFrame {
 					else {
 						buyLotto = new BuyLotto(MainMenu.this);
 						buyLotto.setVisible(true);
-						System.out.println(members.toString());
 					}
 				}
 			}
@@ -207,8 +199,6 @@ public class MainMenu extends JFrame {
 		btnEnd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(members.toString());
-				//________________박로수정 __________________ 
 				if (members.checkEmpty()) {
 					JOptionPane.showMessageDialog(null, "먼저 구매하기를 해주세요.");
 				} else {
@@ -219,7 +209,6 @@ public class MainMenu extends JFrame {
 					}
 					lottoResult.setVisible(true);
 				}
-				//__________________________________________ 
 			}
 		});
 		total.add(buttons);
@@ -233,13 +222,11 @@ public class MainMenu extends JFrame {
 		total.add(logo);
 		
 		round = new JLabel(roundNum + "회\r\n");
-		//_____________ 
 		sl_total.putConstraint(SpringLayout.NORTH, round, 6, SpringLayout.SOUTH, logo);
 		sl_total.putConstraint(SpringLayout.WEST, round, 182, SpringLayout.WEST, total);
 		sl_total.putConstraint(SpringLayout.EAST, round, -178, SpringLayout.EAST, total);
 		Font font21 = font.deriveFont(21.0F);
 		round.setFont(font21);
-//		round.setFont(new Font("12롯데마트행복Bold", Font.BOLD | Font.ITALIC, 21));    //____________________박로 수정
 		round.setHorizontalAlignment(SwingConstants.CENTER);
 		total.add(round);
 		setSize(500, 500);

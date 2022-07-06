@@ -68,7 +68,6 @@ public class Login extends JDialog {
 					// -> key값(ID)로 몇번째 회원인지 찾아야 함. (그래서 구매화면 버튼을 눌렀을 때 모든 정보가 해당 회원에게 들어가게)
 					MainMenu menu = (MainMenu) getOwner();
 					int index = menu.getMembers().getIndex(key);
-					System.out.println(index + "번 회원");
 					menu.setLoginOn(index);	
 					
 					inputID.setText("");

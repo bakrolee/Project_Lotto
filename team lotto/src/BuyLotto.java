@@ -38,7 +38,6 @@ public class BuyLotto extends JDialog {
 		for (int i = 0; i < 5; i++) {
 			totalLotto.add(null);
 		}
-		System.out.println("사이즈" + totalLotto.size());
 
 		MainMenu menu = (MainMenu) getOwner();
 		buyCnt = menu.getBuyCnt();
@@ -105,7 +104,6 @@ public class BuyLotto extends JDialog {
 				;
 			}
 		}
-		// ____________________________
 		SpringLayout sl_pnlTotal = new SpringLayout();
 		sl_pnlTotal.putConstraint(SpringLayout.NORTH, pnl, 11, SpringLayout.NORTH, pnlTotal);
 		sl_pnlTotal.putConstraint(SpringLayout.WEST, pnl, 29, SpringLayout.WEST, pnlTotal);
@@ -138,13 +136,6 @@ public class BuyLotto extends JDialog {
 			}
 		});
 		
-		
-//		pnl.add(btnBuy);
-//		add(pnlTotal);
-//		pnl.add(pnlTotal);
-//		pnl.add(packFive);
-//		pnl.add(packFive2);
-//		pnlTotal.add(pnl);
 
 
 		setModal(true);
@@ -153,10 +144,6 @@ public class BuyLotto extends JDialog {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
-	/*
-	 * Methods-----------------------------------------------------------------
-	 * 
-	 */
 
 	public List<List<Integer>> getTotalLotto() {
 		return totalLotto;

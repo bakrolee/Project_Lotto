@@ -14,14 +14,10 @@ public class Lotto {
 
 	public static List<Integer> winningList = new ArrayList<>(); // 당첨번호리스트 사이즈7
 	public static Set<Integer> set = new HashSet<Integer>();
-	//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
 	public static LottoNumber[] lottoLine = new LottoNumber[20000];
-	//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
-	public static char alphabet = 65; // 'A' 의 아스키 코드
 
 	public static int selectNumber = 0; // 목록 선택 번호
 	public static int buyCnt = 0; // 구매할줄갯수
-	public static int PPL = 1000; // 로또 한 줄당 가격
 	public static int totalCnt = 0;
 	public static int reward = (totalCnt * 1000 / 2); // 총 당첨금액.
 	public static int fifthPrice = 0;
@@ -33,16 +29,13 @@ public class Lotto {
 	public static int rank[] = new int[6]; // 각 등수에 해당하는 사람 수\
 	
 	public static int idx;
-	//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ________
 	public static int firstPrice;
 	public static int secondPrice;
 	public static int thirdPrice;
-	//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ________
 	public Lotto() {
 		
 	}
 	
-	//__________________박로 수정 _____________________ 
 	public void resetPrice() {
 		totalCnt = 0;
 		fifthPrice = 0;
@@ -59,7 +52,6 @@ public class Lotto {
 			rank[i] = 0;
 		}
 	}
-	//_______________________________________ 
 	
 	public void run() throws NumberFormatException, IOException {	  
 		buyCnt = 10000;
@@ -105,7 +97,7 @@ public class Lotto {
 		while (buyCnt-- > 0) {
 			for (int i = 0; i < lottoLine.length; i++) {
 				if (lottoLine[i] == null) {
-					lottoLine[i] = new LottoNumber(alphabet, "자동 ", lottoNumbers());
+					lottoLine[i] = new LottoNumber( lottoNumbers());
 					break;
 				}
 			}
@@ -115,18 +107,7 @@ public class Lotto {
 
 
 
-	public static void showNumber() {
-		for (int i = 0; i < lottoLine.length; i++) {
-			if (lottoLine[i] != null) {
-				System.out.println(lottoLine[i].getAlphabet() + " | " + lottoLine[i].getCategory() + " | "
-						+ lottoLine[i].getNumbers());
-			}
-		}
-	}
 
-	public static void winningNumber() throws IOException {
-
-	}
 
 	public static void printSameNumbers() { // 맞힌 번호 출력 메소드!!!!
 		for (int i = 0; i < lottoLine.length; i++) {
@@ -137,74 +118,53 @@ public class Lotto {
 					}
 				}
 				switch (lottoLine[i].getCnt()) {
-				//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________
 				case 6:
 					if (!lottoLine[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						lottoLine[i].setCorrectNumber(sb.toString());
-						System.out.println(lottoLine[i].getAlphabet() + " | " + " 1등 당첨  |" + lottoLine[i].getNumbers()
-								+ "당첨 금액 : " + lottoLine[i].getPrice() +"\n 맞은 번호 " +  lottoLine[i].getCorrectNumber());
 					
 						break;
 					} else if (lottoLine[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						lottoLine[i].setCorrectNumber(sb.toString());
-						System.out.println(lottoLine[i].getAlphabet() + " | " + " 2등 당첨  |" + lottoLine[i].getNumbers()
-								+ "당첨 금액 : " + lottoLine[i].getPrice() +"\n 맞은 번호 " +  lottoLine[i].getCorrectNumber());
 					
 						break;
 					}
 				case 5:
 					if (!lottoLine[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						lottoLine[i].setCorrectNumber(sb.toString());
-						System.out.println(lottoLine[i].getAlphabet() + " | " + " 3등 당첨  |" + lottoLine[i].getNumbers()
-								+ "당첨 금액 : " + lottoLine[i].getPrice() +"\n 맞은 번호 " +  lottoLine[i].getCorrectNumber());
 					
 						break;
 					} else if (lottoLine[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						lottoLine[i].setCorrectNumber(sb.toString());
-						System.out.println(lottoLine[i].getAlphabet() + " | " + " 4등 당첨  |" + lottoLine[i].getNumbers()
-								+ "당첨 금액 : " + lottoLine[i].getPrice() +"\n 맞은 번호 " +  lottoLine[i].getCorrectNumber());
 					
 						break;
 					}
 				case 4:
 					if (!lottoLine[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						lottoLine[i].setCorrectNumber(sb.toString());
-						System.out.println(lottoLine[i].getAlphabet() + " | " + " 4등 당첨  |" + lottoLine[i].getNumbers()
-								+ "당첨 금액 : " + lottoLine[i].getPrice() +"\n 맞은 번호 " +  lottoLine[i].getCorrectNumber());
 					
 						break;
 					} else if (lottoLine[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						lottoLine[i].setCorrectNumber(sb.toString());
-						System.out.println(lottoLine[i].getAlphabet() + " | " + " 5등 당첨  |" + lottoLine[i].getNumbers()
-								+ "당첨 금액 : " + lottoLine[i].getPrice() +"\n 맞은 번호 " +  lottoLine[i].getCorrectNumber());
-					
 						break;
 					}
 				case 3:
 					if (!lottoLine[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						lottoLine[i].setCorrectNumber(sb.toString());
-						System.out.println(lottoLine[i].getAlphabet() + " | " + " 5등 당첨  |" + lottoLine[i].getNumbers()
-								+ "당첨 금액 : " + lottoLine[i].getPrice() +"\n 맞은 번호 " +  lottoLine[i].getCorrectNumber());
 					
 						break;
 					}
 				default:
 					lottoLine[i].setCorrectNumber(sb.toString());
-					System.out.println(lottoLine[i].getAlphabet() + " | " + " 낙첨  |" + lottoLine[i].getNumbers()
-							+ "당첨 금액 : " + lottoLine[i].getPrice() +"\n 맞은 번호 " +  lottoLine[i].getCorrectNumber());
 				
 					break;
 				}
-				//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________
 				sb.setLength(0);
-				System.out.println();
 			}
 
 		}
 	}
 
 	public static void showMeTheMoney() {
-		//____________ 박로 수정___________
 		if (firstPrice != 0) {
 			firstPrice += (int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.75); // 1등 총 당첨금액 이
 		} else {
@@ -212,7 +172,6 @@ public class Lotto {
 		}
 		secondPrice = ((int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.125)); // 2등 총 당첨금액
 		thirdPrice = ((int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.125)); // 3등 총 당첨금액
-		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
 		
 		
 		if (rank[2] == 0) { // 만약 2등 당첨자가 없을시 2등 당첨금액이 1등 당첨금액으로 넘어감.
@@ -272,12 +231,10 @@ public class Lotto {
 					if (!lottoLine[i].getNumbers().contains(String.valueOf(bonusNum))) {
 						lottoLine[i].setPrice(5000); // 5등
 						break;
-					} else {
-						System.out.println("보너스 번호 포함 3개를 맞춰서 낙첨입니다.");
 					}
 				default:
 					lottoLine[i].setPrice(0);
-					break; // 나가리
+					break; 
 				}
 			}
 		}
@@ -341,7 +298,6 @@ public class Lotto {
 		}
 	}
 
-	// 진혁 수정_______________________________
 	public static List<Integer> chosenNumber() throws IOException { // 당첨번호 7자리 생성 메소드
 		winningList.addAll(lottoNumbers()); // 당첨번호 넣기
 		bonusNum = winningList.get(winningList.size() - 1);
@@ -357,7 +313,6 @@ public class Lotto {
 		if (beforeStack.getMethodName().equals("chosenNumber")) {  // 진혁 수정
 			setSize = 7;
 		} else if (beforeStack.getMethodName().equals("manualAndSemiAuto1")) {
-			System.out.println("6개 다입력시 - 수동,  5개 이하 입력시 - 반자동");
 			st = new StringTokenizer(bf.readLine(), " ");
 			while (st.hasMoreTokens()) {
 				set.add(Integer.parseInt(st.nextToken()));
@@ -378,21 +333,12 @@ public class Lotto {
 		set.clear();
 
 		if (beforeStack.getMethodName().equals("manualAndSemiAuto1")) {
-			lottoLine[idx] = new LottoNumber(alphabet, tempSentence, list);
+			lottoLine[idx] = new LottoNumber(list);
 
 		}
 
 		return list;
 	}
 
-	public static void main(String[] args) throws NumberFormatException, IOException {
 
-		new Lotto();
-
-	}
-
-	public static String getData(String message) throws IOException {
-		System.out.println(message);
-		return bf.readLine();
-	}
 }
