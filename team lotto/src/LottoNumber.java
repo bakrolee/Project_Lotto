@@ -16,7 +16,7 @@ public class LottoNumber {
 	// 로또 등수검사 메소드
 	public void compareTo(List<Integer> winningNum) {
 		int cnt = 0; // 일치하는 번호의 개수
-		int bonus = Lotto.bonusNum;
+		Integer bonus = Lotto.bonusNum;
 
 		for (int i = 0; i < 6; i++) { // cnt 갯수를 세는 반복문
 			if (winningNum.contains(numbers.get(i))) {
@@ -27,7 +27,7 @@ public class LottoNumber {
 
 		switch (cnt) { // 일치하는 cnt 값에 따라서 등수 배정하는 switch 문
 		case 6:
-			if (!numbers.contains(String.valueOf(bonus))) {
+			if (!numbers.contains(bonus)) {
 				rank = "1등";
 				price = 1000000000; // 10억
 			} else {
@@ -36,7 +36,7 @@ public class LottoNumber {
 			}
 			break;
 		case 5:
-			if (!numbers.contains(String.valueOf(bonus))) {
+			if (!numbers.contains(bonus)) {
 				rank = "3등";
 				price = 10000000; // 1000만
 			} else {
@@ -45,7 +45,7 @@ public class LottoNumber {
 			}
 			break;
 		case 4:
-			if (!numbers.contains(String.valueOf(bonus))) {
+			if (!numbers.contains(bonus)) {
 				rank = "4등";
 				price = 50000; 
 			} else {
@@ -54,10 +54,13 @@ public class LottoNumber {
 			}
 			break;
 		case 3:
-			if (!numbers.contains(String.valueOf(bonus))) {
+			if (!numbers.contains(bonus)) {
 				rank = "5등";
+				price = 5000;
+			} else {
+				rank = "꽝";
+				
 			}
-			break;
 		default:
 			rank = "꽝";
 			break;
