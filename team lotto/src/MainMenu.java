@@ -192,6 +192,7 @@ public class MainMenu extends JFrame {
 		btnEnd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(members.toString());
 				//________________박로수정 __________________ 
 				if (members.checkEmpty()) {
 					JOptionPane.showMessageDialog(null, "먼저 구매하기를 해주세요.");

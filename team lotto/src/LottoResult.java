@@ -23,7 +23,6 @@ import javax.swing.table.TableCellRenderer;
 
 public class LottoResult extends JDialog {
 	private List<Integer> winningNum = lotto.chosenNumber();
-	private JTable table;
 	private TableCell cell = new TableCell();
 	private int index;
 	private MainMenu menu = (MainMenu) getOwner();
@@ -38,6 +37,7 @@ public class LottoResult extends JDialog {
 
 	private StringBuilder sbWinNum = new StringBuilder();
 	public static Lotto lotto = new Lotto();
+	private JTable table_1;
 	
 //	public List<Integer> getLottos(int num) throws IOException {
 //		MainMenu menu = (MainMenu) getOwner();
@@ -134,7 +134,7 @@ public class LottoResult extends JDialog {
 			data[i][3] = "클릭";
 		}
 		
-		JTable table_1 = new JTable(data, headings);
+		table_1 = new JTable(data, headings);
 		table_1.setPreferredScrollableViewportSize(new Dimension(200,200)); //테이블 크기
 		table_1.setFillsViewportHeight(true);
 		
@@ -175,18 +175,10 @@ public class LottoResult extends JDialog {
 		sl_main.putConstraint(SpringLayout.WEST, reward5, 32, SpringLayout.WEST, main);
 		main.add(reward5);
 		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
-		table_1.getColumnModel().getColumn(3).setCellRenderer(cell);
-		table_1.getColumnModel().getColumn(3).setCellEditor(cell);
+		table_1.getColumnModel().getColumn(3).setCellRenderer(new TableCell());
+		table_1.getColumnModel().getColumn(3).setCellEditor(new TableCell());
 		
-		cell.getJb().addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-					int num = table_1.getSelectedRow();
-					Detail d = new Detail(LottoResult.this);
-					d.setIndex(num);
-					d.setVisible(true);
-			}
-		});
+		
 		
 		JButton gotoMain = new JButton("메인 화면으로");
 		sl_main.putConstraint(SpringLayout.NORTH, gotoMain, 408, SpringLayout.NORTH, main);
@@ -222,58 +214,43 @@ public class LottoResult extends JDialog {
 		setLocationRelativeTo(null); //화면 가운데로
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
-}
-
-class TableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
-	JButton jb;
 	
-	public JButton getJb() {
-		return jb;
-	}
+	class TableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{
+		JButton jb;
+		
+		public JButton getJb() {
+			return jb;
+		}
 
-	public void setJb(JButton jb) {
-		this.jb = jb;
-	}
+		public void setJb(JButton jb) {
+			this.jb = jb;
+		}
 
-	public TableCell() {
-		jb = new JButton("버튼");
-	}
+		public TableCell() {
+			jb = new JButton("버튼");
+			jb.addActionListener(e -> {
+				int num = table_1.getSelectedRow();
+				index = num;
+				Detail d = new Detail(LottoResult.this);
+		
+				d.setVisible(true);
+			});
+		}
 
-	@Override
-	public Object getCellEditorValue() {
-		return null;
-	}
-	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
-		return jb;
-	}
-	@Override
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-			int column) {
-		return jb;
+		@Override
+		public Object getCellEditorValue() {
+			return null;
+		}
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			return jb;
+		}
+		@Override
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			return jb;
+		}
 	}
 }
 
-
-//class Detail extends JDialog{
-//	private int index;
-//	
-//	public Detail() {
-//		setTitle("회원 상세보기");
-//		setModal(true);
-//		
-//		JPanel panel = new JPanel();
-//		getContentPane().add(panel);
-//		
-//		
-//		JLabel sentence = new JLabel("회원님의 로또 결과");
-//		panel.add(sentence);
-//		
-//		
-//
-//		setSize(300, 300);
-//		setLocationRelativeTo(null); //화면 가운데로
-//		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//	}
-//}

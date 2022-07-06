@@ -34,6 +34,7 @@ public class SelectNumber extends JDialog implements ActionListener {
 	private List<JLabel> lblSelNums = new ArrayList();
 	private JButton btnOK;
 	private int index;
+	private JButton btnBack;
 
 	public void setIndex(int index) {
 		this.index = index;
@@ -94,7 +95,7 @@ public class SelectNumber extends JDialog implements ActionListener {
 		pnl.add(pnlNumbers);
 
 		btnOK = new JButton("선택 완료");
-		JButton btnBack = new JButton("돌아가기");
+		btnBack = new JButton("돌아가기");
 
 
 		btnOK.addActionListener(this);

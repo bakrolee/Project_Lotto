@@ -8,18 +8,19 @@ public class Members {
 		Buyer a = new Buyer("id","Name");
 	return a;
 	}
-	//_______ 박로 수정 ___________ 
+	//_______ 박로 수정 ___________ (7.6 수정 - 추가)
 	// 결과확인 하기 전 구매체크 
 	public boolean checkEmpty() {
 		if (member.size() == 0) {
 			return true;
 		} else {
 			for (int i = 0; i < member.size(); i++) {
+				// 한 명이라도 구매했으면
 				if (member.get(i).getLottoLines().isEmpty()) {
-					return true;
+					return false;
 				}
-			}
-			return false;
+			} // 아무도 구매 안 했으면
+			return true;
 		}
 	}
 	
