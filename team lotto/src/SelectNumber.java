@@ -149,7 +149,6 @@ public class SelectNumber extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if (getOwner() instanceof BuyLotto) {
 			if (e.getSource() == btnOK) {
-				//_______ ___________ ____________ _________ __________ ___________ ________try catch 추가________ _____ ___________ ______ _________ _____________ ______ _______				
 				Lotto temp = new Lotto();
 				Set<Integer> tempSet = new HashSet<>();
 				try {
@@ -157,10 +156,12 @@ public class SelectNumber extends JDialog implements ActionListener {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ _______
 				List<Integer> tempList = new ArrayList<Integer>(tempSet);
 				BuyLotto lotto = (BuyLotto) getOwner();
 				lotto.setTotalLotto(tempList, lotto.getMoons().get(index), index);
+				dispose();
+			}
+			else if(e.getSource() == btnBack) {
 				dispose();
 			}
 		}

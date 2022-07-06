@@ -16,7 +16,7 @@ public class Members {
 		} else {
 			for (int i = 0; i < member.size(); i++) {
 				// 한 명이라도 구매했으면
-				if (member.get(i).getLottoLines().isEmpty()) {
+				if (!member.get(i).getLottoLines().isEmpty()) {
 					return false;
 				}
 			} // 아무도 구매 안 했으면

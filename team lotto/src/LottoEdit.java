@@ -49,8 +49,10 @@ public class LottoEdit extends JDialog implements ActionListener {
 				}
 
 				if (count == 6) {
+					btnOK.setEnabled(true);
 					disableCB();
 				} else if (count < 6) {
+					btnOK.setEnabled(false);
 					enableCB();
 				}
 			}

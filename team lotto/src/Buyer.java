@@ -35,9 +35,9 @@ public class Buyer {
 		this.reward = reward;
 	}
 
-	public Buyer(String name, String id) {
-		this.name = name;
+	public Buyer(String id, String name) { //________________ 박로 수정(7.6)
 		this.id = id;
+		this.name = name;
 	}
 	
 	//________상우 수정 (로또 1줄로 다 쪼개서 반환하는 메소드) -> 별 필요는 없어짐...ㅜㅜ
@@ -82,6 +82,6 @@ public class Buyer {
 
 	@Override
 	public String toString() {
-		return "Buyer [name=" + name + ", id=" + id + ", lottoNum=" + lottoLines + "]";
+		return "Buyer [id=" + id + ", name=" + name + ", lottoNum=" + lottoLines + "]";
 	}
 }

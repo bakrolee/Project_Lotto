@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -81,11 +82,25 @@ public class MainMenu extends JFrame {
 		JPanel buttons = new JPanel();
 		JLabel sentence = new JLabel("인생 한 방!");
 		
-		Font font = new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 19);
+		//____________________박로 수정____________ 폰트수정
+		Font font = null;
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, MainMenu.class.getClassLoader().getResourceAsStream("font/12롯데마트행복Light.ttf"));
+		} catch (FontFormatException | IOException e2) {
+			e2.printStackTrace();
+		}
+		font = font.deriveFont(Font.BOLD);
+		font = font.deriveFont(Font.ITALIC);
+		Font font19 = font.deriveFont(19.0F);
+		Font font32 = font.deriveFont(32.0F);
 		sentence.setHorizontalAlignment(SwingConstants.CENTER);
-		sentence.setFont(new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 19));
+		sentence.setFont(font19);
 		JLabel sentence2 = new JLabel("오늘 살 복권을 내일로 미루지 말자.");
-		sentence2.setFont(new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 32));
+		sentence2.setFont(font32);
+		
+//		Font font = new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 19);
+//		sentence.setFont(new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 19));
+//		sentence2.setFont(new Font("12롯데마트행복Light", Font.BOLD | Font.ITALIC, 32));
 
 		total.setBackground(Color.white);
 		top.setBackground(Color.white);
@@ -222,7 +237,9 @@ public class MainMenu extends JFrame {
 		sl_total.putConstraint(SpringLayout.NORTH, round, 6, SpringLayout.SOUTH, logo);
 		sl_total.putConstraint(SpringLayout.WEST, round, 182, SpringLayout.WEST, total);
 		sl_total.putConstraint(SpringLayout.EAST, round, -178, SpringLayout.EAST, total);
-		round.setFont(new Font("12롯데마트행복Bold", Font.BOLD | Font.ITALIC, 21));
+		Font font21 = font.deriveFont(21.0F);
+		round.setFont(font21);
+//		round.setFont(new Font("12롯데마트행복Bold", Font.BOLD | Font.ITALIC, 21));    //____________________박로 수정
 		round.setHorizontalAlignment(SwingConstants.CENTER);
 		total.add(round);
 		setSize(500, 500);

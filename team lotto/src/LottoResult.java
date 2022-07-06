@@ -73,13 +73,13 @@ public class LottoResult extends JDialog {
 		super(owner, true);
 		MainMenu menu = (MainMenu) getOwner();
 		
-		// 전체 비교용
-		List<List<Integer>> allLottos = menu.getMembers().lottosOfMembers();
-		System.out.println(allLottos);
-		
-		// 개인 비교용
-		List<List<Integer>> perLottos = menu.getMembers().getMember().get(0).getLottoLines();
-		menu.getMembers().getMember().get(0).linesToOne();
+//		// 전체 비교용
+//		List<List<Integer>> allLottos = menu.getMembers().lottosOfMembers();
+//		System.out.println(allLottos);
+//		
+//		// 개인 비교용
+//		List<List<Integer>> perLottos = menu.getMembers().getMember().get(0).getLottoLines();
+//		menu.getMembers().getMember().get(0).linesToOne();
 		
 		
 		setTitle("당첨 결과");
@@ -206,13 +206,11 @@ public class LottoResult extends JDialog {
 				menu.getMembers().resetMemOfLot(); // 성공  ->
 				
 				dispose();
-		}
-		
-	
+			}
 		});
 		setSize(500, 500);
 		setLocationRelativeTo(null); //화면 가운데로
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	}
 	
 	class TableCell extends AbstractCellEditor implements TableCellEditor, TableCellRenderer{

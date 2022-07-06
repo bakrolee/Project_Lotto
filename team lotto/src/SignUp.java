@@ -75,6 +75,7 @@ public class SignUp extends JDialog {
 						else if (!idForLogin.contains(jfId.getText())) {
 							menu.getMembers().addMember(jfId.getText(), jfName.getText());
 							idForLogin.add(jfId.getText());
+							JOptionPane.showMessageDialog(null, "회원가입 되었습니다.");
 							dispose();
 						} else {
 							JOptionPane.showMessageDialog(null, "이미 가입된 아이디입니다.");
