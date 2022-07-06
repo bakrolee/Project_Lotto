@@ -28,6 +28,7 @@ public class Members {
 	public void resetMemOfLot() {
 		for (int i = 0; i < member.size(); i++) {
 			member.get(i).getLottoLines().clear();
+			member.get(i).getOneLottoNums().clear();
 		}
 	}
 	//________________________ 

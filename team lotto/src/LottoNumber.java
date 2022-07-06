@@ -49,7 +49,7 @@ public class LottoNumber {
 				rank = "4등";
 				price = 50000; 
 			} else {
-				rank = "5등";
+				rank = "5등 당첨";
 				price = 5000; 
 			}
 			break;
@@ -58,11 +58,13 @@ public class LottoNumber {
 				rank = "5등";
 				price = 5000;
 			} else {
-				rank = "꽝";
-				
+				rank = "낙첨";
+				price = 0;
 			}
+			break;
 		default:
-			rank = "꽝";
+			rank = "낙첨";
+			price = 0;
 			break;
 		}
 	}

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 public class SignUp extends JDialog {
 	private static Map<String, Members> checkID = new HashMap<>();
@@ -33,13 +34,16 @@ public class SignUp extends JDialog {
 
 		setTitle("Signup");
 		JPanel pnl = new JPanel();
+		pnl.setBackground(Color.WHITE);
 		JLabel jl = new JLabel("ID: ");
 		JLabel jl2 = new JLabel("Name: ");
 
 		JTextField jfId = new JTextField();
 		JTextField jfName = new JTextField();
 		JButton btnSign = new JButton("가입완료");
+		btnSign.setBackground(Color.WHITE);
 		JButton jb1 = new JButton("돌아가기");
+		jb1.setBackground(Color.WHITE);
 
 		jb1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

@@ -39,16 +39,7 @@ public class LottoResult extends JDialog {
 	public static Lotto lotto = new Lotto();
 	private JTable table_1;
 	
-//	public List<Integer> getLottos(int num) throws IOException {
-//		MainMenu menu = (MainMenu) getOwner();
-//		Buyer buyer = menu.getMembers().getMember().get(num);
-//		buyer.linesToOne();
-//		for (int i = 0; i < buyer.getOneLottoNums().size(); i++) {
-//			buyer.getOneLottoNums().get(i).compareTo(winningNum);
-//		}
-//		
-//	
-//	}
+
 	
 	public String getID(int num) {
 		MainMenu menu = (MainMenu) getOwner();
@@ -73,24 +64,21 @@ public class LottoResult extends JDialog {
 		super(owner, true);
 		MainMenu menu = (MainMenu) getOwner();
 		
-//		// 전체 비교용
-//		List<List<Integer>> allLottos = menu.getMembers().lottosOfMembers();
-//		System.out.println(allLottos);
-//		
-//		// 개인 비교용
-//		List<List<Integer>> perLottos = menu.getMembers().getMember().get(0).getLottoLines();
-//		menu.getMembers().getMember().get(0).linesToOne();
 		
+		
+		// ______ 당첨금 관련 수정
+//		for (int i = 0; i < menu.getMembers().getMember().size(); i++) {
+//			menu.getMembers().getMember().get(i).linesToOne2();
+//		}
+		
+//		int testRw = menu.getMembers().getMember().get(0).getReward2();
+//		System.out.println("1번 회원 총 상금" + testRw);
 		
 		setTitle("당첨 결과");
 		JPanel main = new JPanel();
 		main.setBackground(Color.WHITE);
 		
-		//_______________박로 수정 _________________________________ 
-//		int[] numbers = new int[7];
-//		for (int i = 0; i < numbers.length; i++) {
-//			numbers[i] = winningNum.get(i);
-//		}
+
 		
 		for(int i = 0 ; i <= 5; i++) {
 			sbWinNum.append(winningNum.get(i)).append("  "); //앞 6개자리는 정규번호 .
@@ -123,14 +111,14 @@ public class LottoResult extends JDialog {
 
 		
 		
-		String[ ] headings = new String[] {"ID", "이름", "총 당첨금액", "상세보기"}; //테이블 열
+		String[ ] headings = new String[] {"ID", "이름", "총 구매 복권(줄)", "상세보기"}; //테이블 열
 		
 		Object[][] data = new Object[SignUp.getIdForLogin().size()][4];
 		
 		for(int i = 0 ; i < SignUp.getIdForLogin().size(); i++) {
 			data[i][0] = menu.getMembers().getMember().get(i).getId();
 			data[i][1] = menu.getMembers().getMember().get(i).getName();
-			data[i][2] = menu.getMembers().getMember().get(i).getReward() + "원";
+			data[i][2] = menu.getMembers().getMember().get(i).getLottoLines().size(); 
 			data[i][3] = "클릭";
 		}
 		
@@ -144,7 +132,7 @@ public class LottoResult extends JDialog {
 		sl_main.putConstraint(SpringLayout.EAST, scrollPane, -29, SpringLayout.EAST, main);
 		main.add(scrollPane);
 		
-		lotto.run();
+//		lotto.run();
 		//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ __//_______ ___________ ____________ _________ __________ ___________ ________________ _____ ___________ ______ _________ _____________ ______ ___________ _______ 변경
 		JLabel reward1 = new JLabel("1등 총 상금 : " + lotto.firstPrice + "원  /  1등 당첨 명 수 : " + lotto.rank[1] +" 명 /  1인당 당첨 금액 : " + lotto.firstPerN  +"원"); //1등이 안나오면 다음 회차에 이월됨
 		sl_main.putConstraint(SpringLayout.WEST, reward1, 33, SpringLayout.WEST, main);

@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
+import java.awt.Color;
 
 public class Login extends JDialog {
 	private Map<String, String> members = new HashMap<>();
@@ -31,6 +32,7 @@ public class Login extends JDialog {
 		setModal(true);
 		setTitle("로그인");
 		JPanel pnl = new JPanel();
+		pnl.setBackground(Color.WHITE);
 		inputID = new JTextField("");
 		inputID.addMouseListener(new MouseAdapter() {
 			@Override
@@ -43,7 +45,9 @@ public class Login extends JDialog {
 		JLabel jb = new JLabel("ID :");
 		
 		btnLogin = new JButton("로그인");
+		btnLogin.setBackground(Color.WHITE);
 		JButton btnSignUp = new JButton("돌아가기"); // 변경
+		btnSignUp.setBackground(Color.WHITE);
 		
 		btnSignUp.addActionListener(new ActionListener() {
 			@Override
@@ -99,7 +103,7 @@ public class Login extends JDialog {
 		pnl.add(btnLogin);
 		pnl.add(btnSignUp);
 		pnl.add(jb);
-		add(pnl);
+		getContentPane().add(pnl);
 		
 		setLocationRelativeTo(owner);
 		setSize(350, 180);

@@ -8,11 +8,16 @@ public class Buyer {
 	private String id;
 	private List<List<Integer>> lottoLines = new ArrayList<>();
 	private List<LottoNumber> oneLottoNums = new ArrayList<>();
+//	private List<LottoNumber> oneLottoNums2 = new ArrayList<>();
 	private int reward;
 	
 	public List<LottoNumber> getOneLottoNums() {
 		return oneLottoNums;
 	}
+	
+//	public List<LottoNumber> getOneLottoNums2() {
+//		return oneLottoNums2;
+//	}
 
 	public void setOneLottoNums(List<LottoNumber> oneLottoNums) {
 		this.oneLottoNums = oneLottoNums;
@@ -25,12 +30,29 @@ public class Buyer {
 //		System.out.println(oneLottoNums.toString());
 	}
 	
+//	public void linesToOne2() {
+//		for (int i = 0; i < lottoLines.size(); i++) {
+//			oneLottoNums2.add(new LottoNumber(lottoLines.get(i)));
+//		}
+////		System.out.println(oneLottoNums.toString());
+//	}
+	
 	public int getReward() {
 		for (int i = 0; i < oneLottoNums.size(); i++) {
 			reward += oneLottoNums.get(i).getPrice();
 		}
 		return reward;
 	}
+	
+//	public int getReward2() {
+//		for (int i = 0; i < oneLottoNums2.size(); i++) {
+//			System.out.println(i + "복권 금액" + oneLottoNums2.get(i).getPrice());
+//			reward += oneLottoNums2.get(i).getPrice();
+//			System.out.println("종합: " + reward);
+//		}
+//		return reward;
+//	}
+	
 	public void setReward(int reward) {
 		this.reward = reward;
 	}
@@ -48,7 +70,6 @@ public class Buyer {
 		}
 		return temp;
 	}
-	//______________________
 
 	public List<List<Integer>> getLottoLines() {
 		return lottoLines;
