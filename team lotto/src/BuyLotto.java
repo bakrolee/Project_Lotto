@@ -32,6 +32,7 @@ public class BuyLotto extends JDialog {
 	private int buyCnt;
 	private List<JLabel[]> moons;
 	private JButton[][] toolBtns;
+	private JButton btnBuy;
 
 	public BuyLotto(JFrame owner) {
 		super(owner, true);
@@ -115,7 +116,11 @@ public class BuyLotto extends JDialog {
 		pnlTotal.add(pnl);
 
 		getContentPane().add(pnlTotal);
-		JButton btnBuy = new JButton("구매완료");
+		
+		
+		btnBuy = new JButton("구매완료");
+		
+		btnBuy.setEnabled(false);
 		sl_pnlTotal.putConstraint(SpringLayout.SOUTH, btnBuy, -27, SpringLayout.SOUTH, pnlTotal);
 		sl_pnlTotal.putConstraint(SpringLayout.EAST, btnBuy, -41, SpringLayout.EAST, pnlTotal);
 		pnlTotal.add(btnBuy);
@@ -135,8 +140,6 @@ public class BuyLotto extends JDialog {
 				dispose();
 			}
 		});
-		
-
 
 		setModal(true);
 		setSize(640, 320);
@@ -179,6 +182,14 @@ public class BuyLotto extends JDialog {
 	public void setMoons(List<JLabel[]> moons) {
 		this.moons = moons;
 	}
+	
+	public void checkAllSelected() {
+		int cnt = 0;
+		for (int i = 0; i < buyCnt; i++) {
+			if (totalLotto.get(i) != null) cnt++;
+		}
+		if(cnt == buyCnt) btnBuy.setEnabled(true);
+	}
 
 	// auto버튼
 	public ActionListener auto(int index) {
@@ -193,6 +204,7 @@ public class BuyLotto extends JDialog {
 					e1.printStackTrace();
 				}
 				setTotalLotto(list, getMoons().get(index), index);
+				checkAllSelected();
 			}
 		};
 		return temp;
@@ -206,6 +218,7 @@ public class BuyLotto extends JDialog {
 				SelectNumber dialog = new SelectNumber(BuyLotto.this);
 				dialog.setIndex(index); // 엄청 고민했던 문제 해결해준 idea
 				dialog.setVisible(true);
+				checkAllSelected();
 			}
 		};
 		return temp;
@@ -224,6 +237,7 @@ public class BuyLotto extends JDialog {
 					dialog.setIndex(index);
 					dialog.selectedLotto();
 					dialog.setVisible(true);
+					checkAllSelected();
 				}
 			}
 		};
