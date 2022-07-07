@@ -165,6 +165,9 @@ public class Lotto {
 	}
 
 	public static void showMeTheMoney() {
+		fifthPrice = 5000 * rank[5]; // 총 5등의 상금
+		fourthPrice = 50_000 * rank[4]; // 총 4등의 상금
+		
 		if (firstPrice != 0) {
 			firstPrice += (int) (((totalCnt * 1000 / 2) - (fifthPrice + fourthPrice)) * 0.75); // 1등 총 당첨금액 이
 		} else {
@@ -183,9 +186,6 @@ public class Lotto {
 			firstPrice += thirdPrice;
 			thirdPrice = 0;
 		}
-
-		fifthPrice = 5000 * rank[5]; // 총 5등의 상금
-		fourthPrice = 50_000 * rank[4]; // 총 4등의 상금
 		try {
 			thirdPerN = ((int) (thirdPrice) / rank[3]); // 1인당 3등의 상금
 		} catch (Exception a) {

@@ -45,6 +45,9 @@ public class SelectNumber extends JDialog implements ActionListener {
 		JPanel pnl = new JPanel();
 		JPanel pnlNumbers = new JPanel();
 
+		btnOK = new JButton("선택 완료");
+		okEnable();
+
 		ItemListener item = new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -72,6 +75,8 @@ public class SelectNumber extends JDialog implements ActionListener {
 				} else if (count < 6) {
 					enableCB();
 				}
+
+				okEnable();
 			}
 		};
 
@@ -94,9 +99,7 @@ public class SelectNumber extends JDialog implements ActionListener {
 
 		pnl.add(pnlNumbers);
 
-		btnOK = new JButton("선택 완료");
 		btnBack = new JButton("돌아가기");
-
 
 		btnOK.addActionListener(this);
 		btnBack.addActionListener(this);
@@ -108,6 +111,15 @@ public class SelectNumber extends JDialog implements ActionListener {
 		setSize(400, 400);
 		setLocationRelativeTo(null);
 
+	}
+
+	// ___ 선택 버튼 활성화/비활성화 (선택해야 활성화 됨)
+	public void okEnable() {
+		if (count == 0) {
+			btnOK.setEnabled(false);
+		} else {
+			btnOK.setEnabled(true);
+		}
 	}
 
 	// 체크 비활성화 메소드
@@ -158,8 +170,7 @@ public class SelectNumber extends JDialog implements ActionListener {
 				BuyLotto lotto = (BuyLotto) getOwner();
 				lotto.setTotalLotto(tempList, lotto.getMoons().get(index), index);
 				dispose();
-			}
-			else if(e.getSource() == btnBack) {
+			} else if (e.getSource() == btnBack) {
 				dispose();
 			}
 		}

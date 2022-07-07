@@ -27,7 +27,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SpringLayout;
 
 public class BuyLotto extends JDialog {
-	private List<Integer> oneLotto;
+//	private List<Integer> oneLotto;
 	private List<List<Integer>> totalLotto = new ArrayList<>(5);
 	private int buyCnt;
 	private List<JLabel[]> moons;
@@ -163,9 +163,9 @@ public class BuyLotto extends JDialog {
 	}
 
 	// 5줄에 값 넣기
-	public void addList(List<Integer> list) {
-		totalLotto.add(oneLotto);
-	}
+//	public void addList(List<Integer> list) {
+//		totalLotto.add(oneLotto);
+//	}
 
 	public int getBuyCnt() {
 		return buyCnt;
